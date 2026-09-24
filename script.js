@@ -39,6 +39,40 @@ const projectData = {
 const filterButtons = [...document.querySelectorAll(".filter")];
 const projectCards = [...document.querySelectorAll(".project-card")];
 const emptyState = document.querySelector(".empty-state");
+const filterStatus = document.querySelector("#filter-status");
+const filterLabels = {
+  all: "全部",
+  system: "系统工具",
+  learning: "学习工具",
+  command: "命令行",
+};
+
+const navLinks = [...document.querySelectorAll('.nav a[href^="#"]')];
+if ("IntersectionObserver" in window) {
+  const navSections = navLinks
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter(Boolean);
+  const navObserver = new IntersectionObserver(
+    (entries) => {
+      const visibleSections = entries.filter((entry) => entry.isIntersecting);
+      if (visibleSections.length === 0) return;
+
+      const activeId = visibleSections.sort(
+        (a, b) => b.intersectionRatio - a.intersectionRatio,
+      )[0].target.id;
+      navLinks.forEach((link) => {
+        if (link.hash === `#${activeId}`) {
+          link.setAttribute("aria-current", "location");
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    },
+    { rootMargin: "-20% 0px -65% 0px", threshold: [0, 0.1, 0.25, 0.5] },
+  );
+
+  navSections.forEach((section) => navObserver.observe(section));
+}
 
 const formatCount = (count) => String(count).padStart(2, "0");
 
@@ -75,6 +109,7 @@ filterButtons.forEach((button) => {
     });
 
     emptyState.hidden = visibleCount !== 0;
+    filterStatus.textContent = `已筛选到${filterLabels[selectedFilter]}，共 ${visibleCount} 个项目`;
   });
 });
 
@@ -121,3 +156,4 @@ dialog.addEventListener("click", (event) => {
 
 document.querySelector("#current-year").textContent = String(new Date().getFullYear());
 updateProjectCounts();
+filterStatus.textContent = `当前显示全部 ${projectCards.length} 个项目`;
