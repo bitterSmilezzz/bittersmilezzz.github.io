@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="fangshoufanji 的个人项目与 GitHub 代表仓库。macOS 工具、DeepSeek Harness 插件、学习应用。做一些自己用的小工具，再慢慢打磨。"
+      content="fangshoufanji · 个人作品集与数字工具工坊。专注于 macOS 原生体验、DeepSeek Harness 智能体生态与个人学习工作台。"
     />
-    <meta name="theme-color" content="#090a0f" />
-    <title>fangshoufanji · 个人项目与工具</title>
+    <meta name="theme-color" content="#06070a" />
+    <title>fangshoufanji · 独立工坊与数字实体</title>
     <link rel="canonical" href="https://bittersmilezzz.github.io/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="fangshoufanji · 个人项目" />
-    <meta property="og:title" content="fangshoufanji · 个人项目与工具" />
+    <meta property="og:title" content="fangshoufanji · 独立工坊与数字实体" />
     <meta
       property="og:description"
-      content="fangshoufanji 的个人项目与 GitHub 代表仓库。macOS 工具、DeepSeek Harness 插件、学习应用。做一些自己用的小工具，再慢慢打磨。"
+      content="fangshoufanji 的数字工具工坊。macOS 工具、DeepSeek Harness 插件、学习应用。以精密工质，雕琢数字工具之魂。"
     />
     <meta property="og:url" content="https://bittersmilezzz.github.io/" />
     <meta
@@ -28,13 +28,13 @@
     <meta name="twitter:card" content="summary_large_image" />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2306b6d4'/%3E%3Cpath d='M19.6 20.4a4.4 4.4 0 1 1 0-8.8h.9v3h-.9a1.4 1.4 0 1 0 0 2.8h2.4v-2h-2.2v-3h5.2v5.1c0 1.9-1.5 3.4-3.4 3.4z' fill='%2308090f'/%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2300f2fe'/%3E%3Cpath d='M19.6 20.4a4.4 4.4 0 1 1 0-8.8h.9v3h-.9a1.4 1.4 0 1 0 0 2.8h2.4v-2h-2.2v-3h5.2v5.1c0 1.9-1.5 3.4-3.4 3.4z' fill='%2306070a'/%3E%3C/svg%3E"
     />
-    <!-- 极简科技与现代工程排版：Plus Jakarta Sans + JetBrains Mono -->
+    <!-- 先锋排版字体：Syne (先锋标题) + Plus Jakarta Sans (界面正文) + JetBrains Mono (等宽工质) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -54,37 +54,65 @@
               : "dark";
         r.setAttribute("data-theme", theme);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", theme === "light" ? "#f8f9fa" : "#090a0f");
+        if (m) m.setAttribute("content", theme === "light" ? "#f4f6fa" : "#06070a");
       })();
     </script>
   </head>
   <body>
     <a class="skip" href="#main">跳到主要内容</a>
 
-    <!-- 背景环境光晕与发光网格 -->
-    <div class="ambient-glow glow-top" aria-hidden="true"></div>
-    <div class="ambient-glow glow-accent" aria-hidden="true"></div>
+    <!-- 交互式发丝坐标网格粒子画板 (Interactive Coordinate Grid Canvas) -->
+    <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
 
-    <!-- 浮动岛屿顶栏 (Floating Island Nav) -->
+    <!-- 定制磁吸流体变形光标 (Custom Magnetic Fluid Cursor) -->
+    <div class="cursor-dot" aria-hidden="true"></div>
+    <div class="cursor-halo" aria-hidden="true">
+      <span class="cursor-label"></span>
+    </div>
+
+    <!-- 浮动岛屿顶栏 (Floating Glass Island Nav) -->
     <header class="topbar">
       <div class="topbar-inner">
-        <a class="brand" href="#top" aria-label="返回页面顶部">
+        <a class="brand" href="#top" aria-label="返回页面顶部" data-cursor="Home">
           <span class="brand-monogram" aria-hidden="true">f</span>
           <span class="brand-name">fangshoufanji</span>
         </a>
         <nav class="nav" aria-label="主导航">
-          <a href="#work" class="nav-item">项目</a>
-          <a href="#about" class="nav-item">理念</a>
-          <a href="#github-work" class="nav-item">仓库</a>
+          <a href="#hero-core" class="nav-item" data-cursor="Core">灵动核</a>
+          <a href="#work" class="nav-item" data-cursor="Works">项目</a>
+          <a href="#about" class="nav-item" data-cursor="Craft">理念</a>
+          <a href="#github-work" class="nav-item" data-cursor="Repos">开源</a>
         </nav>
         <div class="topbar-actions">
-          <a class="btn-topbar-gh" href="https://github.com/bitterSmilezzz" target="_blank" rel="noreferrer" aria-label="前往 GitHub 个人主页">
-            <span>GitHub</span>
-            <span class="icon-arrow" aria-hidden="true">↗</span>
-          </a>
-          <button class="theme-toggle" type="button" data-theme-toggle aria-label="切换深色 / 浅色主题" aria-pressed="false">
+          <!-- Web Audio 原生合成音效开关 -->
+          <button
+            class="sound-toggle"
+            type="button"
+            data-sound-toggle
+            aria-label="切换声音音效"
+            aria-pressed="false"
+            data-cursor="Sound"
+            title="开启/关闭触觉微音效"
+          >
+            <span class="sound-bars" aria-hidden="true">
+              <span class="s-bar"></span>
+              <span class="s-bar"></span>
+              <span class="s-bar"></span>
+            </span>
+            <span class="sound-text">Audio</span>
+          </button>
+
+          <!-- 主题切换 -->
+          <button
+            class="theme-toggle"
+            type="button"
+            data-theme-toggle
+            aria-label="切换深色 / 浅色主题"
+            aria-pressed="false"
+            data-cursor="Theme"
+          >
             <span class="theme-icon-box" aria-hidden="true">
-              <svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="icon-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="5"></circle>
                 <line x1="12" y1="1" x2="12" y2="3"></line>
                 <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -95,121 +123,154 @@
                 <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
               </svg>
-              <svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="icon-moon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
               </svg>
             </span>
-            <span class="sr-only" data-theme-label>深色</span>
           </button>
+
+          <a class="btn-topbar-gh" href="https://github.com/bitterSmilezzz" target="_blank" rel="noreferrer" aria-label="前往 GitHub" data-cursor="External">
+            <span>GitHub</span>
+            <span class="icon-arrow" aria-hidden="true">↗</span>
+          </a>
         </div>
       </div>
     </header>
 
     <main id="main">
       <!-- ============================================================
-           首屏：超大号几何字体 + 物理呼吸状态灯 + Dev Status Bento
+           首屏：Apple Pro 先锋极精工质 + 交互式 3D 灵动岛核心
            ============================================================ -->
       <section class="hero" id="top" aria-labelledby="hero-title" data-anim-group="hero">
         <div class="wrap hero-wrap">
           <div class="hero-eyebrow" data-reveal>
             <span class="beacon" aria-hidden="true"><span class="beacon-dot"></span><span class="beacon-pulse"></span></span>
-            <span>macOS 原生工具 · DeepSeek Harness 插件 · 独立开发</span>
+            <span class="eyebrow-text">MACHINED CRAFT · MACOS NATIVE · AGENT TOOLING</span>
           </div>
 
           <h1 id="hero-title" class="hero-display" data-reveal>
-            <span class="display-line">用代码构建日常，</span>
-            <span class="display-line gradient-text">做顺手好用的工具。</span>
+            <span class="display-line">以精密工质，</span>
+            <span class="display-line gradient-text">雕琢数字工具之魂。</span>
           </h1>
 
           <p class="hero-lede" data-reveal>
-            专注于 macOS 原生体验与智能体工作流。从日常遇到的真实阻滞出发，先跑通最小能用版本，再在长期高频使用中持续迭代打磨。
+            从真实的 macOS 日常阻滞出发。拒绝虚构伪需求，将每一次微小摩擦打磨成兼具原生手感与先锋美学的数字实体。
           </p>
 
           <div class="hero-cta-group" data-reveal>
-            <a class="btn btn-primary" href="#work">
-              <span>探索精选项目</span>
+            <a class="btn btn-primary" href="#work" data-cursor="Explore">
+              <span>探索项目展台</span>
               <span class="btn-icon" aria-hidden="true">↓</span>
             </a>
-            <a class="btn btn-secondary" href="https://github.com/bitterSmilezzz" target="_blank" rel="noreferrer">
-              <span>GitHub 主页</span>
+            <a class="btn btn-secondary" href="https://github.com/bitterSmilezzz" target="_blank" rel="noreferrer" data-cursor="GitHub">
+              <span>GitHub 档案</span>
               <span class="btn-icon" aria-hidden="true">↗</span>
             </a>
           </div>
 
-          <!-- 开发者状态 Bento：整合原终端与数字统计，更加紧凑高级 -->
-          <div class="dev-bento-grid" data-reveal>
-            <!-- 卡片 1：项目总览 -->
-            <div class="dev-card">
-              <div class="dev-card-shell">
-                <div class="dev-card-core">
-                  <div class="dev-card-head">
-                    <span class="card-caption">精选项目</span>
-                    <span class="badge-active"><span class="pulse-point"></span> 迭代中</span>
-                  </div>
-                  <div class="metric-row">
-                    <span class="metric-num" data-count-to="4" data-pad="2">04</span>
-                    <span class="metric-unit">Projects</span>
-                  </div>
-                  <p class="card-note"><span data-count-state="working">3</span> 个活跃迭代中 · 1 个已发布</p>
-                </div>
-              </div>
-            </div>
+          <!-- ============================================================
+               【首屏第一眼视觉爆点】：交互式 3D 灵动岛核心 (Living Island Core)
+               ============================================================ -->
+          <div class="hero-island-stage" id="hero-core" data-reveal>
+            <div class="island-podium" data-cursor="Morph">
+              <div class="island-podium-bezel">
+                <div class="island-podium-screen">
+                  <!-- 灵动岛实体胶囊 -->
+                  <div class="interactive-island" id="living-island">
+                    <div class="island-content-layer">
+                      <!-- 状态 1：Agent 实时监控 -->
+                      <div class="island-view is-active" data-island-view="agent">
+                        <div class="view-left">
+                          <span class="agent-glow-badge">AI</span>
+                          <div class="agent-info">
+                            <span class="agent-name">Claude Code Session</span>
+                            <span class="agent-status" id="agent-runtime-status">Analyzing codebase AST...</span>
+                          </div>
+                        </div>
+                        <div class="view-center">
+                          <div class="island-soundwave" aria-hidden="true">
+                            <span class="sw-bar"></span>
+                            <span class="sw-bar"></span>
+                            <span class="sw-bar"></span>
+                            <span class="sw-bar"></span>
+                            <span class="sw-bar"></span>
+                          </div>
+                        </div>
+                        <div class="view-right">
+                          <span class="metric-pill" id="live-token-pill">5,420 tokens</span>
+                          <button class="island-btn-mini" type="button" id="btn-island-simulate" data-cursor="Click">模拟任务</button>
+                        </div>
+                      </div>
 
-            <!-- 卡片 2：公开仓库 -->
-            <div class="dev-card">
-              <div class="dev-card-shell">
-                <div class="dev-card-core">
-                  <div class="dev-card-head">
-                    <span class="card-caption">公开仓库</span>
-                    <span class="badge-tag">GitHub</span>
-                  </div>
-                  <div class="metric-row">
-                    <span class="metric-num" data-count-to="12" data-pad="2">12</span>
-                    <span class="metric-unit">Repos</span>
-                  </div>
-                  <p class="card-note">开源插件、系统工具与实验分支</p>
-                </div>
-              </div>
-            </div>
+                      <!-- 状态 2：Token 算力雷达 -->
+                      <div class="island-view" data-island-view="tokens">
+                        <div class="view-left">
+                          <span class="token-speed-val" id="radar-speed">156</span>
+                          <span class="token-speed-unit">tokens/s</span>
+                        </div>
+                        <div class="view-center">
+                          <div class="token-flow-line" aria-hidden="true"></div>
+                        </div>
+                        <div class="view-right">
+                          <span class="radar-tag">Local Engine · 0.012 ms Latency</span>
+                        </div>
+                      </div>
 
-            <!-- 卡片 3：实时工作流微终端胶囊 (Status Terminal) -->
-            <div class="dev-card dev-card-term">
-              <div class="dev-card-shell">
-                <div class="dev-card-core term-core">
-                  <div class="term-bar">
-                    <div class="term-lights" aria-hidden="true">
-                      <span class="light red"></span>
-                      <span class="light yellow"></span>
-                      <span class="light green"></span>
+                      <!-- 状态 3：智家微温控 -->
+                      <div class="island-view" data-island-view="climate">
+                        <div class="view-left">
+                          <span class="ac-quick-deg">24°C</span>
+                          <span class="ac-quick-mode">智家空调 · 制冷中</span>
+                        </div>
+                        <div class="view-center">
+                          <div class="wind-breeze" aria-hidden="true">
+                            <span></span><span></span><span></span>
+                          </div>
+                        </div>
+                        <div class="view-right">
+                          <span class="ac-fan-tag">低噪自动风</span>
+                        </div>
+                      </div>
                     </div>
-                    <span class="term-host">fangshoufanji ~ zsh</span>
-                    <span class="term-clock" data-log-clock>--:--:--</span>
                   </div>
-                  <div class="term-content">
-                    <div class="term-row"><span class="prompt-sign">$</span> <span class="term-cmd">portfolio --current-focus</span></div>
-                    <div class="term-row res-item"><span class="dot-amber">●</span> AgentIsland <span class="dim-txt">macOS · Swift / Agent tooling</span></div>
-                    <div class="term-row res-item"><span class="dot-green">●</span> KnowFlick <span class="dim-txt">macOS + Android · SwiftUI / Kotlin</span></div>
+
+                  <!-- 灵动岛底部多态切换键 (Morphing Switches) -->
+                  <div class="island-mode-selector">
+                    <button class="mode-tab is-active" type="button" data-island-tab="agent" data-cursor="Select">
+                      <span class="tab-dot dot-agent"></span>会话监控
+                    </button>
+                    <button class="mode-tab" type="button" data-island-tab="tokens" data-cursor="Select">
+                      <span class="tab-dot dot-tokens"></span>算力雷达
+                    </button>
+                    <button class="mode-tab" type="button" data-island-tab="climate" data-cursor="Select">
+                      <span class="tab-dot dot-climate"></span>环境温控
+                    </button>
                   </div>
                 </div>
               </div>
             </div>
 
-            <!-- 卡片 4：技术矩阵 -->
-            <div class="dev-card">
-              <div class="dev-card-shell">
-                <div class="dev-card-core">
-                  <div class="dev-card-head">
-                    <span class="card-caption">主力栈</span>
-                    <span class="badge-tag">Native & Modern</span>
-                  </div>
-                  <div class="tech-chip-cloud">
-                    <span class="tech-chip">SwiftUI</span>
-                    <span class="tech-chip">Swift</span>
-                    <span class="tech-chip">TypeScript</span>
-                    <span class="tech-chip">Kotlin</span>
-                    <span class="tech-chip">Python</span>
-                  </div>
-                </div>
+            <!-- 首屏指标快速看板 -->
+            <div class="hero-telemetry">
+              <div class="telem-item">
+                <span class="telem-label">代表作品</span>
+                <span class="telem-val" data-count-to="4" data-pad="2">04</span>
+                <span class="telem-note">原生与工作台</span>
+              </div>
+              <div class="telem-item">
+                <span class="telem-label">开源仓库</span>
+                <span class="telem-val" data-count-to="12" data-pad="2">12</span>
+                <span class="telem-note">GitHub Repos</span>
+              </div>
+              <div class="telem-item">
+                <span class="telem-label">当前状态</span>
+                <span class="telem-val telem-active"><span class="pulse-emerald"></span> 积极迭代</span>
+                <span class="telem-note">SwiftUI & TypeScript</span>
+              </div>
+              <div class="telem-item">
+                <span class="telem-label">核心栈</span>
+                <span class="telem-stack">Swift · TS · Kotlin · DSH</span>
+                <span class="telem-note">全链路闭环</span>
               </div>
             </div>
           </div>
@@ -217,14 +278,14 @@
       </section>
 
       <!-- ============================================================
-           项目区：双层倒角 Asymmetrical Bento Grid + 物理微交互
+           核心展台：沉浸式非对称项目展台 + 深度可操作微沙盒
            ============================================================ -->
       <section class="section" id="work" aria-labelledby="work-title">
         <div class="wrap">
           <div class="section-head" data-reveal>
             <div class="section-title-wrap">
-              <p class="section-badge">Selected Work</p>
-              <h2 id="work-title" class="section-title">核心代表项目</h2>
+              <p class="section-badge">EXHIBITION STAGE</p>
+              <h2 id="work-title" class="section-title">核心代表项目展台</h2>
             </div>
             <div class="readout" data-readout>
               <span class="readout-num" data-count>04</span>
@@ -236,236 +297,259 @@
 
           <!-- 分类筛选器 -->
           <div class="chips" role="group" aria-label="按项目类型筛选" data-reveal>
-            <button class="chip is-active" type="button" data-filter="all" aria-pressed="true">
-              <span>全部</span>
+            <button class="chip is-active" type="button" data-filter="all" aria-pressed="true" data-cursor="Filter">
+              <span>全部作品</span>
               <span class="chip-count" data-count="all">04</span>
             </button>
-            <button class="chip" type="button" data-filter="system" aria-pressed="false">
+            <button class="chip" type="button" data-filter="system" aria-pressed="false" data-cursor="Filter">
               <span>系统工具</span>
               <span class="chip-count" data-count="system">03</span>
             </button>
-            <button class="chip" type="button" data-filter="learning" aria-pressed="false">
-              <span>学习工具</span>
+            <button class="chip" type="button" data-filter="learning" aria-pressed="false" data-cursor="Filter">
+              <span>学习平台</span>
               <span class="chip-count" data-count="learning">01</span>
             </button>
-            <button class="chip" type="button" data-filter="command" aria-pressed="false">
+            <button class="chip" type="button" data-filter="command" aria-pressed="false" data-cursor="Filter">
               <span>命令行</span>
               <span class="chip-count" data-count="command">00</span>
             </button>
           </div>
           <p class="sr-only" id="filter-status" role="status" aria-live="polite"></p>
 
-          <!-- Bento Grid 项目展示网格 -->
-          <div class="bento-grid" data-proj data-anim-group="list">
-            <!-- 项目 1: AgentIsland (Hero Bento 旗舰展示卡片) -->
-            <article class="bento-item bento-hero-item proj-card" data-state="working" data-category="system" data-project="agent-island" data-reveal>
-              <div class="bento-shell">
-                <div class="bento-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <div class="card-topbar">
-                    <div class="status-pill status-amber">
-                      <span class="status-dot"></span>
-                      <span>macOS · 在开发</span>
+          <!-- 沉浸式非对称画幅展台 -->
+          <div class="stage-grid" data-proj data-anim-group="list">
+            <!-- 展台 1: AgentIsland (旗舰巨幕展台) -->
+            <article class="stage-card stage-flagship proj-card" data-state="working" data-category="system" data-project="agent-island" data-reveal>
+              <div class="card-bezel">
+                <div class="card-core">
+                  <div class="card-ambient-light" aria-hidden="true"></div>
+                  <div class="card-header">
+                    <div class="status-badge status-amber">
+                      <span class="status-orb"></span>
+                      <span>macOS · 活跃开发中</span>
                     </div>
-                    <span class="card-seq">01</span>
+                    <span class="card-roman">01 / FEATURED</span>
                   </div>
 
-                  <div class="card-body">
-                    <h3 class="card-title">AgentIsland</h3>
-                    <p class="card-desc">
-                      macOS 灵动岛风格的本机 Agent 会话监控器。集中查看运行状态、正在执行的任务和待处理的确认，也能了解本地 Token 与成本。
-                    </p>
+                  <div class="flagship-split">
+                    <div class="card-info">
+                      <h3 class="card-heading">AgentIsland</h3>
+                      <p class="card-subheading">macOS 灵动岛原生 Agent 会话状态与算力监控器</p>
+                      <p class="card-narrative">
+                        突破传统终端与通知界面的割裂。将本机所有 AI 智能体（Claude Code、DSH 等）的思考状态、待审批权限与 Token 消耗，以丝滑的物理动画常驻于屏幕顶端。
+                      </p>
 
-                    <!-- 动态灵动岛视觉预览小组件 -->
-                    <div class="island-widget-preview" aria-hidden="true">
-                      <div class="island-capsule">
-                        <div class="island-left">
-                          <span class="island-bot-tag">AI</span>
-                          <span class="island-state-text">Claude Code: Analyzing...</span>
-                        </div>
-                        <div class="island-wave-bars">
-                          <span class="bar bar-1"></span>
-                          <span class="bar bar-2"></span>
-                          <span class="bar bar-3"></span>
-                          <span class="bar bar-4"></span>
-                        </div>
-                        <div class="island-right">
-                          <span class="island-token-badge">4.2k tokens</span>
-                        </div>
+                      <div class="card-tags-list">
+                        <span class="tech-tag">macOS Native</span>
+                        <span class="tech-tag">Swift 6.0</span>
+                        <span class="tech-tag">SwiftUI</span>
+                        <span class="tech-tag">Agent Tooling</span>
+                        <span class="tech-tag">Dynamic Notch</span>
+                      </div>
+
+                      <div class="card-cta-row">
+                        <button class="btn-stage-action proj-cta" type="button" aria-haspopup="dialog" data-cursor="Detail">
+                          <span>项目工程详述</span>
+                          <span class="action-arrow" aria-hidden="true">→</span>
+                        </button>
+                        <a class="btn-stage-gh" href="https://github.com/bitterSmilezzz/AgentIsland" target="_blank" rel="noreferrer" data-cursor="GitHub">
+                          <span>GitHub 源码</span>
+                          <span aria-hidden="true">↗</span>
+                        </a>
                       </div>
                     </div>
 
-                    <div class="card-tags">
-                      <span class="tag-pill">macOS</span>
-                      <span class="tag-pill">Swift</span>
-                      <span class="tag-pill">SwiftUI</span>
-                      <span class="tag-pill">Agent tooling</span>
+                    <!-- 可操作沙盒 1：AgentIsland 交互微原型 -->
+                    <div class="card-sandbox sandbox-island">
+                      <div class="sandbox-label">PLAYABLE SANDBOX · 灵动岛交互原型</div>
+                      <div class="sandbox-mac-notch">
+                        <div class="notch-island-preview" id="notch-preview">
+                          <div class="notch-left">
+                            <span class="notch-avatar">⌘</span>
+                            <span class="notch-title" id="notch-status-txt">Agent 就绪 (Idle)</span>
+                          </div>
+                          <div class="notch-right">
+                            <span class="notch-metric" id="notch-metric-val">Ready</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="sandbox-controls">
+                        <button class="btn-sandbox-play" type="button" id="btn-test-island" data-cursor="Dispatch">
+                          <span class="play-icon">▶</span>
+                          <span>模拟触发一次 Agent 会话调度</span>
+                        </button>
+                      </div>
                     </div>
-                  </div>
-
-                  <div class="card-actions">
-                    <button class="btn-card-action proj-cta" type="button" aria-haspopup="dialog">
-                      <span>查看详情</span>
-                      <span class="btn-action-icon" aria-hidden="true">→</span>
-                    </button>
-                    <a class="btn-card-link" href="https://github.com/bitterSmilezzz/AgentIsland" target="_blank" rel="noreferrer" aria-label="在 GitHub 查看 AgentIsland">
-                      <span>GitHub</span>
-                      <span aria-hidden="true">↗</span>
-                    </a>
                   </div>
                 </div>
               </div>
             </article>
 
-            <!-- 项目 2: KnowFlick -->
-            <article class="bento-item proj-card" data-state="completed" data-category="learning" data-project="knowflick" data-reveal>
-              <div class="bento-shell">
-                <div class="bento-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <div class="card-topbar">
-                    <div class="status-pill status-green">
-                      <span class="status-dot"></span>
+            <!-- 展台 2: KnowFlick -->
+            <article class="stage-card proj-card" data-state="completed" data-category="learning" data-project="knowflick" data-reveal>
+              <div class="card-bezel">
+                <div class="card-core">
+                  <div class="card-ambient-light" aria-hidden="true"></div>
+                  <div class="card-header">
+                    <div class="status-badge status-green">
+                      <span class="status-orb"></span>
                       <span>macOS + Android · 已发布</span>
                     </div>
-                    <span class="card-seq">02</span>
+                    <span class="card-roman">02</span>
                   </div>
 
-                  <div class="card-body">
-                    <h3 class="card-title">KnowFlick</h3>
-                    <p class="card-desc">
-                      把阅读、复习计划和知识管理放进同一个学习工作台，打通桌面端与移动端的高效自律闭环。
-                    </p>
+                  <h3 class="card-heading">KnowFlick</h3>
+                  <p class="card-narrative">
+                    个人学习工作台。将碎片阅读、艾宾浩斯复习安排和渐进式沉淀放进跨端闭环。
+                  </p>
 
-                    <!-- 学习进度微组件 -->
-                    <div class="streak-widget-preview" aria-hidden="true">
-                      <div class="streak-info">
-                        <span class="streak-label">今日复习规划</span>
-                        <span class="streak-rate">85% 已完成</span>
+                  <!-- 可操作沙盒 2：打卡打卡与撒花动效 -->
+                  <div class="card-sandbox sandbox-knowflick">
+                    <div class="sandbox-label">INTERACTIVE · 记忆曲线复习打卡</div>
+                    <div class="kf-progress-card">
+                      <div class="kf-head">
+                        <span class="kf-title">今日复习队列</span>
+                        <span class="kf-badge" id="kf-badge-rate">85% 已完成</span>
                       </div>
-                      <div class="streak-track">
-                        <div class="streak-fill" style="width: 85%;"></div>
+                      <div class="kf-track">
+                        <div class="kf-fill" id="kf-fill-bar" style="width: 85%;"></div>
                       </div>
-                    </div>
-
-                    <div class="card-tags">
-                      <span class="tag-pill">macOS</span>
-                      <span class="tag-pill">Android</span>
-                      <span class="tag-pill">SwiftUI</span>
-                      <span class="tag-pill">Kotlin</span>
+                      <div class="kf-footer">
+                        <span class="kf-stats-text" id="kf-stat-txt">待复习: 3 个要点</span>
+                        <button class="btn-sandbox-action" type="button" id="btn-checkin-kf" data-cursor="Checkin">
+                          打卡完成 ✓
+                        </button>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="card-actions">
-                    <button class="btn-card-action proj-cta" type="button" aria-haspopup="dialog">
+                  <div class="card-tags-list">
+                    <span class="tech-tag">macOS</span>
+                    <span class="tech-tag">Android</span>
+                    <span class="tech-tag">SwiftUI</span>
+                    <span class="tech-tag">Kotlin</span>
+                  </div>
+
+                  <div class="card-cta-row">
+                    <button class="btn-stage-action proj-cta" type="button" aria-haspopup="dialog" data-cursor="Detail">
                       <span>查看详情</span>
-                      <span class="btn-action-icon" aria-hidden="true">→</span>
+                      <span class="action-arrow" aria-hidden="true">→</span>
                     </button>
-                    <a class="btn-card-link" href="https://github.com/bitterSmilezzz/knowflick" target="_blank" rel="noreferrer" aria-label="在 GitHub 查看 KnowFlick">
-                      <span>GitHub</span>
-                      <span aria-hidden="true">↗</span>
+                    <a class="btn-stage-gh" href="https://github.com/bitterSmilezzz/knowflick" target="_blank" rel="noreferrer" data-cursor="GitHub">
+                      <span>GitHub ↗</span>
                     </a>
                   </div>
                 </div>
               </div>
             </article>
 
-            <!-- 项目 3: MacClean -->
-            <article class="bento-item proj-card" data-state="working" data-category="system" data-project="mac-clean" data-reveal>
-              <div class="bento-shell">
-                <div class="bento-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <div class="card-topbar">
-                    <div class="status-pill status-amber">
-                      <span class="status-dot"></span>
-                      <span>macOS · 在开发</span>
+            <!-- 展台 3: MacClean -->
+            <article class="stage-card proj-card" data-state="working" data-category="system" data-project="mac-clean" data-reveal>
+              <div class="card-bezel">
+                <div class="card-core">
+                  <div class="card-ambient-light" aria-hidden="true"></div>
+                  <div class="card-header">
+                    <div class="status-badge status-amber">
+                      <span class="status-orb"></span>
+                      <span>macOS · 活跃开发中</span>
                     </div>
-                    <span class="card-seq">03</span>
+                    <span class="card-roman">03</span>
                   </div>
 
-                  <div class="card-body">
-                    <h3 class="card-title">MacClean</h3>
-                    <p class="card-desc">
-                      整理 macOS 缓存、应用残留和重复文件的轻量工具。扫描项展示清晰判断依据，清理保留撤回路径。
-                    </p>
+                  <h3 class="card-heading">MacClean</h3>
+                  <p class="card-narrative">
+                    整理 macOS 缓存、应用残留与重复文件的轻量工具。扫描依据透明，保留安全撤回机制。
+                  </p>
 
-                    <!-- 磁盘分析微组件 -->
-                    <div class="clean-widget-preview" aria-hidden="true">
-                      <div class="storage-bar">
-                        <div class="storage-segment seg-c1" style="width: 48%;"></div>
-                        <div class="storage-segment seg-c2" style="width: 28%;"></div>
-                        <div class="storage-segment seg-c3" style="width: 24%;"></div>
+                  <!-- 可操作沙盒 3：雷达扫描与清理演示 -->
+                  <div class="card-sandbox sandbox-clean">
+                    <div class="sandbox-label">INTERACTIVE · 存储分析雷达</div>
+                    <div class="clean-box">
+                      <div class="storage-bar" id="storage-bar-mc">
+                        <div class="seg s-cache" style="width: 48%;" title="缓存文件"></div>
+                        <div class="seg s-remnant" style="width: 28%;" title="卸载残留"></div>
+                        <div class="seg s-dup" style="width: 24%;" title="重复媒体"></div>
                       </div>
-                      <div class="storage-meta-text">
-                        <span>已识别 18.4 GB 可安全清理项</span>
+                      <div class="clean-meta-row">
+                        <span class="clean-meta-info" id="clean-meta-txt">发现 18.4 GB 可安全清理</span>
+                        <button class="btn-sandbox-action" type="button" id="btn-scan-mc" data-cursor="Clean">
+                          立即清理 ⚡
+                        </button>
                       </div>
-                    </div>
-
-                    <div class="card-tags">
-                      <span class="tag-pill">macOS</span>
-                      <span class="tag-pill">SwiftUI</span>
-                      <span class="tag-pill">System utility</span>
                     </div>
                   </div>
 
-                  <div class="card-actions">
-                    <button class="btn-card-action proj-cta" type="button" aria-haspopup="dialog">
+                  <div class="card-tags-list">
+                    <span class="tech-tag">macOS</span>
+                    <span class="tech-tag">SwiftUI</span>
+                    <span class="tech-tag">System Utility</span>
+                  </div>
+
+                  <div class="card-cta-row">
+                    <button class="btn-stage-action proj-cta" type="button" aria-haspopup="dialog" data-cursor="Detail">
                       <span>查看详情</span>
-                      <span class="btn-action-icon" aria-hidden="true">→</span>
+                      <span class="action-arrow" aria-hidden="true">→</span>
                     </button>
-                    <a class="btn-card-link" href="https://github.com/bitterSmilezzz/MacClean" target="_blank" rel="noreferrer" aria-label="在 GitHub 查看 MacClean">
-                      <span>GitHub</span>
-                      <span aria-hidden="true">↗</span>
+                    <a class="btn-stage-gh" href="https://github.com/bitterSmilezzz/MacClean" target="_blank" rel="noreferrer" data-cursor="GitHub">
+                      <span>GitHub ↗</span>
                     </a>
                   </div>
                 </div>
               </div>
             </article>
 
-            <!-- 项目 4: haier-ac-mac -->
-            <article class="bento-item proj-card" data-state="working" data-category="system" data-project="haier-ac-mac" data-reveal>
-              <div class="bento-shell">
-                <div class="bento-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <div class="card-topbar">
-                    <div class="status-pill status-amber">
-                      <span class="status-dot"></span>
-                      <span>macOS · 在开发</span>
+            <!-- 展台 4: haier-ac-mac -->
+            <article class="stage-card proj-card" data-state="working" data-category="system" data-project="haier-ac-mac" data-reveal>
+              <div class="card-bezel">
+                <div class="card-core">
+                  <div class="card-ambient-light" aria-hidden="true"></div>
+                  <div class="card-header">
+                    <div class="status-badge status-amber">
+                      <span class="status-orb"></span>
+                      <span>macOS · 活跃开发中</span>
                     </div>
-                    <span class="card-seq">04</span>
+                    <span class="card-roman">04</span>
                   </div>
 
-                  <div class="card-body">
-                    <h3 class="card-title">haier-ac-mac</h3>
-                    <p class="card-desc">
-                      用 SwiftUI 写的 macOS 原生应用，通过海尔智家云控制海尔和统帅空调。常驻菜单栏，一键调节温度与模式。
-                    </p>
+                  <h3 class="card-heading">haier-ac-mac</h3>
+                  <p class="card-narrative">
+                    SwiftUI 打造的 macOS 菜单栏原生应用。海尔智家云控制空调，秒级调节温度、风速与模式。
+                  </p>
 
-                    <!-- 空调控制微组件 -->
-                    <div class="ac-widget-preview" aria-hidden="true">
-                      <div class="ac-dial-box">
-                        <div class="ac-temp-display">
-                          <span class="temp-val">24</span><span class="temp-unit">°C</span>
+                  <!-- 可操作沙盒 4：真实温控仪表盘 -->
+                  <div class="card-sandbox sandbox-ac">
+                    <div class="sandbox-label">INTERACTIVE · 菜单栏温控表盘</div>
+                    <div class="ac-stage-dial" id="ac-panel-box">
+                      <div class="ac-dial-center">
+                        <button class="ac-btn-step" type="button" id="btn-ac-down" data-cursor="Down" aria-label="降低温度">−</button>
+                        <div class="ac-deg-wrap">
+                          <span class="ac-deg-number" id="ac-temp-val">24</span>
+                          <span class="ac-deg-symbol">°C</span>
                         </div>
-                        <div class="ac-mode-pill">制冷 · 自动风速</div>
+                        <button class="ac-btn-step" type="button" id="btn-ac-up" data-cursor="Up" aria-label="升高温度">+</button>
                       </div>
-                    </div>
-
-                    <div class="card-tags">
-                      <span class="tag-pill">macOS</span>
-                      <span class="tag-pill">SwiftUI</span>
-                      <span class="tag-pill">Menu bar</span>
-                      <span class="tag-pill">Home</span>
+                      <div class="ac-mode-switches">
+                        <button class="ac-mode-btn is-active" type="button" data-ac-mode="cool" data-cursor="Mode">制冷</button>
+                        <button class="ac-mode-btn" type="button" data-ac-mode="heat" data-cursor="Mode">制热</button>
+                        <button class="ac-mode-btn" type="button" data-ac-mode="wind" data-cursor="Mode">送风</button>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="card-actions">
-                    <button class="btn-card-action proj-cta" type="button" aria-haspopup="dialog">
+                  <div class="card-tags-list">
+                    <span class="tech-tag">macOS</span>
+                    <span class="tech-tag">SwiftUI</span>
+                    <span class="tech-tag">Menu Bar</span>
+                    <span class="tech-tag">IoT Cloud</span>
+                  </div>
+
+                  <div class="card-cta-row">
+                    <button class="btn-stage-action proj-cta" type="button" aria-haspopup="dialog" data-cursor="Detail">
                       <span>查看详情</span>
-                      <span class="btn-action-icon" aria-hidden="true">→</span>
+                      <span class="action-arrow" aria-hidden="true">→</span>
                     </button>
-                    <a class="btn-card-link" href="https://github.com/bitterSmilezzz/haier-ac-mac" target="_blank" rel="noreferrer" aria-label="在 GitHub 查看 haier-ac-mac">
-                      <span>GitHub</span>
-                      <span aria-hidden="true">↗</span>
+                    <a class="btn-stage-gh" href="https://github.com/bitterSmilezzz/haier-ac-mac" target="_blank" rel="noreferrer" data-cursor="GitHub">
+                      <span>GitHub ↗</span>
                     </a>
                   </div>
                 </div>
@@ -477,195 +561,186 @@
       </section>
 
       <!-- ============================================================
-           理念与关于区：现代工程原则 + 技术栈徽章
+           理念与工质原则 (Engineering Craft & Philosophy)
            ============================================================ -->
       <section class="section" id="about" aria-labelledby="about-title">
         <div class="wrap">
           <div class="section-head" data-reveal>
             <div class="section-title-wrap">
-              <p class="section-badge">Philosophy</p>
-              <h2 id="about-title" class="section-title">开发与设计原则</h2>
+              <p class="section-badge">PHILOSOPHY & CRAFT</p>
+              <h2 id="about-title" class="section-title">工程哲学与设计原则</h2>
             </div>
-            <p class="section-desc">先解决日常中的真实痛点，再在反复使用中把细节打磨顺手。</p>
+            <p class="section-desc">始于真实使用阻滞，陷于极致触觉细节，成于长期自律打磨。</p>
           </div>
 
-          <div class="philosophy-grid" data-reveal>
-            <div class="philo-card">
-              <div class="philo-shell">
+          <div class="philosophy-trio" data-reveal>
+            <div class="philo-column" data-cursor="Read">
+              <div class="philo-bezel">
                 <div class="philo-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <span class="philo-index">01</span>
-                  <h3 class="philo-title">真实痛点出发</h3>
-                  <p class="philo-desc">不为写代码而发明伪需求。每个工具都始于自己在 macOS 开发或日常生活里碰到的真实摩擦与低效环节。</p>
+                  <span class="philo-num">01 / TRUTH</span>
+                  <h3 class="philo-title">拒绝虚构伪需求</h3>
+                  <p class="philo-text">
+                    每一个工具都源于我自己在 macOS 深度工作流中真实承受的低效摩擦。只有开发者自己每天都要高频使用，才能真正感受到毫秒级的阻尼是否顺手。
+                  </p>
                 </div>
               </div>
             </div>
 
-            <div class="philo-card">
-              <div class="philo-shell">
+            <div class="philo-column" data-cursor="Read">
+              <div class="philo-bezel">
                 <div class="philo-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <span class="philo-index">02</span>
-                  <h3 class="philo-title">极速原型闭环</h3>
-                  <p class="philo-desc">先用最精简的代码跑通核心流程，做出自己每天都能用得上的 MVP 版本，在高频使用中暴露出真正问题。</p>
+                  <span class="philo-num">02 / VELOCITY</span>
+                  <h3 class="philo-title">极简闭环验证</h3>
+                  <p class="philo-text">
+                    不画无休止的原型大饼。用最短工程路径做出核心交互可用版本，直接投放到生产机器上，在第一天暴露全部边缘缺陷与交互漏洞。
+                  </p>
                 </div>
               </div>
             </div>
 
-            <div class="philo-card">
-              <div class="philo-shell">
+            <div class="philo-column" data-cursor="Read">
+              <div class="philo-bezel">
                 <div class="philo-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <span class="philo-index">03</span>
-                  <h3 class="philo-title">持续雕琢手感</h3>
-                  <p class="philo-desc">用得越久改得越多。深入打磨系统级微动效、按键阻尼感与菜单栏常驻交互，追求原生系统的细腻顺滑。</p>
+                  <span class="philo-num">03 / PRECISION</span>
+                  <h3 class="philo-title">雕琢原生手感</h3>
+                  <p class="philo-text">
+                    用得越久改得越多。对系统级毛玻璃折射、平滑贝塞尔曲线、快捷键肌肉记忆与菜单栏常驻内存决不妥协，追求 Apple Pro 级的严苛物理品质。
+                  </p>
                 </div>
               </div>
             </div>
           </div>
 
-          <div class="stack-section" data-reveal>
-            <p class="stack-caption">熟练运用的技术与生态：</p>
-            <div class="stack-pills-wrap" aria-label="常用技术">
-              <span class="stack-badge">Swift</span>
-              <span class="stack-badge">SwiftUI</span>
-              <span class="stack-badge">TypeScript</span>
-              <span class="stack-badge">JavaScript</span>
-              <span class="stack-badge">Kotlin</span>
-              <span class="stack-badge">Python</span>
-              <span class="stack-badge">macOS AppKit</span>
-              <span class="stack-badge">DeepSeek Harness</span>
+          <!-- 技术图谱徽章云 -->
+          <div class="tech-matrix-box" data-reveal>
+            <div class="matrix-head">
+              <span class="matrix-title">熟练驾驭的工程技术与体系：</span>
+              <span class="matrix-sub">Production-Ready Stacks</span>
+            </div>
+            <div class="matrix-pills-wrap" aria-label="技术栈">
+              <span class="matrix-badge" data-cursor="Tech">Swift 6.0</span>
+              <span class="matrix-badge" data-cursor="Tech">SwiftUI</span>
+              <span class="matrix-badge" data-cursor="Tech">macOS AppKit</span>
+              <span class="matrix-badge" data-cursor="Tech">TypeScript</span>
+              <span class="matrix-badge" data-cursor="Tech">JavaScript</span>
+              <span class="matrix-badge" data-cursor="Tech">Kotlin</span>
+              <span class="matrix-badge" data-cursor="Tech">Python 3</span>
+              <span class="matrix-badge" data-cursor="Tech">DeepSeek Harness</span>
+              <span class="matrix-badge" data-cursor="Tech">Web Audio API</span>
+              <span class="matrix-badge" data-cursor="Tech">Canvas 2D</span>
             </div>
           </div>
         </div>
       </section>
 
       <!-- ============================================================
-           GitHub 仓库区：极简工程化仓库卡片
+           开源生态与 GitHub 仓库 (Open Source Ecosystem)
            ============================================================ -->
       <section class="section" id="github-work" aria-labelledby="repos-title">
         <div class="wrap">
           <div class="section-head" data-reveal>
             <div class="section-title-wrap">
-              <p class="section-badge">Repositories</p>
-              <h2 id="repos-title" class="section-title">GitHub 代表仓库</h2>
+              <p class="section-badge">OPEN SOURCE ECOSYSTEM</p>
+              <h2 id="repos-title" class="section-title">GitHub 代表性仓库</h2>
             </div>
-            <a class="link-more-gh" href="https://github.com/bitterSmilezzz?tab=repositories" target="_blank" rel="noreferrer">
-              <span>查看全部公开仓库</span>
+            <a class="link-more-gh" href="https://github.com/bitterSmilezzz?tab=repositories" target="_blank" rel="noreferrer" data-cursor="External">
+              <span>探索全部公开代码仓库</span>
               <span aria-hidden="true">↗</span>
             </a>
           </div>
 
-          <div class="repo-grid" data-reveal>
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dsh-model-selector" target="_blank" rel="noreferrer">
-              <div class="repo-shell">
-                <div class="repo-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <div class="repo-top">
-                    <div class="repo-name-box">
-                      <span class="repo-icon" aria-hidden="true">⌘</span>
-                      <h3 class="repo-name">dsh-model-selector</h3>
-                    </div>
-                    <span class="repo-arrow" aria-hidden="true">↗</span>
+          <div class="repo-matrix" data-reveal>
+            <a class="repo-tile" href="https://github.com/bitterSmilezzz/dsh-model-selector" target="_blank" rel="noreferrer" data-cursor="View">
+              <div class="tile-bezel">
+                <div class="tile-core">
+                  <div class="tile-top">
+                    <span class="tile-glyph">⌘</span>
+                    <h3 class="tile-name">dsh-model-selector</h3>
+                    <span class="tile-arrow">↗</span>
                   </div>
-                  <p class="repo-desc">模型选择器，支持搜索、分组和推理强度调节。</p>
-                  <div class="repo-meta">
-                    <span class="lang-tag"><span class="lang-dot dot-ts"></span> TypeScript</span>
+                  <p class="tile-desc">模型智能选择器，支持检索、分组管理与推理强度微调。</p>
+                  <div class="tile-footer">
+                    <span class="lang-label"><span class="lang-dot dot-ts"></span> TypeScript</span>
                   </div>
                 </div>
               </div>
             </a>
 
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dsh-asr-voice" target="_blank" rel="noreferrer">
-              <div class="repo-shell">
-                <div class="repo-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <div class="repo-top">
-                    <div class="repo-name-box">
-                      <span class="repo-icon" aria-hidden="true">⌘</span>
-                      <h3 class="repo-name">dsh-asr-voice</h3>
-                    </div>
-                    <span class="repo-arrow" aria-hidden="true">↗</span>
+            <a class="repo-tile" href="https://github.com/bitterSmilezzz/dsh-asr-voice" target="_blank" rel="noreferrer" data-cursor="View">
+              <div class="tile-bezel">
+                <div class="tile-core">
+                  <div class="tile-top">
+                    <span class="tile-glyph">⌘</span>
+                    <h3 class="tile-name">dsh-asr-voice</h3>
+                    <span class="tile-arrow">↗</span>
                   </div>
-                  <p class="repo-desc">语音转提示词：识别、优化并填入草稿。</p>
-                  <div class="repo-meta">
-                    <span class="lang-tag"><span class="lang-dot dot-js"></span> JavaScript</span>
+                  <p class="tile-desc">语音快速转提示词：智能降噪、意图提炼并实时回填草稿。</p>
+                  <div class="tile-footer">
+                    <span class="lang-label"><span class="lang-dot dot-js"></span> JavaScript</span>
                   </div>
                 </div>
               </div>
             </a>
 
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dsh-notify" target="_blank" rel="noreferrer">
-              <div class="repo-shell">
-                <div class="repo-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <div class="repo-top">
-                    <div class="repo-name-box">
-                      <span class="repo-icon" aria-hidden="true">⌘</span>
-                      <h3 class="repo-name">dsh-notify</h3>
-                    </div>
-                    <span class="repo-arrow" aria-hidden="true">↗</span>
+            <a class="repo-tile" href="https://github.com/bitterSmilezzz/dsh-notify" target="_blank" rel="noreferrer" data-cursor="View">
+              <div class="tile-bezel">
+                <div class="tile-core">
+                  <div class="tile-top">
+                    <span class="tile-glyph">⌘</span>
+                    <h3 class="tile-name">dsh-notify</h3>
+                    <span class="tile-arrow">↗</span>
                   </div>
-                  <p class="repo-desc">桌面通知：审批、轮次完成与报错，点击直达会话。</p>
-                  <div class="repo-meta">
-                    <span class="lang-tag"><span class="lang-dot dot-js"></span> JavaScript</span>
+                  <p class="tile-desc">桌面原生通知桥接：审批请求、轮次完成与错误瞬时告警。</p>
+                  <div class="tile-footer">
+                    <span class="lang-label"><span class="lang-dot dot-js"></span> JavaScript</span>
                   </div>
                 </div>
               </div>
             </a>
 
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dsh-computer-use" target="_blank" rel="noreferrer">
-              <div class="repo-shell">
-                <div class="repo-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <div class="repo-top">
-                    <div class="repo-name-box">
-                      <span class="repo-icon" aria-hidden="true">⌘</span>
-                      <h3 class="repo-name">dsh-computer-use</h3>
-                    </div>
-                    <span class="repo-arrow" aria-hidden="true">↗</span>
+            <a class="repo-tile" href="https://github.com/bitterSmilezzz/dsh-computer-use" target="_blank" rel="noreferrer" data-cursor="View">
+              <div class="tile-bezel">
+                <div class="tile-core">
+                  <div class="tile-top">
+                    <span class="tile-glyph">⌘</span>
+                    <h3 class="tile-name">dsh-computer-use</h3>
+                    <span class="tile-arrow">↗</span>
                   </div>
-                  <p class="repo-desc">电脑控制插件：基于辅助功能的观测与输入。</p>
-                  <div class="repo-meta">
-                    <span class="lang-tag"><span class="lang-dot dot-ts"></span> TypeScript</span>
+                  <p class="tile-desc">电脑控制执行器：基于系统辅助功能的视觉识别与拟人输入。</p>
+                  <div class="tile-footer">
+                    <span class="lang-label"><span class="lang-dot dot-ts"></span> TypeScript</span>
                   </div>
                 </div>
               </div>
             </a>
 
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dimagent-login-fix" target="_blank" rel="noreferrer">
-              <div class="repo-shell">
-                <div class="repo-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <div class="repo-top">
-                    <div class="repo-name-box">
-                      <span class="repo-icon" aria-hidden="true">⌘</span>
-                      <h3 class="repo-name">dimagent-login-fix</h3>
-                    </div>
-                    <span class="repo-arrow" aria-hidden="true">↗</span>
+            <a class="repo-tile" href="https://github.com/bitterSmilezzz/dimagent-login-fix" target="_blank" rel="noreferrer" data-cursor="View">
+              <div class="tile-bezel">
+                <div class="tile-core">
+                  <div class="tile-top">
+                    <span class="tile-glyph">⌘</span>
+                    <h3 class="tile-name">dimagent-login-fix</h3>
+                    <span class="tile-arrow">↗</span>
                   </div>
-                  <p class="repo-desc">为 DimAgent 桌面端提供本地 TLS 桥接。</p>
-                  <div class="repo-meta">
-                    <span class="lang-tag"><span class="lang-dot dot-js"></span> JavaScript</span>
+                  <p class="tile-desc">为 DimAgent 桌面客户端提供本地安全 TLS 转发网络桥接。</p>
+                  <div class="tile-footer">
+                    <span class="lang-label"><span class="lang-dot dot-js"></span> JavaScript</span>
                   </div>
                 </div>
               </div>
             </a>
 
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dsh-plugins" target="_blank" rel="noreferrer">
-              <div class="repo-shell">
-                <div class="repo-core">
-                  <div class="card-spotlight" aria-hidden="true"></div>
-                  <div class="repo-top">
-                    <div class="repo-name-box">
-                      <span class="repo-icon" aria-hidden="true">⌘</span>
-                      <h3 class="repo-name">dsh-plugins</h3>
-                    </div>
-                    <span class="repo-arrow" aria-hidden="true">↗</span>
+            <a class="repo-tile" href="https://github.com/bitterSmilezzz/dsh-plugins" target="_blank" rel="noreferrer" data-cursor="View">
+              <div class="tile-bezel">
+                <div class="tile-core">
+                  <div class="tile-top">
+                    <span class="tile-glyph">⌘</span>
+                    <h3 class="tile-name">dsh-plugins</h3>
+                    <span class="tile-arrow">↗</span>
                   </div>
-                  <p class="repo-desc">插件伞仓库，记录插件契约并自动校验项目。</p>
-                  <div class="repo-meta">
-                    <span class="lang-tag"><span class="lang-dot dot-js"></span> JavaScript</span>
+                  <p class="tile-desc">DSH 插件伞仓库：维护统一插件标准契约并执行自动化校验。</p>
+                  <div class="tile-footer">
+                    <span class="lang-label"><span class="lang-dot dot-js"></span> JavaScript</span>
                   </div>
                 </div>
               </div>
@@ -675,28 +750,26 @@
       </section>
 
       <!-- ============================================================
-           联系与结尾区 (Grand Finale & Footer)
+           结尾与联系区 (Grand Finale & Footer)
            ============================================================ -->
       <section class="section contact" id="contact" aria-labelledby="contact-title" data-reveal>
         <div class="wrap contact-wrap">
-          <div class="contact-card">
-            <div class="contact-shell">
-              <div class="contact-core">
-                <div class="contact-ambient" aria-hidden="true"></div>
-                <div class="contact-content">
-                  <h2 id="contact-title" class="contact-title">
-                    做自己想用的工具，<br />
-                    <span class="gradient-text">也认真做好每一个细节。</span>
-                  </h2>
-                  <p class="contact-desc">
-                    项目会持续保持更新与优化。欢迎在 GitHub 查看最新提交或交流讨论。
-                  </p>
-                  <div class="contact-cta">
-                    <a class="btn btn-primary" href="https://github.com/bitterSmilezzz" target="_blank" rel="noreferrer">
-                      <span>前往 GitHub @bitterSmilezzz</span>
-                      <span class="btn-icon" aria-hidden="true">↗</span>
-                    </a>
-                  </div>
+          <div class="contact-bezel">
+            <div class="contact-core">
+              <div class="contact-lens-flare" aria-hidden="true"></div>
+              <div class="contact-body">
+                <h2 id="contact-title" class="contact-display">
+                  做真正顺手的数字工具，<br />
+                  <span class="gradient-text">也认真打磨每一个物理微动效。</span>
+                </h2>
+                <p class="contact-narrative">
+                  项目会持续迭代进化。无论是技术探讨、问题交流还是合作构想，都欢迎在 GitHub 开启讨论。
+                </p>
+                <div class="contact-action-box">
+                  <a class="btn btn-primary btn-large" href="https://github.com/bitterSmilezzz" target="_blank" rel="noreferrer" data-cursor="GitHub">
+                    <span>访问 GitHub @bitterSmilezzz</span>
+                    <span class="btn-icon" aria-hidden="true">↗</span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -705,22 +778,22 @@
           <footer class="foot">
             <div class="foot-left">
               <span>© <span id="current-year">2026</span> fangshoufanji</span>
-              <span class="foot-sep" aria-hidden="true">·</span>
-              <span class="foot-motto">自己用，也认真做。</span>
+              <span class="foot-dot" aria-hidden="true">·</span>
+              <span class="foot-craft">Crafted with Pure Precision & Web Audio</span>
             </div>
             <div class="foot-right">
-              <a class="foot-top-link" href="#top">回到顶部 ↑</a>
+              <a class="foot-top-link" href="#top" data-cursor="Top">回到顶部 ↑</a>
             </div>
           </footer>
         </div>
       </section>
     </main>
 
-    <!-- 项目详情弹窗 (Accessible Modal Sheet) -->
+    <!-- 项目工程详述弹窗 (Accessible Modal Sheet) -->
     <dialog class="project-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
       <div class="dialog-shell">
         <div class="dialog-core">
-          <button class="dialog-close" type="button" aria-label="关闭项目详情">
+          <button class="dialog-close" type="button" aria-label="关闭项目详情" data-cursor="Close">
             <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -730,11 +803,11 @@
           <h2 class="dialog-title" id="dialog-title"></h2>
           <p class="dialog-desc" id="dialog-description"></p>
           <div class="dialog-actions">
-            <a class="btn btn-primary" id="dialog-link" href="#" target="_blank" rel="noreferrer">
+            <a class="btn btn-primary" id="dialog-link" href="#" target="_blank" rel="noreferrer" data-cursor="Open">
               <span>打开 GitHub 仓库</span>
               <span class="btn-icon" aria-hidden="true">↗</span>
             </a>
-            <p class="dialog-private" id="dialog-private" hidden>这个仓库目前没有公开页面。</p>
+            <p class="dialog-private" id="dialog-private" hidden>该项目暂无公开代码仓库。</p>
           </div>
         </div>
       </div>
