@@ -1,504 +1,46 @@
 /* ============================================================
-   fangshoufanji · 独立工坊与数字实体 · Awwwards SOTD 交互核心
-   3D 灵动岛核心 · 磁吸流体光标 · Web Audio 纯代码合成微音效 · 交互沙盒
+   fangshoufanji · 个人项目与工具 · 核心交互
+   去 AI 味 · 纯净利落 · 原生指针与语义交互
    ============================================================ */
 
 const projectData = {
   "agent-island": {
     title: "AgentIsland",
     description:
-      "macOS 灵动岛原生 Agent 会话状态与算力监控器。集中查看运行状态、正在执行的任务和待处理的确认，也能了解本地 Token 与成本。",
-    tags: ["macOS Native", "Swift 6.0", "SwiftUI", "Agent Tooling", "Dynamic Notch"],
+      "把本机 Agent 的状态、正在执行的任务和权限确认放进灵动岛。不用来回切终端窗口，扫一眼屏幕顶部就知道它在干嘛，也能了解本地 Token 与成本。",
+    tags: ["macOS Native", "Swift", "SwiftUI", "Agent Tooling"],
     url: "https://github.com/bitterSmilezzz/AgentIsland",
   },
   knowflick: {
     title: "KnowFlick",
     description:
-      "个人学习工作台。将碎片阅读、艾宾浩斯复习安排和渐进式沉淀放进跨端闭环，打通桌面端与移动端的高效自律工作流。",
-    tags: ["macOS", "Android", "SwiftUI", "Kotlin", "Knowledge Graph"],
+      "自己的学习与复习工作台。把日常阅读、笔记和艾宾浩斯复习安排打通，支持跨端同步，打通自律闭环。",
+    tags: ["macOS", "Android", "SwiftUI", "Kotlin"],
     url: "https://github.com/bitterSmilezzz/knowflick",
   },
   "mac-clean": {
     title: "MacClean",
     description:
-      "整理 macOS 缓存、应用残留与重复文件的轻量工具。扫描项展示清晰判断依据，清理全流程保留安全撤回路径。",
-    tags: ["macOS", "SwiftUI", "System Utility", "Disk Engine"],
+      "用于清理开发与日常使用中堆积的缓存、卸载残留和重复文件。扫描项都有清楚的依据，清理流程保留安全撤回路径。",
+    tags: ["macOS", "SwiftUI", "System utility"],
     url: "https://github.com/bitterSmilezzz/MacClean",
   },
   "haier-ac-mac": {
     title: "haier-ac-mac",
     description:
-      "用 SwiftUI 打造的 macOS 菜单栏原生应用。通过海尔智家云控制海尔和统帅空调，常驻菜单栏，一键调节温度、灯光、屏显与运行模式。",
-    tags: ["macOS", "SwiftUI", "Menu Bar", "IoT Cloud", "HomeKit Style"],
+      "常驻 macOS 菜单栏的海尔智家空调控制器。在 Mac 上顺手调温度、切模式，不用每次找手机打开 App。",
+    tags: ["macOS", "SwiftUI", "Menu bar", "Home"],
     url: "https://github.com/bitterSmilezzz/haier-ac-mac",
   },
 };
 
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const isTouchDevice = window.matchMedia("(hover: none) or (pointer: coarse)").matches;
 
 /* ============================================================
-   1. Web Audio 原生合成纯代码微音效 (Zero external files)
-   ============================================================ */
-class SoundUI {
-  constructor() {
-    this.ctx = null;
-    this.enabled = false;
-  }
-
-  init() {
-    if (!this.ctx && typeof window.AudioContext !== "undefined") {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      this.ctx = new AudioCtx();
-    }
-  }
-
-  toggle() {
-    this.init();
-    if (this.ctx && this.ctx.state === "suspended") {
-      this.ctx.resume();
-    }
-    this.enabled = !this.enabled;
-    return this.enabled;
-  }
-
-  // 细腻轻微点按声 (如 macOS Haptic Click)
-  click() {
-    if (!this.enabled || !this.ctx) return;
-    try {
-      const t = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(1400, t);
-      osc.frequency.exponentialRampToValueAtTime(800, t + 0.025);
-
-      gain.gain.setValueAtTime(0.04, t);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.025);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(t);
-      osc.stop(t + 0.03);
-    } catch (e) {}
-  }
-
-  // 气泡展开/变形声 (Bubble Pop / Morph)
-  morph() {
-    if (!this.enabled || !this.ctx) return;
-    try {
-      const t = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = "triangle";
-      osc.frequency.setValueAtTime(450, t);
-      osc.frequency.exponentialRampToValueAtTime(950, t + 0.06);
-
-      gain.gain.setValueAtTime(0.05, t);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.07);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(t);
-      osc.stop(t + 0.08);
-    } catch (e) {}
-  }
-
-  // 任务完成和弦 (Harmonic Success)
-  success() {
-    if (!this.enabled || !this.ctx) return;
-    try {
-      const notes = [523.25, 659.25, 783.99]; // C5, E5, G5 和弦
-      notes.forEach((freq, idx) => {
-        const t = this.ctx.currentTime + idx * 0.04;
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-
-        osc.type = "sine";
-        osc.frequency.setValueAtTime(freq, t);
-
-        gain.gain.setValueAtTime(0.035, t);
-        gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
-
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-
-        osc.start(t);
-        osc.stop(t + 0.2);
-      });
-    } catch (e) {}
-  }
-
-  // 扫描雷达高频微声 (Scan Sweep)
-  scan() {
-    if (!this.enabled || !this.ctx) return;
-    try {
-      const t = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(1800, t);
-      osc.frequency.exponentialRampToValueAtTime(2400, t + 0.12);
-
-      gain.gain.setValueAtTime(0.025, t);
-      gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.14);
-
-      osc.connect(gain);
-      gain.connect(this.ctx.destination);
-
-      osc.start(t);
-      osc.stop(t + 0.15);
-    } catch (e) {}
-  }
-}
-
-const soundUI = new SoundUI();
-const soundToggle = document.querySelector("[data-sound-toggle]");
-if (soundToggle) {
-  soundToggle.addEventListener("click", () => {
-    const isNowOn = soundUI.toggle();
-    soundToggle.setAttribute("aria-pressed", String(isNowOn));
-    if (isNowOn) soundUI.morph();
-  });
-}
-
-/* ============================================================
-   2. 交互式发丝坐标网格粒子画板 (Interactive Canvas Grid)
-   ============================================================ */
-const canvas = document.getElementById("bg-canvas");
-if (canvas && !reduceMotion) {
-  const ctx = canvas.getContext("2d");
-  let width, height;
-  let mouseX = -1000, mouseY = -1000;
-  let animFrameId = null;
-
-  const resize = () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  };
-  window.addEventListener("resize", resize, { passive: true });
-  resize();
-
-  window.addEventListener(
-    "pointermove",
-    (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-    },
-    { passive: true }
-  );
-
-  const GRID_STEP = 54;
-
-  const draw = () => {
-    ctx.clearRect(0, 0, width, height);
-
-    const isDark = document.documentElement.getAttribute("data-theme") !== "light";
-    const baseColor = isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.05)";
-    const highlightColor = isDark ? "rgba(0, 242, 254, 0.45)" : "rgba(2, 132, 199, 0.4)";
-
-    ctx.fillStyle = baseColor;
-
-    for (let x = 0; x < width; x += GRID_STEP) {
-      for (let y = 0; y < height; y += GRID_STEP) {
-        const dx = x - mouseX;
-        const dy = y - mouseY;
-        const distSq = dx * dx + dy * dy;
-        const radius = 160;
-
-        if (distSq < radius * radius) {
-          const dist = Math.sqrt(distSq);
-          const factor = 1 - dist / radius;
-          ctx.fillStyle = highlightColor;
-          ctx.beginPath();
-          ctx.arc(x, y, 1.2 + factor * 1.5, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.fillStyle = baseColor;
-        } else {
-          ctx.fillRect(x, y, 1, 1);
-        }
-      }
-    }
-
-    animFrameId = requestAnimationFrame(draw);
-  };
-
-  animFrameId = requestAnimationFrame(draw);
-}
-
-/* ============================================================
-   3. 定制磁吸流体变形光标 (Magnetic Morphing Cursor)
-   ============================================================ */
-const cursorDot = document.querySelector(".cursor-dot");
-const cursorHalo = document.querySelector(".cursor-halo");
-const cursorLabel = document.querySelector(".cursor-label");
-
-if (cursorDot && cursorHalo && !isTouchDevice && !reduceMotion) {
-  let mouse = { x: -100, y: -100 };
-  let halo = { x: -100, y: -100 };
-
-  window.addEventListener(
-    "pointermove",
-    (e) => {
-      mouse.x = e.clientX;
-      mouse.y = e.clientY;
-      cursorDot.style.transform = `translate(${mouse.x}px, ${mouse.y}px)`;
-    },
-    { passive: true }
-  );
-
-  const loopCursor = () => {
-    // 弹性插值跟随
-    halo.x += (mouse.x - halo.x) * 0.16;
-    halo.y += (mouse.y - halo.y) * 0.16;
-    cursorHalo.style.transform = `translate(${halo.x}px, ${halo.y}px)`;
-    requestAnimationFrame(loopCursor);
-  };
-  requestAnimationFrame(loopCursor);
-
-  // 磁吸与操作文字提示探测
-  document.addEventListener("mouseover", (e) => {
-    const target = e.target.closest("[data-cursor]");
-    if (target) {
-      cursorHalo.classList.add("is-hover");
-      const label = target.getAttribute("data-cursor") || "View";
-      if (cursorLabel) cursorLabel.textContent = label;
-      soundUI.click();
-    } else {
-      cursorHalo.classList.remove("is-hover");
-    }
-  });
-}
-
-/* ============================================================
-   4. 首屏 3D 交互式灵动岛核心 (Living Island Core Engine)
-   ============================================================ */
-const islandModeTabs = [...document.querySelectorAll("[data-island-tab]")];
-const islandViews = [...document.querySelectorAll("[data-island-view]")];
-const btnIslandSimulate = document.querySelector("#btn-island-simulate");
-const agentRuntimeStatus = document.querySelector("#agent-runtime-status");
-const liveTokenPill = document.querySelector("#live-token-pill");
-const islandPodium = document.querySelector(".island-podium");
-
-if (islandModeTabs.length > 0) {
-  islandModeTabs.forEach((tab) => {
-    tab.addEventListener("click", () => {
-      const viewKey = tab.dataset.islandTab;
-
-      islandModeTabs.forEach((t) => t.classList.toggle("is-active", t === tab));
-      islandViews.forEach((v) => v.classList.toggle("is-active", v.dataset.islandView === viewKey));
-
-      soundUI.morph();
-    });
-  });
-}
-
-// 模拟任务运行微动效
-if (btnIslandSimulate) {
-  let isSimulating = false;
-  btnIslandSimulate.addEventListener("click", (e) => {
-    e.stopPropagation();
-    if (isSimulating) return;
-    isSimulating = true;
-    soundUI.morph();
-
-    btnIslandSimulate.textContent = "执行中...";
-    if (agentRuntimeStatus) agentRuntimeStatus.textContent = "Dispatched Claude Code tool call...";
-
-    setTimeout(() => {
-      if (agentRuntimeStatus) agentRuntimeStatus.textContent = "Synthesizing Swift Native UI components...";
-      if (liveTokenPill) liveTokenPill.textContent = "8,940 tokens";
-      soundUI.click();
-    }, 800);
-
-    setTimeout(() => {
-      if (agentRuntimeStatus) agentRuntimeStatus.textContent = "Task completed in 1.4s ✓";
-      if (liveTokenPill) liveTokenPill.textContent = "12,410 tokens";
-      btnIslandSimulate.textContent = "完成 ✓";
-      soundUI.success();
-
-      setTimeout(() => {
-        btnIslandSimulate.textContent = "模拟任务";
-        if (agentRuntimeStatus) agentRuntimeStatus.textContent = "Analyzing codebase AST...";
-        isSimulating = false;
-      }, 2000);
-    }, 1800);
-  });
-}
-
-// 3D 陀螺仪透视倾斜
-if (islandPodium && !reduceMotion && !isTouchDevice) {
-  islandPodium.addEventListener("pointermove", (e) => {
-    const rect = islandPodium.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    const rotX = -(y / rect.height) * 12;
-    const rotY = (x / rect.width) * 12;
-    islandPodium.style.transform = `rotateX(${rotX.toFixed(2)}deg) rotateY(${rotY.toFixed(2)}deg)`;
-  });
-
-  islandPodium.addEventListener("pointerleave", () => {
-    islandPodium.style.transform = "rotateX(0deg) rotateY(0deg)";
-  });
-}
-
-/* ============================================================
-   5. 四大项目专属深度可操作微沙盒 (Playable Sandboxes)
-   ============================================================ */
-
-// 【沙盒 1: AgentIsland】
-const btnTestIsland = document.getElementById("btn-test-island");
-const notchStatusTxt = document.getElementById("notch-status-txt");
-const notchMetricVal = document.getElementById("notch-metric-val");
-const notchPreview = document.getElementById("notch-preview");
-
-if (btnTestIsland) {
-  let isNotchRunning = false;
-  btnTestIsland.addEventListener("click", () => {
-    if (isNotchRunning) return;
-    isNotchRunning = true;
-    soundUI.morph();
-
-    if (notchPreview) {
-      notchPreview.style.borderColor = "var(--signal)";
-      notchPreview.style.boxShadow = "0 0 20px rgba(0, 242, 254, 0.4)";
-    }
-    if (notchStatusTxt) notchStatusTxt.textContent = "Claude: 观测屏幕中...";
-    if (notchMetricVal) notchMetricVal.textContent = "Active";
-
-    setTimeout(() => {
-      soundUI.click();
-      if (notchStatusTxt) notchStatusTxt.textContent = "生成辅助功能输入流...";
-      if (notchMetricVal) notchMetricVal.textContent = "18 ops/s";
-    }, 900);
-
-    setTimeout(() => {
-      soundUI.success();
-      if (notchStatusTxt) notchStatusTxt.textContent = "自动化任务已达成 ✓";
-      if (notchMetricVal) notchMetricVal.textContent = "Done";
-
-      setTimeout(() => {
-        if (notchPreview) {
-          notchPreview.style.borderColor = "";
-          notchPreview.style.boxShadow = "";
-        }
-        if (notchStatusTxt) notchStatusTxt.textContent = "Agent 就绪 (Idle)";
-        if (notchMetricVal) notchMetricVal.textContent = "Ready";
-        isNotchRunning = false;
-      }, 2200);
-    }, 2000);
-  });
-}
-
-// 【沙盒 2: KnowFlick 打卡复习】
-const btnCheckinKf = document.getElementById("btn-checkin-kf");
-const kfFillBar = document.getElementById("kf-fill-bar");
-const kfBadgeRate = document.getElementById("kf-badge-rate");
-const kfStatTxt = document.getElementById("kf-stat-txt");
-
-if (btnCheckinKf) {
-  let isCompleted = false;
-  btnCheckinKf.addEventListener("click", () => {
-    soundUI.success();
-    isCompleted = !isCompleted;
-    if (isCompleted) {
-      if (kfFillBar) kfFillBar.style.width = "100%";
-      if (kfBadgeRate) kfBadgeRate.textContent = "100% 已达标 🎉";
-      if (kfStatTxt) kfStatTxt.textContent = "全部 24 个记忆点已全部巩固";
-      btnCheckinKf.textContent = "已完成 ✓";
-      btnCheckinKf.style.borderColor = "var(--state-completed)";
-      btnCheckinKf.style.color = "var(--state-completed)";
-    } else {
-      if (kfFillBar) kfFillBar.style.width = "85%";
-      if (kfBadgeRate) kfBadgeRate.textContent = "85% 已完成";
-      if (kfStatTxt) kfStatTxt.textContent = "待复习: 3 个要点";
-      btnCheckinKf.textContent = "打卡完成 ✓";
-      btnCheckinKf.style.borderColor = "";
-      btnCheckinKf.style.color = "";
-    }
-  });
-}
-
-// 【沙盒 3: MacClean 扫描与清理】
-const btnScanMc = document.getElementById("btn-scan-mc");
-const cleanMetaTxt = document.getElementById("clean-meta-txt");
-const storageBarMc = document.getElementById("storage-bar-mc");
-
-if (btnScanMc) {
-  let isCleaned = false;
-  btnScanMc.addEventListener("click", () => {
-    if (isCleaned) return;
-    isCleaned = true;
-    soundUI.scan();
-
-    btnScanMc.textContent = "分析中...";
-    if (cleanMetaTxt) cleanMetaTxt.textContent = "正在校验缓存安全校验和...";
-
-    setTimeout(() => {
-      soundUI.success();
-      if (storageBarMc) {
-        storageBarMc.innerHTML = '<div class="seg" style="width: 100%; background: #10b981;"></div>';
-      }
-      if (cleanMetaTxt) cleanMetaTxt.textContent = "已释放 18.4 GB · 性能已达最佳 ⚡";
-      btnScanMc.textContent = "已极致精简 ✓";
-      btnScanMc.style.borderColor = "var(--state-completed)";
-      btnScanMc.style.color = "var(--state-completed)";
-    }, 1200);
-  });
-}
-
-// 【沙盒 4: haier-ac-mac 菜单栏温控表盘】
-const btnAcDown = document.getElementById("btn-ac-down");
-const btnAcUp = document.getElementById("btn-ac-up");
-const acTempVal = document.getElementById("ac-temp-val");
-const acModeBtns = [...document.querySelectorAll("[data-ac-mode]")];
-
-let currentAcTemp = 24;
-
-if (btnAcDown && btnAcUp && acTempVal) {
-  btnAcDown.addEventListener("click", () => {
-    if (currentAcTemp > 16) {
-      currentAcTemp -= 1;
-      acTempVal.textContent = currentAcTemp;
-      soundUI.click();
-    }
-  });
-
-  btnAcUp.addEventListener("click", () => {
-    if (currentAcTemp < 30) {
-      currentAcTemp += 1;
-      acTempVal.textContent = currentAcTemp;
-      soundUI.click();
-    }
-  });
-}
-
-if (acModeBtns.length > 0) {
-  acModeBtns.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      acModeBtns.forEach((b) => b.classList.toggle("is-active", b === btn));
-      soundUI.morph();
-
-      const mode = btn.dataset.acMode;
-      if (acTempVal) {
-        if (mode === "cool") acTempVal.style.color = "#00f2fe";
-        else if (mode === "heat") acTempVal.style.color = "#f59e0b";
-        else acTempVal.style.color = "#a855f7";
-      }
-    });
-  });
-}
-
-/* ============================================================
-   6. 数字平滑数上去 (countUp with WeakMap cancel)
+   1. 数字平滑数上去 (countUp with WeakMap cancel)
    ============================================================ */
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
-const COUNT_DURATION = 850;
+const COUNT_DURATION = 800;
 const activeCounters = new WeakMap();
 
 function countUp(el, target, pad = 2) {
@@ -558,7 +100,7 @@ function countUp(el, target, pad = 2) {
 }
 
 /* ============================================================
-   7. 项目分类筛选与读数更新 (Project Filtering & Count Sync)
+   2. 项目分类筛选与计数同步 (Project Filtering)
    ============================================================ */
 const projCards = [...document.querySelectorAll(".proj-card")];
 const filterButtons = [...document.querySelectorAll(".chip")];
@@ -568,9 +110,9 @@ const readoutNum = document.querySelector(".readout [data-count]");
 const readoutDetail = document.querySelector("[data-readout-detail]");
 
 const filterLabels = {
-  all: "全部作品",
+  all: "全部",
   system: "系统工具",
-  learning: "学习平台",
+  learning: "学习工具",
   command: "命令行",
 };
 
@@ -612,7 +154,6 @@ filterButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     if (btn.getAttribute("aria-disabled") === "true") return;
 
-    soundUI.click();
     const selected = btn.dataset.filter;
 
     filterButtons.forEach((item) => {
@@ -636,7 +177,7 @@ filterButtons.forEach((btn) => {
 });
 
 /* ============================================================
-   8. 项目详情弹窗 (Accessible Project Modal)
+   3. 项目详情弹窗 (Project Detail Modal)
    ============================================================ */
 const dialog = document.querySelector(".project-dialog");
 const dialogTitle = document.querySelector("#dialog-title");
@@ -649,7 +190,6 @@ function openProjectModal(id) {
   const project = projectData[id];
   if (!project || !dialog) return;
 
-  soundUI.morph();
   dialogTitle.textContent = project.title;
   dialogDescription.textContent = project.description;
   dialogTags.replaceChildren(
@@ -682,24 +222,18 @@ if (projContainer) {
 
 const dialogCloseBtn = document.querySelector(".dialog-close");
 if (dialogCloseBtn && dialog) {
-  dialogCloseBtn.addEventListener("click", () => {
-    soundUI.click();
-    dialog.close();
-  });
+  dialogCloseBtn.addEventListener("click", () => dialog.close());
   dialog.addEventListener("click", (e) => {
-    if (e.target === dialog) {
-      soundUI.click();
-      dialog.close();
-    }
+    if (e.target === dialog) dialog.close();
   });
 }
 
 /* ============================================================
-   9. 主题切换 (Theme Wipe via View Transition API)
+   4. 主题切换 (Theme Wipe via View Transition API)
    ============================================================ */
 const themeToggle = document.querySelector("[data-theme-toggle]");
 const themeMeta = document.querySelector('meta[name="theme-color"]');
-const THEME_UI_COLOR = { dark: "#06070a", light: "#f4f6fa" };
+const THEME_UI_COLOR = { dark: "#0a0b0e", light: "#f8f9fb" };
 
 function applyTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
@@ -708,7 +242,6 @@ function applyTheme(theme) {
 
 if (themeToggle) {
   themeToggle.addEventListener("click", () => {
-    soundUI.morph();
     const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
 
     const commit = () => {
@@ -741,7 +274,7 @@ if (themeToggle) {
 }
 
 /* ============================================================
-   10. 导航当前项高亮 & 视口滚动淡入 (Scroll & Nav Observers)
+   5. 导航高亮 (Nav Current Location Observer)
    ============================================================ */
 const navLinks = [...document.querySelectorAll('.nav a[href^="#"]')];
 if ("IntersectionObserver" in window && navLinks.length > 0) {
@@ -774,35 +307,8 @@ if ("IntersectionObserver" in window && navLinks.length > 0) {
   navSections.forEach((section) => navObserver.observe(section));
 }
 
-// 滚动淡入
-const revealTargets = [...document.querySelectorAll("[data-reveal]")];
-if (revealTargets.length > 0) {
-  const nearViewport = window.innerHeight * 1.3;
-  revealTargets.forEach((el) => {
-    if (el.getBoundingClientRect().top < nearViewport) el.classList.add("is-in");
-  });
-
-  if (!reduceMotion && "IntersectionObserver" in window) {
-    const revealObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-in");
-          revealObserver.unobserve(entry.target);
-        });
-      },
-      { rootMargin: "140px 0px", threshold: 0.05 }
-    );
-    revealTargets.forEach((el) => {
-      if (!el.classList.contains("is-in")) revealObserver.observe(el);
-    });
-  } else {
-    revealTargets.forEach((el) => el.classList.add("is-in"));
-  }
-}
-
 /* ============================================================
-   11. 首屏指标静态计数 & 年份初始化
+   6. 首屏指标静态计数 & 年份初始化
    ============================================================ */
 document.querySelectorAll("[data-count-to]").forEach((el) => {
   countUp(el, Number(el.dataset.countTo), Number(el.dataset.pad ?? 2));
@@ -815,5 +321,5 @@ if (currentYearEl) {
 
 updateProjectCounts(true);
 if (filterStatus) {
-  filterStatus.textContent = `当前显示全部 ${projCards.length} 个作品`;
+  filterStatus.textContent = `当前显示全部 ${projCards.length} 个项目`;
 }
