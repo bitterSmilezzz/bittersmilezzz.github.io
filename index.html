@@ -5,36 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="fangshoufanji 的个人项目。做几个自己每天在用的 macOS 小工具、DeepSeek Harness 插件与学习应用。遇到别扭的地方就写个工具顺一下，用着用着慢慢改。"
+      content="fangshoufanji 的个人项目。做几个自己每天在用的 macOS 小工具、DeepSeek Harness 插件与学习应用。把想法做成自己用的工具，做出来 · 用起来 · 慢慢改。"
     />
-    <meta name="theme-color" content="#0a0b0e" />
+    <meta name="theme-color" content="#08090a" />
     <title>fangshoufanji · 个人项目与工具</title>
     <link rel="canonical" href="https://bittersmilezzz.github.io/" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="fangshoufanji · 个人项目" />
-    <meta property="og:title" content="fangshoufanji · 个人项目与工具" />
+    <meta property="og:title" content="fangshoufanji · 把想法做成自己用的工具" />
     <meta
       property="og:description"
-      content="做几个自己每天在用的 macOS 小工具。遇到不顺手的地方就写代码解决，先做出能用的版本，再在日常使用里慢慢改。"
+      content="做几个自己每天在用的 macOS 原生小工具与智能体插件。从日常痛点出发，先做能用的版本，再在日常高频使用里慢慢打磨。"
     />
     <meta property="og:url" content="https://bittersmilezzz.github.io/" />
-    <meta
-      property="og:image"
-      content="https://bittersmilezzz.github.io/assets/preview.png"
-    />
+    <meta property="og:image" content="https://bittersmilezzz.github.io/assets/preview.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="zh_CN" />
     <meta name="twitter:card" content="summary_large_image" />
     <link
       rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2338bdf8'/%3E%3Cpath d='M19.6 20.4a4.4 4.4 0 1 1 0-8.8h.9v3h-.9a1.4 1.4 0 1 0 0 2.8h2.4v-2h-2.2v-3h5.2v5.1c0 1.9-1.5 3.4-3.4 3.4z' fill='%230a0b0e'/%3E%3C/svg%3E"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310b981'/%3E%3Cpath d='M19.6 20.4a4.4 4.4 0 1 1 0-8.8h.9v3h-.9a1.4 1.4 0 1 0 0 2.8h2.4v-2h-2.2v-3h5.2v5.1c0 1.9-1.5 3.4-3.4 3.4z' fill='%2308090a'/%3E%3C/svg%3E"
     />
-    <!-- 干净克制的西文字体：Plus Jakarta Sans + JetBrains Mono，中文回退系统原生苹方 -->
+    <!-- 工业级字体栈：Plus Jakarta Sans + JetBrains Mono，中文回退系统苹方 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -54,39 +51,56 @@
               : "dark";
         r.setAttribute("data-theme", theme);
         var m = document.querySelector('meta[name="theme-color"]');
-        if (m) m.setAttribute("content", theme === "light" ? "#f8f9fb" : "#0a0b0e");
+        if (m) m.setAttribute("content", theme === "light" ? "#f9fafb" : "#08090a");
       })();
     </script>
   </head>
   <body>
-    <a class="skip" href="#main">跳到主要内容</a>
+    <a class="skip-link" href="#main">跳到主要内容</a>
 
-    <!-- 浮动顶栏：纯粹干净的毛玻璃胶囊 -->
-    <header class="topbar">
-      <div class="topbar-inner">
-        <a class="brand" href="#top" aria-label="返回顶部">
-          <span class="brand-monogram" aria-hidden="true">f</span>
-          <span class="brand-name">fangshoufanji</span>
+    <!-- 零外部依赖内联 SVG 胶片微噪点 (来自 ui-research/creatives/06) -->
+    <div class="film-grain-overlay" aria-hidden="true"></div>
+
+    <!-- 顶部环境光照渐变 -->
+    <div class="ambient-glow" aria-hidden="true"></div>
+
+    <!-- 悬浮流体玻璃导航栏 (来自 ui-research/platforms/web/DESIGN-GUIDE.md) -->
+    <header class="island-nav-header">
+      <nav class="island-nav" aria-label="全局导航">
+        <a href="#top" class="nav-brand" aria-label="返回页面顶部">
+          <span class="brand-glyph">f/</span>
+          <span class="brand-text">fangshoufanji</span>
         </a>
-        <nav class="nav" aria-label="主导航">
-          <a href="#work" class="nav-item">项目</a>
-          <a href="#about" class="nav-item">关于</a>
-          <a href="#github-work" class="nav-item">仓库</a>
-        </nav>
-        <div class="topbar-actions">
-          <a class="btn-topbar-gh" href="https://github.com/bitterSmilezzz" target="_blank" rel="noreferrer">
+
+        <div class="nav-divider" aria-hidden="true"></div>
+
+        <div class="nav-links">
+          <a href="#work" class="nav-link">项目</a>
+          <a href="#about" class="nav-link">手记</a>
+          <a href="#github-work" class="nav-link">开源</a>
+        </div>
+
+        <div class="nav-actions">
+          <a
+            class="nav-gh-pill"
+            href="https://github.com/bitterSmilezzz"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="查看 GitHub 个人主页"
+          >
             <span>GitHub</span>
-            <span class="icon-arrow" aria-hidden="true">↗</span>
+            <span class="pill-arrow" aria-hidden="true">↗</span>
           </a>
+
           <button
             class="theme-toggle"
             type="button"
             data-theme-toggle
-            aria-label="切换深色 / 浅色主题"
+            aria-label="切换深色 / 浅色模式"
             aria-pressed="false"
           >
             <span class="theme-icon-box" aria-hidden="true">
-              <svg class="icon-sun" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="icon-sun" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="5"></circle>
                 <line x1="12" y1="1" x2="12" y2="3"></line>
                 <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -97,522 +111,855 @@
                 <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
                 <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
               </svg>
-              <svg class="icon-moon" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg class="icon-moon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
               </svg>
             </span>
           </button>
         </div>
-      </div>
+      </nav>
     </header>
 
     <main id="main">
       <!-- ============================================================
-           首屏：真实人类开发者口吻，干净大字，无彩虹渐变
+           首屏：画报级大标题 + 真实人类开发者身份印章 (ui-research/creatives/03)
            ============================================================ -->
-      <section class="hero" id="top" aria-labelledby="hero-title">
-        <div class="wrap hero-wrap">
-          <div class="hero-eyebrow">
-            <span class="status-dot-emerald" aria-hidden="true"></span>
-            <span>独立开发者 · macOS 工具 · DSH 插件</span>
+      <section class="hero-section" id="top" aria-labelledby="hero-title">
+        <div class="wrap">
+          <!-- 顶部工业标尺与坐标栏 (creatives/03) -->
+          <div class="telemetry-bar">
+            <div class="telemetry-left">
+              <span class="telemetry-cross">+</span>
+              <span class="telemetry-mono">INDEX // 2026.10</span>
+            </div>
+            <div class="telemetry-center">
+              <span>MACOS TOOLS · DSH PLUGINS · INDIE DEV</span>
+            </div>
+            <div class="telemetry-right">
+              <span class="status-indicator"></span>
+              <span class="telemetry-mono">SYS_ONLINE · 5 PROJECTS</span>
+            </div>
           </div>
 
-          <h1 id="hero-title" class="hero-title">
-            做几个自己每天在用的<br />
-            <span class="hero-title-focus">macOS 原生小工具。</span>
-          </h1>
+          <!-- 真实开发者身份胶囊 -->
+          <div class="developer-profile">
+            <img
+              class="developer-avatar"
+              src="https://avatars.githubusercontent.com/u/38044568?v=4"
+              alt="fangshoufanji 的头像"
+              width="52"
+              height="52"
+              loading="eager"
+            />
+            <div class="developer-meta">
+              <div class="developer-name-row">
+                <strong class="developer-handle">fangshoufanji</strong>
+                <a
+                  class="developer-gh"
+                  href="https://github.com/bitterSmilezzz"
+                  target="_blank"
+                  rel="noreferrer"
+                >@bitterSmilezzz ↗</a>
+              </div>
+              <span class="developer-role">个人开发者 · 独立实作</span>
+            </div>
+          </div>
 
-          <p class="hero-lede">
-            平时遇到不顺手的地方，就写个工具解决它。先做出能用的版本，再在日常高频使用里慢慢改，做成自己喜欢的样子。
+          <!-- 画报级排版主标题：8:1 视觉悬殊反差，无任何霓虹渐变 -->
+          <div class="hero-heading-block">
+            <h1 id="hero-title" class="hero-title">
+              把想法做成，
+              <span class="hero-inline-pill" aria-hidden="true">
+                <span class="inline-pill-dot"></span>
+                <span class="inline-pill-text">实作主义</span>
+              </span>
+              <br />
+              <span class="hero-title-accent">自己用的工具。</span>
+            </h1>
+          </div>
+
+          <p class="hero-manifesto">
+            平时遇到不顺手的地方，就写个工具顺一下。从日常痛点出发，先做出能用的版本，再放进日常高频工作流里慢慢改。
+            <strong>做出来 · 用起来 · 慢慢改。</strong>
           </p>
 
-          <div class="hero-cta-row">
-            <a class="btn btn-primary" href="#work">
-              <span>看看做的项目</span>
-              <span class="btn-arrow" aria-hidden="true">↓</span>
-            </a>
-            <a class="btn btn-secondary" href="https://github.com/bitterSmilezzz" target="_blank" rel="noreferrer">
-              <span>GitHub 个人主页</span>
-              <span class="btn-arrow" aria-hidden="true">↗</span>
-            </a>
-          </div>
-
-          <!-- 首屏真实数据状态条：干净不造作 -->
-          <div class="hero-summary-strip">
-            <div class="summary-cell">
-              <span class="summary-label">代表项目</span>
-              <div class="summary-num-row">
-                <span class="summary-num" data-count-to="4" data-pad="2">04</span>
-                <span class="summary-sub">个</span>
-              </div>
-              <span class="summary-desc"><span data-count-state="working">3</span> 个活跃维护中</span>
-            </div>
-            <div class="summary-cell">
-              <span class="summary-label">开源代码</span>
-              <div class="summary-num-row">
-                <span class="summary-num" data-count-to="12" data-pad="2">12</span>
-                <span class="summary-sub">repos</span>
-              </div>
-              <span class="summary-desc">公开仓库与实验项目</span>
-            </div>
-            <div class="summary-cell">
-              <span class="summary-label">常用技术</span>
-              <div class="summary-tech">SwiftUI · Swift · TS · Kotlin</div>
-              <span class="summary-desc">macOS 原生与智能体插件</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           项目区：真实软件质感展示，去伪存真
-           ============================================================ -->
-      <section class="section" id="work" aria-labelledby="work-title">
-        <div class="wrap">
-          <div class="section-head">
-            <div class="section-head-text">
-              <h2 id="work-title" class="section-title">做过这些项目</h2>
-              <p class="section-sub">从真实遇到的问题出发，不做概念玩具。</p>
-            </div>
-            <div class="readout" data-readout>
-              <span class="readout-num" data-count>04</span>
-              <span class="readout-unit">个项目</span>
-              <span class="readout-sep" aria-hidden="true">/</span>
-              <span class="readout-detail" data-readout-detail>3 个在开发</span>
-            </div>
-          </div>
-
-          <!-- 分类筛选器 -->
-          <div class="chips" role="group" aria-label="按项目类型筛选">
-            <button class="chip is-active" type="button" data-filter="all" aria-pressed="true">
-              <span>全部</span>
-              <span class="chip-count" data-count="all">04</span>
-            </button>
-            <button class="chip" type="button" data-filter="system" aria-pressed="false">
-              <span>系统工具</span>
-              <span class="chip-count" data-count="system">03</span>
-            </button>
-            <button class="chip" type="button" data-filter="learning" aria-pressed="false">
-              <span>学习工具</span>
-              <span class="chip-count" data-count="learning">01</span>
-            </button>
-            <button class="chip" type="button" data-filter="command" aria-pressed="false">
-              <span>命令行</span>
-              <span class="chip-count" data-count="command">00</span>
-            </button>
-          </div>
-          <p class="sr-only" id="filter-status" role="status" aria-live="polite"></p>
-
-          <!-- 项目网格：Paco 风格哑光双层卡片 -->
-          <div class="project-grid" data-proj>
-            <!-- 项目 1: AgentIsland (旗舰卡片) -->
-            <article class="proj-card proj-card-featured" data-state="working" data-category="system" data-project="agent-island">
-              <div class="card-shell">
-                <div class="card-core">
-                  <div class="card-header">
-                    <div class="badge badge-amber">
-                      <span class="badge-dot"></span>
-                      <span>macOS · 在开发</span>
-                    </div>
-                    <span class="card-index">01</span>
-                  </div>
-
-                  <div class="featured-grid">
-                    <div class="featured-content">
-                      <h3 class="proj-title">AgentIsland</h3>
-                      <p class="proj-tagline">macOS 灵动岛风格的本机 Agent 会话监控器</p>
-                      <p class="proj-desc">
-                        把本机各个智能体（Claude Code、DSH 等）的运行状态、正在做的事和需要确认的权限，集中放到灵动岛里。不用来回在各个终端窗口切来切去，看一眼屏幕顶部就知道它执行到哪一步了。
-                      </p>
-
-                      <div class="proj-tags">
-                        <span class="tag">macOS Native</span>
-                        <span class="tag">Swift</span>
-                        <span class="tag">SwiftUI</span>
-                        <span class="tag">Agent Tooling</span>
-                      </div>
-
-                      <div class="proj-actions">
-                        <button class="btn-card-primary proj-cta" type="button" aria-haspopup="dialog">
-                          <span>查看详情</span>
-                          <span aria-hidden="true">→</span>
-                        </button>
-                        <a class="btn-card-secondary" href="https://github.com/bitterSmilezzz/AgentIsland" target="_blank" rel="noreferrer">
-                          <span>GitHub 仓库</span>
-                          <span aria-hidden="true">↗</span>
-                        </a>
-                      </div>
-                    </div>
-
-                    <!-- 真实的 macOS 灵动岛预览结构 -->
-                    <div class="mockup-wrap">
-                      <div class="macos-notch-window">
-                        <div class="notch-bar">
-                          <div class="notch-island">
-                            <div class="island-status-group">
-                              <span class="island-icon">⌘</span>
-                              <div class="island-text-meta">
-                                <span class="island-title">AgentIsland</span>
-                                <span class="island-state">Claude Code · 正在分析目录结构</span>
-                              </div>
-                            </div>
-                            <div class="island-metric">
-                              <span class="token-num">4,280</span>
-                              <span class="token-lbl">tokens</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="notch-screen-hint">
-                          <span>常驻刘海屏下方 · 支持点击展开详情与审批</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- 项目 2: KnowFlick -->
-            <article class="proj-card" data-state="completed" data-category="learning" data-project="knowflick">
-              <div class="card-shell">
-                <div class="card-core">
-                  <div class="card-header">
-                    <div class="badge badge-green">
-                      <span class="badge-dot"></span>
-                      <span>macOS + Android · 已发布</span>
-                    </div>
-                    <span class="card-index">02</span>
-                  </div>
-
-                  <h3 class="proj-title">KnowFlick</h3>
-                  <p class="proj-tagline">个人学习工作台与复习规划工具</p>
-                  <p class="proj-desc">
-                    把日常阅读、知识管理和艾宾浩斯复习安排放进同一个应用里。自己用得顺手，也同时完善了 macOS 与 Android 双端。
-                  </p>
-
-                  <div class="mockup-clean-box">
-                    <div class="kf-bar-header">
-                      <span class="kf-bar-title">今日复习进度</span>
-                      <span class="kf-bar-value">85% 已完成</span>
-                    </div>
-                    <div class="kf-bar-track">
-                      <div class="kf-bar-fill" style="width: 85%;"></div>
-                    </div>
-                  </div>
-
-                  <div class="proj-tags">
-                    <span class="tag">macOS</span>
-                    <span class="tag">Android</span>
-                    <span class="tag">SwiftUI</span>
-                    <span class="tag">Kotlin</span>
-                  </div>
-
-                  <div class="proj-actions">
-                    <button class="btn-card-primary proj-cta" type="button" aria-haspopup="dialog">
-                      <span>查看详情</span>
-                      <span aria-hidden="true">→</span>
-                    </button>
-                    <a class="btn-card-secondary" href="https://github.com/bitterSmilezzz/knowflick" target="_blank" rel="noreferrer">
-                      <span>GitHub ↗</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- 项目 3: MacClean -->
-            <article class="proj-card" data-state="working" data-category="system" data-project="mac-clean">
-              <div class="card-shell">
-                <div class="card-core">
-                  <div class="card-header">
-                    <div class="badge badge-amber">
-                      <span class="badge-dot"></span>
-                      <span>macOS · 在开发</span>
-                    </div>
-                    <span class="card-index">03</span>
-                  </div>
-
-                  <h3 class="proj-title">MacClean</h3>
-                  <p class="proj-tagline">macOS 缓存与残留文件清理工具</p>
-                  <p class="proj-desc">
-                    整理开发和日常使用中堆积的应用缓存、卸载残留和重复文件。扫描项都有清楚的说明依据，尽量保留安全撤回路径。
-                  </p>
-
-                  <div class="mockup-clean-box">
-                    <div class="clean-storage-track">
-                      <div class="c-segment c-1" style="width: 48%;" title="应用缓存"></div>
-                      <div class="c-segment c-2" style="width: 28%;" title="卸载残留"></div>
-                      <div class="c-segment c-3" style="width: 24%;" title="重复文件"></div>
-                    </div>
-                    <div class="clean-storage-sub">
-                      <span>扫描已就绪 · 识别 18.4 GB 可清理文件</span>
-                    </div>
-                  </div>
-
-                  <div class="proj-tags">
-                    <span class="tag">macOS</span>
-                    <span class="tag">SwiftUI</span>
-                    <span class="tag">System utility</span>
-                  </div>
-
-                  <div class="proj-actions">
-                    <button class="btn-card-primary proj-cta" type="button" aria-haspopup="dialog">
-                      <span>查看详情</span>
-                      <span aria-hidden="true">→</span>
-                    </button>
-                    <a class="btn-card-secondary" href="https://github.com/bitterSmilezzz/MacClean" target="_blank" rel="noreferrer">
-                      <span>GitHub ↗</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- 项目 4: haier-ac-mac -->
-            <article class="proj-card" data-state="working" data-category="system" data-project="haier-ac-mac">
-              <div class="card-shell">
-                <div class="card-core">
-                  <div class="card-header">
-                    <div class="badge badge-amber">
-                      <span class="badge-dot"></span>
-                      <span>macOS · 在开发</span>
-                    </div>
-                    <span class="card-index">04</span>
-                  </div>
-
-                  <h3 class="proj-title">haier-ac-mac</h3>
-                  <p class="proj-tagline">macOS 菜单栏海尔空调控制器</p>
-                  <p class="proj-desc">
-                    通过海尔智家云控制空调的 macOS 菜单栏应用。常驻顶部，调温度、切模式直接点一下就行，不用每次去找手机 App。
-                  </p>
-
-                  <div class="mockup-clean-box">
-                    <div class="ac-preview-row">
-                      <div class="ac-temp-stat">
-                        <span class="ac-deg">24</span>
-                        <span class="ac-unit">°C</span>
-                      </div>
-                      <div class="ac-mode-badge">制冷 · 自动风速</div>
-                    </div>
-                  </div>
-
-                  <div class="proj-tags">
-                    <span class="tag">macOS</span>
-                    <span class="tag">SwiftUI</span>
-                    <span class="tag">Menu bar</span>
-                    <span class="tag">Home</span>
-                  </div>
-
-                  <div class="proj-actions">
-                    <button class="btn-card-primary proj-cta" type="button" aria-haspopup="dialog">
-                      <span>查看详情</span>
-                      <span aria-hidden="true">→</span>
-                    </button>
-                    <a class="btn-card-secondary" href="https://github.com/bitterSmilezzz/haier-ac-mac" target="_blank" rel="noreferrer">
-                      <span>GitHub ↗</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </div>
-          <p class="empty" hidden>这个分类暂时还没有项目。</p>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           关于与理念：真诚实在的开发者思考
-           ============================================================ -->
-      <section class="section" id="about" aria-labelledby="about-title">
-        <div class="wrap">
-          <div class="section-head">
-            <div class="section-head-text">
-              <h2 id="about-title" class="section-title">关于做工具的想法</h2>
-              <p class="section-sub">自己每天都要用的东西，做起来才最上心。</p>
-            </div>
-          </div>
-
-          <div class="about-grid">
-            <div class="about-card">
-              <span class="about-num">01</span>
-              <h3 class="about-heading">必须是自己真正在用的</h3>
-              <p class="about-desc">
-                不解决假问题。每一个工具都来自自己在 macOS 上开发或日常使用时碰到的别扭地方。自己每天都要忍受那个痛点，做出来的工具才会真正顺手。
-              </p>
+          <!-- 不对称底部信息与操作栏 -->
+          <div class="hero-bottom-grid">
+            <div class="hero-directive">
+              <span class="mono-label">[DIRECTIVE]</span>
+              <p>不解决伪需求。每个工具都直接运行在自己的工作流中，经历数千小时高频真实使用检验。</p>
             </div>
 
-            <div class="about-card">
-              <span class="about-num">02</span>
-              <h3 class="about-heading">核心流程越快跑通越好</h3>
-              <p class="about-desc">
-                先用最短时间把最核心的功能做出来，放进日常工作流里用几天。真实的问题和边角别扭的地方，自己一用就能立刻发现。
-              </p>
+            <div class="hero-tech-facts">
+              <span class="mono-label">[TOOLCHAIN]</span>
+              <p>Swift · SwiftUI · TypeScript · JavaScript · Kotlin · Python</p>
             </div>
 
-            <div class="about-card">
-              <span class="about-num">03</span>
-              <h3 class="about-heading">用得越久，改得越多</h3>
-              <p class="about-desc">
-                菜单栏常驻占用、键盘快捷键、微小弹窗的展开动效、网络断开时的容错。软件是长在真实机器上的，顺手的手感需要一遍遍慢慢磨出来。
-              </p>
-            </div>
-          </div>
-
-          <div class="stack-box">
-            <span class="stack-box-title">常用技术与语言：</span>
-            <div class="stack-pills">
-              <span class="pill">Swift</span>
-              <span class="pill">SwiftUI</span>
-              <span class="pill">macOS AppKit</span>
-              <span class="pill">TypeScript</span>
-              <span class="pill">JavaScript</span>
-              <span class="pill">Kotlin</span>
-              <span class="pill">Python</span>
-              <span class="pill">DeepSeek Harness</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           GitHub 仓库列表：清晰整齐的卡片
-           ============================================================ -->
-      <section class="section" id="github-work" aria-labelledby="repos-title">
-        <div class="wrap">
-          <div class="section-head">
-            <div class="section-head-text">
-              <h2 id="repos-title" class="section-title">GitHub 上的开源仓库</h2>
-              <p class="section-sub">插件、小脚本与一些实验性质的代码。</p>
-            </div>
-            <a class="link-more-gh" href="https://github.com/bitterSmilezzz?tab=repositories" target="_blank" rel="noreferrer">
-              <span>查看全部公开仓库</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
-
-          <div class="repo-grid">
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dsh-model-selector" target="_blank" rel="noreferrer">
-              <div class="repo-card-top">
-                <span class="repo-name">dsh-model-selector</span>
-                <span class="repo-arrow">↗</span>
-              </div>
-              <p class="repo-desc">模型选择器插件，支持快捷搜索、分组与推理强度切换。</p>
-              <div class="repo-meta">
-                <span class="lang-tag"><span class="lang-dot dot-ts"></span> TypeScript</span>
-              </div>
-            </a>
-
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dsh-asr-voice" target="_blank" rel="noreferrer">
-              <div class="repo-card-top">
-                <span class="repo-name">dsh-asr-voice</span>
-                <span class="repo-arrow">↗</span>
-              </div>
-              <p class="repo-desc">语音转提示词插件：录音识别、提示词整理并填入会话草稿。</p>
-              <div class="repo-meta">
-                <span class="lang-tag"><span class="lang-dot dot-js"></span> JavaScript</span>
-              </div>
-            </a>
-
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dsh-notify" target="_blank" rel="noreferrer">
-              <div class="repo-card-top">
-                <span class="repo-name">dsh-notify</span>
-                <span class="repo-arrow">↗</span>
-              </div>
-              <p class="repo-desc">桌面原生通知插件：审批提示、轮次完成与报错通知，点击直达会话。</p>
-              <div class="repo-meta">
-                <span class="lang-tag"><span class="lang-dot dot-js"></span> JavaScript</span>
-              </div>
-            </a>
-
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dsh-computer-use" target="_blank" rel="noreferrer">
-              <div class="repo-card-top">
-                <span class="repo-name">dsh-computer-use</span>
-                <span class="repo-arrow">↗</span>
-              </div>
-              <p class="repo-desc">电脑控制插件：基于 macOS 辅助功能的界面观测与按键输入。</p>
-              <div class="repo-meta">
-                <span class="lang-tag"><span class="lang-dot dot-ts"></span> TypeScript</span>
-              </div>
-            </a>
-
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dimagent-login-fix" target="_blank" rel="noreferrer">
-              <div class="repo-card-top">
-                <span class="repo-name">dimagent-login-fix</span>
-                <span class="repo-arrow">↗</span>
-              </div>
-              <p class="repo-desc">为 DimAgent 桌面端提供本地 TLS 网络桥接支持。</p>
-              <div class="repo-meta">
-                <span class="lang-tag"><span class="lang-dot dot-js"></span> JavaScript</span>
-              </div>
-            </a>
-
-            <a class="repo-card" href="https://github.com/bitterSmilezzz/dsh-plugins" target="_blank" rel="noreferrer">
-              <div class="repo-card-top">
-                <span class="repo-name">dsh-plugins</span>
-                <span class="repo-arrow">↗</span>
-              </div>
-              <p class="repo-desc">插件伞仓库，记录 DSH 插件规范契约并提供项目校验。</p>
-              <div class="repo-meta">
-                <span class="lang-tag"><span class="lang-dot dot-js"></span> JavaScript</span>
-              </div>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <!-- ============================================================
-           页尾：平实收尾
-           ============================================================ -->
-      <section class="section contact" id="contact" aria-labelledby="contact-title">
-        <div class="wrap contact-wrap">
-          <div class="contact-box">
-            <h2 id="contact-title" class="contact-title">
-              做自己想用的工具，<br />
-              也认真做好每一个细节。
-            </h2>
-            <p class="contact-lede">
-              项目会继续慢慢更新。如果有想交流的想法或问题，欢迎在 GitHub 找我。
-            </p>
-            <div class="contact-actions">
-              <a class="btn btn-primary" href="https://github.com/bitterSmilezzz" target="_blank" rel="noreferrer">
-                <span>去 GitHub 看看 @bitterSmilezzz</span>
+            <div class="hero-action-cell">
+              <a class="btn-action-primary" href="#work">
+                <span>浏览项目集</span>
+                <span class="btn-arrow" aria-hidden="true">↓</span>
+              </a>
+              <a
+                class="btn-action-ghost"
+                href="https://github.com/bitterSmilezzz"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>GitHub 主页</span>
                 <span class="btn-arrow" aria-hidden="true">↗</span>
               </a>
             </div>
           </div>
-
-          <footer class="foot">
-            <div class="foot-left">
-              <span>© <span id="current-year">2026</span> fangshoufanji</span>
-              <span class="foot-sep" aria-hidden="true">·</span>
-              <span>自己用，也认真做。</span>
-            </div>
-            <div class="foot-right">
-              <a class="foot-top-link" href="#top">回到顶部 ↑</a>
-            </div>
-          </footer>
         </div>
       </section>
+
+      <!-- ============================================================
+           项目集：8+4 不对称高维 Bento 网格 (ui-research/creatives/04)
+           搭配 探照灯光标追踪与 1px 晶体边框 (ui-research/creatives/01)
+           ============================================================ -->
+      <section class="section-work" id="work" aria-labelledby="work-title">
+        <div class="wrap">
+          <div class="section-header-row">
+            <div>
+              <div class="section-eyebrow">
+                <span class="mono-prefix">// 01</span>
+                <span>FEATURED PROJECTS</span>
+              </div>
+              <h2 id="work-title" class="section-title">自研项目与日常工具</h2>
+            </div>
+
+            <div class="work-status-badge" aria-label="项目总数统计">
+              <span class="badge-count" data-project-counter>05</span>
+              <span class="badge-label">个自研项目</span>
+            </div>
+          </div>
+
+          <!-- 分类筛选器 -->
+          <div class="filter-controls" role="group" aria-label="按项目类型筛选">
+            <button class="filter-tab is-active" type="button" data-filter="all" aria-pressed="true">
+              <span>全部</span>
+              <span class="filter-pill" data-count="all">05</span>
+            </button>
+            <button class="filter-tab" type="button" data-filter="system" aria-pressed="false">
+              <span>macOS 系统工具</span>
+              <span class="filter-pill" data-count="system">03</span>
+            </button>
+            <button class="filter-tab" type="button" data-filter="learning" aria-pressed="false">
+              <span>学习工作台</span>
+              <span class="filter-pill" data-count="learning">01</span>
+            </button>
+            <button class="filter-tab" type="button" data-filter="command" aria-pressed="false">
+              <span>命令行与网络</span>
+              <span class="filter-pill" data-count="command">01</span>
+            </button>
+          </div>
+          <p class="sr-only" id="filter-status" role="status" aria-live="polite"></p>
+
+          <!-- 不对称 12 栅格 Bento 网格 (ui-research/creatives/04) -->
+          <div class="bento-grid" data-project-grid>
+            <!-- ----------------------------------------------------
+                 卡片 1: 8 栏主卡 (Hero Bento) — AgentIsland
+                 ---------------------------------------------------- -->
+            <article
+              class="spotlight-card bento-col-8"
+              data-category="system"
+              data-project="agent-island"
+            >
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+
+                <div class="card-body">
+                  <div class="card-meta-bar">
+                    <div class="meta-tag">
+                      <span class="tag-pulse"></span>
+                      <span class="tag-text">macOS · 会话监控</span>
+                    </div>
+                    <span class="card-index-mono">MODULE // 01</span>
+                  </div>
+
+                  <div class="bento-split-layout">
+                    <div class="bento-content-side">
+                      <h3 class="bento-title">AgentIsland</h3>
+                      <p class="bento-tagline">常驻屏幕顶部的本机 Agent 状态与权限中心</p>
+                      <p class="bento-desc">
+                        把本机各个智能体（Claude Code、Codex、DSH 等）的运行状态、正在执行的任务和权限确认集中放到屏幕顶部灵动岛。不用来回在终端窗口切来切去，看一眼屏幕顶部就知道它执行到哪一步了。
+                      </p>
+
+                      <div class="tech-tag-row">
+                        <span class="tech-tag">macOS Native</span>
+                        <span class="tech-tag">Swift</span>
+                        <span class="tech-tag">SwiftUI</span>
+                        <span class="tech-tag">Agent Tooling</span>
+                      </div>
+
+                      <div class="card-actions-row">
+                        <button class="btn-card-open" type="button" aria-haspopup="dialog" data-open-project="agent-island">
+                          <span>查看完整说明</span>
+                          <span class="action-arrow" aria-hidden="true">→</span>
+                        </button>
+                        <a
+                          class="btn-card-repo"
+                          href="https://github.com/bitterSmilezzz/AgentIsland"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <span>源码仓库</span>
+                          <span class="action-arrow" aria-hidden="true">↗</span>
+                        </a>
+                      </div>
+                    </div>
+
+                    <!-- 实体交互微组件 (Living Micro-Widget) -->
+                    <div class="bento-widget-side">
+                      <div class="island-notch-preview">
+                        <div class="notch-island-header">
+                          <span class="notch-mac-label">DYNAMIC ISLAND PREVIEW</span>
+                          <span class="notch-live-badge">LIVE STATE</span>
+                        </div>
+
+                        <div class="notch-dynamic-pill">
+                          <div class="pill-left">
+                            <span class="notch-icon">⌘</span>
+                            <div class="notch-titles">
+                              <span class="notch-agent-name">Claude Code</span>
+                              <span class="notch-task-name">正在检索目录结构与依赖</span>
+                            </div>
+                          </div>
+                          <div class="pill-right">
+                            <span class="token-value">4,280</span>
+                            <span class="token-unit">tokens</span>
+                          </div>
+                        </div>
+
+                        <div class="notch-telemetry-row">
+                          <div class="telemetry-item">
+                            <span class="tel-label">CPU FOOTPRINT</span>
+                            <span class="tel-val">0.6%</span>
+                          </div>
+                          <div class="telemetry-item">
+                            <span class="tel-label">MEMORY</span>
+                            <span class="tel-val">28.4 MB</span>
+                          </div>
+                          <div class="telemetry-item">
+                            <span class="tel-label">APPROVAL</span>
+                            <span class="tel-val val-green">AUTO-PASS</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ----------------------------------------------------
+                 卡片 2: 4 栏辅卡 — KnowFlick (学习工作台)
+                 ---------------------------------------------------- -->
+            <article
+              class="spotlight-card bento-col-4"
+              data-category="learning"
+              data-project="knowflick"
+            >
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+
+                <div class="card-body flex-col-between">
+                  <div>
+                    <div class="card-meta-bar">
+                      <div class="meta-tag">
+                        <span class="tag-dot-green"></span>
+                        <span class="tag-text">macOS + Android · 已发布</span>
+                      </div>
+                      <span class="card-index-mono">MODULE // 02</span>
+                    </div>
+
+                    <h3 class="bento-title">KnowFlick</h3>
+                    <p class="bento-tagline">个人学习工作台与复习规划工具</p>
+                    <p class="bento-desc">
+                      把日常阅读、知识卡片与艾宾浩斯复习安排放进同一个工作台。电脑端深度归纳，移动端碎片化复习。
+                    </p>
+                  </div>
+
+                  <!-- 学习进度微组件 -->
+                  <div class="widget-learning-box">
+                    <div class="learning-header">
+                      <span class="learning-title">今日复习进度</span>
+                      <span class="learning-rate">85% 已完成</span>
+                    </div>
+                    <div class="learning-track">
+                      <div class="learning-fill" style="width: 85%;"></div>
+                    </div>
+                    <div class="learning-footer-meta">
+                      <span>今日待复习 4 张卡片</span>
+                      <span>连续打卡 28 天</span>
+                    </div>
+                  </div>
+
+                  <div class="card-bottom-group">
+                    <div class="tech-tag-row">
+                      <span class="tech-tag">macOS</span>
+                      <span class="tech-tag">Android</span>
+                      <span class="tech-tag">SwiftUI</span>
+                      <span class="tech-tag">Kotlin</span>
+                    </div>
+
+                    <div class="card-actions-row">
+                      <button class="btn-card-open" type="button" aria-haspopup="dialog" data-open-project="knowflick">
+                        <span>查看详情</span>
+                        <span class="action-arrow" aria-hidden="true">→</span>
+                      </button>
+                      <a
+                        class="btn-card-repo"
+                        href="https://github.com/bitterSmilezzz/knowflick"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span>GitHub ↗</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ----------------------------------------------------
+                 卡片 3: 4 栏辅卡 — MacClean (系统整理)
+                 ---------------------------------------------------- -->
+            <article
+              class="spotlight-card bento-col-4"
+              data-category="system"
+              data-project="mac-clean"
+            >
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+
+                <div class="card-body flex-col-between">
+                  <div>
+                    <div class="card-meta-bar">
+                      <div class="meta-tag">
+                        <span class="tag-pulse"></span>
+                        <span class="tag-text">macOS · 系统整理</span>
+                      </div>
+                      <span class="card-index-mono">MODULE // 03</span>
+                    </div>
+
+                    <h3 class="bento-title">MacClean</h3>
+                    <p class="bento-tagline">macOS 缓存与卸载残留清理工具</p>
+                    <p class="bento-desc">
+                      整理开发和日常使用中堆积的应用缓存、卸载残留和重复文件。每一项都说明为什么能删，保留安全撤回路径。
+                    </p>
+                  </div>
+
+                  <!-- 存储分段微组件 (ui-research/creatives/04) -->
+                  <div class="widget-storage-box">
+                    <div class="storage-meta-row">
+                      <span class="storage-label">扫描已就绪</span>
+                      <span class="storage-size">18.4 GB 可清理</span>
+                    </div>
+                    <div class="storage-segment-bar">
+                      <div class="segment seg-cache" style="width: 52%;" title="开发缓存 9.5 GB"></div>
+                      <div class="segment seg-residue" style="width: 28%;" title="残留文件 5.1 GB"></div>
+                      <div class="segment seg-dup" style="width: 20%;" title="大文件 3.8 GB"></div>
+                    </div>
+                    <div class="storage-legend">
+                      <span><i class="dot-cache"></i> 缓存 (52%)</span>
+                      <span><i class="dot-residue"></i> 残留 (28%)</span>
+                      <span><i class="dot-dup"></i> 重复 (20%)</span>
+                    </div>
+                  </div>
+
+                  <div class="card-bottom-group">
+                    <div class="tech-tag-row">
+                      <span class="tech-tag">macOS</span>
+                      <span class="tech-tag">SwiftUI</span>
+                      <span class="tech-tag">System Utility</span>
+                    </div>
+
+                    <div class="card-actions-row">
+                      <button class="btn-card-open" type="button" aria-haspopup="dialog" data-open-project="mac-clean">
+                        <span>查看详情</span>
+                        <span class="action-arrow" aria-hidden="true">→</span>
+                      </button>
+                      <a
+                        class="btn-card-repo"
+                        href="https://github.com/bitterSmilezzz/MacClean"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span>GitHub ↗</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ----------------------------------------------------
+                 卡片 4: 4 栏辅卡 — BarShelf (菜单栏图标管理)
+                 ---------------------------------------------------- -->
+            <article
+              class="spotlight-card bento-col-4"
+              data-category="system"
+              data-project="barshelf"
+            >
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+
+                <div class="card-body flex-col-between">
+                  <div>
+                    <div class="card-meta-bar">
+                      <div class="meta-tag">
+                        <span class="tag-pulse"></span>
+                        <span class="tag-text">macOS · 菜单栏</span>
+                      </div>
+                      <span class="card-index-mono">MODULE // 04</span>
+                    </div>
+
+                    <h3 class="bento-title">BarShelf</h3>
+                    <p class="bento-tagline">菜单栏图标折叠与空间诊断面板</p>
+                    <p class="bento-desc">
+                      折叠不常用的菜单栏图标，让右上方不再臃肿；配合诊断面板，一眼看清是哪个软件在霸占刘海屏两侧的空间。
+                    </p>
+                  </div>
+
+                  <!-- 菜单栏图标交互微组件 -->
+                  <div class="widget-shelf-box">
+                    <div class="shelf-bar">
+                      <div class="shelf-visible-icons">
+                        <span class="shelf-icon">⌘</span>
+                        <span class="shelf-icon">📶</span>
+                        <span class="shelf-icon">🔋</span>
+                      </div>
+                      <div class="shelf-divider-pill">
+                        <span class="shelf-indicator">|</span>
+                      </div>
+                      <div class="shelf-hidden-icons" id="shelf-hidden-group">
+                        <span class="shelf-icon-dim">◒</span>
+                        <span class="shelf-icon-dim">◍</span>
+                        <span class="shelf-icon-dim">⌁</span>
+                      </div>
+                    </div>
+                    <div class="shelf-control-row">
+                      <span class="shelf-hint">状态：3 个图标已折叠收起</span>
+                      <button class="btn-shelf-toggle" type="button" id="btn-shelf-toggle">切换展开</button>
+                    </div>
+                  </div>
+
+                  <div class="card-bottom-group">
+                    <div class="tech-tag-row">
+                      <span class="tech-tag">macOS</span>
+                      <span class="tech-tag">AppKit</span>
+                      <span class="tech-tag">Menu Bar</span>
+                    </div>
+
+                    <div class="card-actions-row">
+                      <button class="btn-card-open" type="button" aria-haspopup="dialog" data-open-project="barshelf">
+                        <span>查看详情</span>
+                        <span class="action-arrow" aria-hidden="true">→</span>
+                      </button>
+                      <a
+                        class="btn-card-repo"
+                        href="https://github.com/bitterSmilezzz/BarShelf"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span>GitHub ↗</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ----------------------------------------------------
+                 卡片 5: 4 栏辅卡 — hotel-cast (命令行与网络)
+                 ---------------------------------------------------- -->
+            <article
+              class="spotlight-card bento-col-4"
+              data-category="command"
+              data-project="hotel-cast"
+            >
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+
+                <div class="card-body flex-col-between">
+                  <div>
+                    <div class="card-meta-bar">
+                      <div class="meta-tag">
+                        <span class="tag-pulse"></span>
+                        <span class="tag-text">命令行 · 投屏握手</span>
+                      </div>
+                      <span class="card-index-mono">MODULE // 05</span>
+                    </div>
+
+                    <h3 class="bento-title">hotel-cast</h3>
+                    <p class="bento-tagline">命令行酒店电视网络认证与流媒体推送</p>
+                    <p class="bento-desc">
+                      解决酒店电视局域网隔离与认证难题。在终端里一行命令自动完成网络认证握手，无缝推送本地视频或实时投屏。
+                    </p>
+                  </div>
+
+                  <!-- 终端微组件 -->
+                  <div class="widget-terminal-box">
+                    <div class="terminal-bar-top">
+                      <span class="term-dot dot-red"></span>
+                      <span class="term-dot dot-yellow"></span>
+                      <span class="term-dot dot-green"></span>
+                      <span class="term-title">hotel-cast --cli</span>
+                    </div>
+                    <div class="terminal-content">
+                      <p class="term-cmd"><span class="term-prompt">$</span> hotel-cast --scan</p>
+                      <p class="term-out out-ok">✓ 发现设备: Room 802 TV (DLNA)</p>
+                      <p class="term-out out-info">✓ 握手成功 · 推送端口已建立</p>
+                    </div>
+                  </div>
+
+                  <div class="card-bottom-group">
+                    <div class="tech-tag-row">
+                      <span class="tech-tag">CLI</span>
+                      <span class="tech-tag">Python</span>
+                      <span class="tech-tag">Networking</span>
+                    </div>
+
+                    <div class="card-actions-row">
+                      <button class="btn-card-open" type="button" aria-haspopup="dialog" data-open-project="hotel-cast">
+                        <span>查看详情</span>
+                        <span class="action-arrow" aria-hidden="true">→</span>
+                      </button>
+                      <a
+                        class="btn-card-repo"
+                        href="https://github.com/bitterSmilezzz/hotel-cast"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        <span>GitHub ↗</span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <p class="empty-state" hidden>当前分类暂无项目。</p>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           做事方式与技术规格：不对称 8+4 排版
+           ============================================================ -->
+      <section class="section-about" id="about" aria-labelledby="about-title">
+        <div class="wrap">
+          <div class="section-eyebrow">
+            <span class="mono-prefix">// 02</span>
+            <span>PHILOSOPHY & CRAFT</span>
+          </div>
+          <h2 id="about-title" class="section-title">做事方式与工程规格</h2>
+
+          <div class="about-bento-grid">
+            <!-- 8 栏：核心思考与手记 -->
+            <div class="spotlight-card about-col-8">
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+
+                <div class="card-body">
+                  <div class="card-meta-bar">
+                    <span class="meta-tag-clean">DEVELOPER LOG</span>
+                    <span class="card-index-mono">CRAFT // 01</span>
+                  </div>
+
+                  <h3 class="about-card-title">从真实痛点出发，自己用、慢慢修。</h3>
+
+                  <div class="philosophy-steps">
+                    <div class="step-row">
+                      <span class="step-num">01</span>
+                      <div class="step-content">
+                        <strong>遇到一个小问题</strong>
+                        <p>日常在 macOS 上写代码或用电脑时，碰到不顺手、反复折腾的地方，把它记下来。</p>
+                      </div>
+                    </div>
+
+                    <div class="step-row">
+                      <span class="step-num">02</span>
+                      <div class="step-content">
+                        <strong>做一个自己用得上的版本</strong>
+                        <p>先用最短的时间把最核心的交互和逻辑跑顺，不做虚假的大架构，立刻放进自己的日常环境。</p>
+                      </div>
+                    </div>
+
+                    <div class="step-row">
+                      <span class="step-num">03</span>
+                      <div class="step-content">
+                        <strong>用着用着，再继续改</strong>
+                        <p>快捷键顺不顺、常驻内存占多大、唤起有没有延迟——真实的手感都是在日常几千小时高频使用里磨出来的。</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4 栏：真实技术栈规格 -->
+            <div class="spotlight-card about-col-4">
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+
+                <div class="card-body flex-col-between">
+                  <div>
+                    <div class="card-meta-bar">
+                      <span class="meta-tag-clean">TOOLCHAIN</span>
+                      <span class="card-index-mono">STACK // 02</span>
+                    </div>
+
+                    <h3 class="about-card-title">常用技术事实</h3>
+                    <p class="about-card-desc">针对不同场景选用最原生、性能最高的技术栈：</p>
+
+                    <ul class="tech-spec-list">
+                      <li>
+                        <span class="spec-name">Swift / SwiftUI / AppKit</span>
+                        <span class="spec-role">macOS 原生工具与灵动岛交互</span>
+                      </li>
+                      <li>
+                        <span class="spec-name">TypeScript / JavaScript</span>
+                        <span class="spec-role">DeepSeek Harness 插件与契约</span>
+                      </li>
+                      <li>
+                        <span class="spec-name">Kotlin</span>
+                        <span class="spec-role">Android 端学习工作台同步</span>
+                      </li>
+                      <li>
+                        <span class="spec-name">Python / Bash</span>
+                        <span class="spec-role">协议逆向与命令行自动化</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div class="open-source-fact-pill">
+                    <span class="fact-num">12+</span>
+                    <span class="fact-desc">GitHub 公开仓库与实验项目</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           GitHub 开源仓库：高密度整齐行卡 (去 AI 浮夸，展示真实代码)
+           ============================================================ -->
+      <section class="section-repos" id="github-work" aria-labelledby="repos-title">
+        <div class="wrap">
+          <div class="section-header-row">
+            <div>
+              <div class="section-eyebrow">
+                <span class="mono-prefix">// 03</span>
+                <span>OPEN SOURCE REPOSITORIES</span>
+              </div>
+              <h2 id="repos-title" class="section-title">GitHub 上的开源代码</h2>
+            </div>
+
+            <a
+              class="link-more-gh"
+              href="https://github.com/bitterSmilezzz?tab=repositories"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>浏览全部公开仓库</span>
+              <span class="action-arrow" aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div class="repos-list">
+            <!-- 仓库 1 -->
+            <a
+              class="repo-row-card spotlight-card"
+              href="https://github.com/bitterSmilezzz/dsh-model-selector"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+                <div class="repo-row-inner">
+                  <div class="repo-main-info">
+                    <div class="repo-name-group">
+                      <span class="repo-name">dsh-model-selector</span>
+                      <span class="badge-lang lang-ts">TypeScript</span>
+                    </div>
+                    <p class="repo-desc">DSH 模型选择器插件，支持快捷搜索、分组与推理强度平滑调节。</p>
+                  </div>
+                  <span class="repo-external-arrow" aria-hidden="true">↗</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- 仓库 2 -->
+            <a
+              class="repo-row-card spotlight-card"
+              href="https://github.com/bitterSmilezzz/dsh-asr-voice"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+                <div class="repo-row-inner">
+                  <div class="repo-main-info">
+                    <div class="repo-name-group">
+                      <span class="repo-name">dsh-asr-voice</span>
+                      <span class="badge-lang lang-js">JavaScript</span>
+                    </div>
+                    <p class="repo-desc">语音转提示词插件：录音识别、语气与表达整理并自动填入会话草稿。</p>
+                  </div>
+                  <span class="repo-external-arrow" aria-hidden="true">↗</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- 仓库 3 -->
+            <a
+              class="repo-row-card spotlight-card"
+              href="https://github.com/bitterSmilezzz/dimagent-login-fix"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+                <div class="repo-row-inner">
+                  <div class="repo-main-info">
+                    <div class="repo-name-group">
+                      <span class="repo-name">dimagent-login-fix</span>
+                      <span class="badge-lang lang-js">JavaScript</span>
+                    </div>
+                    <p class="repo-desc">为 DimAgent 桌面端提供本地 TLS 网络握手与桥接支持。</p>
+                  </div>
+                  <span class="repo-external-arrow" aria-hidden="true">↗</span>
+                </div>
+              </div>
+            </a>
+
+            <!-- 仓库 4 -->
+            <a
+              class="repo-row-card spotlight-card"
+              href="https://github.com/bitterSmilezzz/dsh-plugins"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="specular-rim" aria-hidden="true"></div>
+                <div class="repo-row-inner">
+                  <div class="repo-main-info">
+                    <div class="repo-name-group">
+                      <span class="repo-name">dsh-plugins</span>
+                      <span class="badge-lang lang-js">JavaScript</span>
+                    </div>
+                    <p class="repo-desc">DSH 插件伞仓库，规范插件契约标准并提供自动化校验工具。</p>
+                  </div>
+                  <span class="repo-external-arrow" aria-hidden="true">↗</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           页脚与联系：真诚朴素收尾
+           ============================================================ -->
+      <footer class="site-footer" id="contact">
+        <div class="wrap">
+          <div class="footer-card spotlight-card">
+            <div class="spotlight-border" aria-hidden="true"></div>
+            <div class="spotlight-core">
+              <div class="spotlight-surface" aria-hidden="true"></div>
+              <div class="specular-rim" aria-hidden="true"></div>
+
+              <div class="footer-card-inner">
+                <div class="footer-copy">
+                  <h3 class="footer-title">把想法做成自己用的工具。</h3>
+                  <p class="footer-desc">
+                    项目会持续在日常使用中慢慢打磨与更新。如果有想法或发现问题，欢迎在 GitHub 交流。
+                  </p>
+                </div>
+
+                <div class="footer-actions">
+                  <a
+                    class="btn-footer-gh"
+                    href="https://github.com/bitterSmilezzz"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <span>在 GitHub 关注 @bitterSmilezzz</span>
+                    <span class="btn-arrow" aria-hidden="true">↗</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-bar">
+            <div class="footer-left">
+              <span>© <span id="current-year">2026</span> fangshoufanji</span>
+              <span class="footer-sep" aria-hidden="true">/</span>
+              <span>自己用，也认真做。</span>
+            </div>
+
+            <div class="footer-right">
+              <a class="footer-top-link" href="#top">回到顶部 ↑</a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
 
-    <!-- 项目详情弹窗 -->
+    <!-- 项目详情原生语义弹窗 -->
     <dialog class="project-dialog" aria-labelledby="dialog-title" aria-describedby="dialog-description">
       <div class="dialog-shell">
-        <button class="dialog-close" type="button" aria-label="关闭项目详情">
-          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <button class="dialog-close" type="button" aria-label="关闭项目详情" data-dialog-close>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
           </svg>
         </button>
-        <div class="dialog-meta" id="dialog-tags"></div>
-        <h2 class="dialog-title" id="dialog-title"></h2>
-        <p class="dialog-desc" id="dialog-description"></p>
-        <div class="dialog-actions">
-          <a class="btn btn-primary" id="dialog-link" href="#" target="_blank" rel="noreferrer">
-            <span>打开 GitHub 仓库</span>
+
+        <div class="dialog-header">
+          <div class="dialog-tags" id="dialog-tags"></div>
+          <h2 class="dialog-title" id="dialog-title"></h2>
+          <p class="dialog-subtitle" id="dialog-subtitle"></p>
+        </div>
+
+        <div class="dialog-body">
+          <p class="dialog-desc" id="dialog-description"></p>
+        </div>
+
+        <div class="dialog-footer">
+          <a class="btn-dialog-primary" id="dialog-link" href="#" target="_blank" rel="noreferrer">
+            <span>访问 GitHub 代码仓库</span>
             <span class="btn-arrow" aria-hidden="true">↗</span>
           </a>
-          <p class="dialog-private" id="dialog-private" hidden>该项目暂无公开代码仓库。</p>
+          <p class="dialog-private-hint" id="dialog-private" hidden>该项目暂未开放公开仓库。</p>
         </div>
       </div>
     </dialog>
