@@ -340,4 +340,49 @@ document.addEventListener("DOMContentLoaded", () => {
   if (yearEl) {
     yearEl.textContent = String(new Date().getFullYear());
   }
+
+  // 9. 顶栏滚动高亮：判定线取视口 30% 高度处，高亮「上沿已越过判定线的
+  //    最后一个区块」；顶部 hero 与页脚区域无区块越线 → 全部取消。
+  //    不用 IntersectionObserver 的相交占比：区块高矮不一时占比会偏袒矮者
+  //    （实测 suite 位置上 flagship 尾部以 0.081 vs 0.067 抢走高亮），
+  //    「最后越线者」是确定性的。rAF 节流，读几何与写状态不同帧交错。
+  const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+  if (navLinks.length) {
+    const linkBySection = new Map();
+    navLinks.forEach((link) => {
+      const href = link.getAttribute("href");
+      if (!href) return;
+      const section = document.querySelector(href);
+      if (section) linkBySection.set(section, link);
+    });
+
+    if (linkBySection.size) {
+      const applyCurrent = () => {
+        const probe = window.innerHeight * 0.3;
+        let best = null;
+        let bestTop = -Infinity;
+        linkBySection.forEach((_link, section) => {
+          const top = section.getBoundingClientRect().top;
+          if (top <= probe && top > bestTop) {
+            bestTop = top;
+            best = section;
+          }
+        });
+        linkBySection.forEach((link, section) => {
+          if (section === best) {
+            link.setAttribute("aria-current", "true");
+          } else {
+            link.removeAttribute("aria-current");
+          }
+        });
+      };
+
+      // 不做 rAF 节流：4 个区块每次滚动事件读一次几何，开销可忽略；
+      // 且 rAF 在后台标签页会被停掉（旧档 countUp 兜底同源教训），
+      // 节流器一旦卡住高亮就永远停在过期位置。
+      window.addEventListener("scroll", applyCurrent, { passive: true });
+      window.addEventListener("resize", applyCurrent, { passive: true });
+      applyCurrent();
+    }
+  }
 });
