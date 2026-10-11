@@ -39,13 +39,14 @@ html[data-theme="dark"] {
 
   --text-primary: #f4f4f6;      /* 96% 纯净高对比白 */
   --text-secondary: #a1a1aa;    /* 苹果副标题中灰 */
-  --text-muted: #71717a;        /* 辅助与标尺等宽灰 */
+  --text-muted: #8e8e99;        /* 辅助与标尺等宽灰（深底上 ≥5.2:1，原 #71717a 仅 3.8） */
 
   --border-subtle: rgba(255, 255, 255, 0.08);
   --border-rim: rgba(255, 255, 255, 0.16);
   --border-active: rgba(255, 255, 255, 0.28);
 
   --accent: #10b981;            /* 翠绿 (饱和度 <80%) */
+  --accent-ink: #10b981;        /* 小号强调文字（深底上本就达标） */
   --accent-soft: rgba(16, 185, 129, 0.12);
   --accent-border: rgba(16, 185, 129, 0.28);
 
@@ -70,13 +71,14 @@ html[data-theme="light"] {
 
   --text-primary: #09090b;
   --text-secondary: #52525b;
-  --text-muted: #71717a;
+  --text-muted: #5b5b64;        /* 白底 ≥6.3:1（原 #71717a 在卡面仅 4.0–4.3） */
 
   --border-subtle: rgba(0, 0, 0, 0.08);
   --border-rim: rgba(0, 0, 0, 0.14);
   --border-active: rgba(0, 0, 0, 0.24);
 
   --accent: #059669;
+  --accent-ink: #047857;        /* 小号强调文字压深档（白底 5.5:1，#059669 仅 3.8） */
   --accent-soft: rgba(5, 150, 105, 0.1);
   --accent-border: rgba(5, 150, 105, 0.25);
 
@@ -428,6 +430,8 @@ html[data-theme="light"] .island-nav {
   display: flex;
   align-items: center;
   gap: 0.35rem;
+  padding: 0.4rem 0.2rem;
+  margin: -0.4rem -0.2rem;
   font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: -0.02em;
@@ -435,7 +439,7 @@ html[data-theme="light"] .island-nav {
 
 .brand-glyph {
   font-family: var(--font-mono);
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .brand-text {
@@ -457,6 +461,8 @@ html[data-theme="light"] .island-nav {
 .nav-link {
   font-size: 0.825rem;
   font-weight: 500;
+  padding: 0.4rem 0.2rem;
+  margin: -0.4rem -0.2rem;
   color: var(--text-secondary);
   transition: color var(--dur-fast);
 }
@@ -679,8 +685,10 @@ html[data-theme="light"] .icon-moon { display: block; }
 
 .developer-gh {
   font-family: var(--font-mono);
+  padding: 0.3rem 0.1rem;
+  margin: -0.3rem -0.1rem;
   font-size: 0.725rem;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .developer-gh:hover {
@@ -903,7 +911,7 @@ html[data-theme="light"] .spotlight-border {
   font-size: 0.65rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  color: var(--accent);
+  color: var(--accent-ink);
   background: var(--accent-soft);
   border: 1px solid var(--accent-border);
   padding: 0.25rem 0.65rem;
@@ -932,7 +940,7 @@ html[data-theme="light"] .spotlight-border {
   font-size: 0.675rem;
   font-weight: 700;
   letter-spacing: 0.06em;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin-bottom: 0.4rem;
 }
 
@@ -1143,7 +1151,7 @@ html[data-theme="light"] .spotlight-border {
 .btn-subbar-approve {
   padding: 0.25rem 0.75rem;
   border-radius: 6px;
-  background: #ff453a;
+  background: #d92c2a;
   color: #ffffff;
   font-size: 0.7rem;
   font-weight: 700;
@@ -1234,7 +1242,7 @@ html[data-theme="light"] .stage-toggle-group {
 }
 
 .val-emerald {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 /* 旗舰卡片操作区 */
@@ -1293,7 +1301,7 @@ html[data-theme="light"] .stage-toggle-group {
   gap: 0.45rem;
   font-family: var(--font-mono);
   font-size: 0.725rem;
-  color: var(--accent);
+  color: var(--accent-ink);
   letter-spacing: 0.08em;
   margin-bottom: 0.35rem;
 }
@@ -1335,6 +1343,11 @@ html[data-theme="light"] .stage-toggle-group {
   color: var(--text-secondary);
   transition: color var(--dur-fast), background-color var(--dur-fast),
     border-color var(--dur-fast);
+}
+
+.filter-tab.is-empty {
+  border-style: dashed;
+  cursor: not-allowed;
 }
 
 .filter-tab:hover {
@@ -1430,7 +1443,7 @@ html[data-theme="light"] .filter-tab.is-active .filter-pill {
 .bento-app-slogan {
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-ink);
   margin-bottom: 0.75rem;
 }
 
@@ -1495,7 +1508,7 @@ html[data-theme="light"] .filter-tab.is-active .filter-pill {
 .learning-rate {
   font-family: var(--font-mono);
   font-weight: 700;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .learning-track {
@@ -1588,78 +1601,6 @@ html[data-theme="light"] .learning-track {
 .dot-residue { background: #eab308; }
 .dot-dup { background: #ef4444; }
 
-/* 3. BarShelf 菜单栏微组件 */
-.widget-shelf-box {
-  padding: 1.1rem;
-  border-radius: 1rem;
-  background: var(--bg-inset);
-  border: 1px solid var(--border-subtle);
-  margin-bottom: 1.25rem;
-}
-
-.shelf-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.45rem 0.75rem;
-  border-radius: 0.5rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid var(--border-subtle);
-  margin-bottom: 0.5rem;
-}
-
-html[data-theme="light"] .shelf-bar {
-  background: rgba(255, 255, 255, 0.6);
-}
-
-.shelf-visible-icons,
-.shelf-hidden-icons {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-  font-size: 0.8rem;
-}
-
-.shelf-divider-pill {
-  color: var(--text-muted);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-}
-
-.shelf-icon-dim {
-  opacity: 0.35;
-  transition: opacity var(--dur-fast);
-}
-
-.shelf-hidden-icons.is-expanded .shelf-icon-dim {
-  opacity: 1;
-  color: var(--accent);
-}
-
-.shelf-control-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.shelf-hint {
-  font-size: 0.675rem;
-  color: var(--text-muted);
-}
-
-.btn-shelf-toggle {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--accent);
-  padding: 0.15rem 0.45rem;
-  border-radius: 4px;
-  background: var(--accent-soft);
-}
-
-.btn-shelf-toggle:hover {
-  text-decoration: underline;
-}
-
 /* 4. haier-ac-mac 空调微组件 */
 .widget-ac-box {
   padding: 1.1rem;
@@ -1741,58 +1682,10 @@ html[data-theme="light"] .shelf-bar {
   color: var(--text-muted);
 }
 
-/* 5. hotel-cast 终端微组件 */
-.widget-terminal-box {
-  padding: 0.95rem;
-  border-radius: 1rem;
-  background: #040507;
-  border: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  margin-bottom: 1.25rem;
-}
-
-.terminal-bar-top {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-bottom: 0.65rem;
-  padding-bottom: 0.45rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.term-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--r-pill);
-}
-
-.dot-red { background: #ef4444; }
-.dot-yellow { background: #eab308; }
-.dot-green { background: #10b981; }
-
-.term-title {
-  margin-left: 0.4rem;
-  font-size: 0.6rem;
-  color: #71717a;
-}
-
-.term-cmd {
-  color: #ffffff;
-  margin-bottom: 0.25rem;
-}
-
-.term-prompt {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.term-out {
-  font-size: 0.65rem;
-}
-
-.out-ok { color: #10b981; margin-bottom: 0.15rem; }
-.out-info { color: #94a3b8; }
+/* 浅色下徽章文字压深（原 #38bdf8/#eab308 在浅底仅 1.9–2.1:1） */
+html[data-theme="light"] .lang-ts { color: #0369a1; }
+html[data-theme="light"] .lang-js { color: #854d0e; }
+html[data-theme="light"] .ac-mode-badge { color: #0369a1; }
 
 .empty-state {
   text-align: center;
@@ -1863,7 +1756,7 @@ html[data-theme="light"] .shelf-bar {
   font-family: var(--font-mono);
   font-size: 0.85rem;
   font-weight: 800;
-  color: var(--accent);
+  color: var(--accent-ink);
   padding: 0.2rem 0.5rem;
   border-radius: 6px;
   background: var(--accent-soft);
@@ -1906,7 +1799,7 @@ html[data-theme="light"] .shelf-bar {
 }
 
 .about-card-foot .foot-dot {
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .about-card-desc {
@@ -1973,11 +1866,13 @@ html[data-theme="light"] .shelf-bar {
 
 .link-more-gh {
   display: inline-flex;
+  padding: 0.3rem 0.1rem;
+  margin: -0.3rem -0.1rem;
   align-items: center;
   gap: 0.45rem;
   font-size: 0.825rem;
   font-weight: 600;
-  color: var(--accent);
+  color: var(--accent-ink);
 }
 
 .link-more-gh:hover {
@@ -2123,8 +2018,9 @@ html[data-theme="light"] .shelf-bar {
   gap: 0.5rem;
 }
 
-.footer-sep {
-  opacity: 0.5;
+.footer-top-link {
+  padding: 0.45rem 0.2rem;
+  margin: -0.45rem -0.2rem;
 }
 
 .footer-top-link:hover {
@@ -2201,7 +2097,7 @@ html[data-theme="light"] .shelf-bar {
 
 .dialog-subtitle {
   font-size: 0.875rem;
-  color: var(--accent);
+  color: var(--accent-ink);
   font-weight: 600;
 }
 
@@ -2312,8 +2208,7 @@ html:not(.js) [data-open-project] {
   .eyebrow-dot,
   .eyebrow-dot-green,
   .status-indicator,
-  .island-state-tag,
-  .term-dot {
+  .island-state-tag {
     forced-color-adjust: none;
   }
 }

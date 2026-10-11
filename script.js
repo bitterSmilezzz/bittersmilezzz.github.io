@@ -35,14 +35,6 @@ const projectData = {
       "拒绝商业清理软件的恐吓式营销与黑盒盲删。专为开发者设计的缓存与残留扫描器，透视 Xcode DerivedData、npm 缓存、Homebrew 冗余与卸载残留。每一项都说明属于哪个软件、为什么能删，并保留完整的安全撤回路径。",
     url: "https://github.com/bitterSmilezzz/MacClean",
   },
-  barshelf: {
-    title: "BarShelf",
-    subtitle: "给右上角留白，空间被谁占了一目了然 · 菜单栏图标折叠与诊断",
-    tags: ["macOS", "AppKit Hook", "Menu Bar", "8MB RAM"],
-    description:
-      "随着常驻软件增多，MacBook 刘海屏两侧图标极易被截断遮挡。BarShelf 物理折叠不常用的菜单栏图标，并附带独立的屏幕空间诊断看板，直观可视化各进程图标的宽度占比，随时一键收拢或展开。",
-    url: "https://github.com/bitterSmilezzz/BarShelf",
-  },
   "haier-ac-mac": {
     title: "haier-ac-mac",
     subtitle: "抬头点一下，冷暖自知，何须找手机 · 菜单栏智能家居空调直控",
@@ -50,14 +42,6 @@ const projectData = {
     description:
       "在电脑前写代码时，为了调 1 度空调何必翻找手机、解锁屏幕、打开臃肿 App。haier-ac-mac 常驻菜单栏极简微型温度控件，原生全局快捷键秒级切换温度、制冷/制热与风速模式，状态即时双向同步。",
     url: "https://github.com/bitterSmilezzz/haier-ac-mac",
-  },
-  "hotel-cast": {
-    title: "hotel-cast",
-    subtitle: "一行命令，打通酒店大屏的隔离隔阂 · 命令行自动化网络认证与投屏",
-    tags: ["Command Line", "Python 3", "Networking", "DLNA / AirPlay"],
-    description:
-      "解决出差住酒店时电视网络认证繁琐、处于局域网隔离无法投屏的顽疾。通过终端命令行一键完成局域网设备握手与免密认证，自动建立高速投屏管道，无缝推送本地视频文件或实时镜像屏幕。",
-    url: "https://github.com/bitterSmilezzz/hotel-cast",
   },
 };
 
@@ -185,16 +169,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 4. 菜单栏折叠/展开微交互 (BarShelf)
-  const shelfToggleBtn = document.getElementById("btn-shelf-toggle");
-  const shelfHiddenGroup = document.getElementById("shelf-hidden-group");
-  if (shelfToggleBtn && shelfHiddenGroup) {
-    shelfToggleBtn.addEventListener("click", () => {
-      const isExpanded = shelfHiddenGroup.classList.toggle("is-expanded");
-      shelfToggleBtn.textContent = isExpanded ? "收起图标" : "切换展开";
-    });
-  }
-
   // 5. 家族 Bento 分类筛选
   const filterTabs = document.querySelectorAll(".filter-tab");
   const projectCards = document.querySelectorAll("[data-project-grid] .spotlight-card");
@@ -203,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   filterTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
+      if (tab.getAttribute("aria-disabled") === "true") return;
       const filter = tab.getAttribute("data-filter");
 
       filterTabs.forEach((t) => {

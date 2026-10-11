@@ -18,7 +18,7 @@
       content="专注于 macOS 原生开发与智能体协同工具。从日常真实痛点出发，先做能用的版本，再在日常高频工作流里打磨至顺手。"
     />
     <meta property="og:url" content="https://bittersmilezzz.github.io/" />
-    <meta property="og:image" content="https://bittersmilezzz.github.io/assets/preview.png" />
+    <meta property="og:image" content="https://bittersmilezzz.github.io/assets/preview.png?v=2" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="zh_CN" />
@@ -34,7 +34,7 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261011c" />
+    <link rel="stylesheet" href="styles.css?v=20261012" />
     <script>
       (function () {
         var r = document.documentElement;
@@ -138,7 +138,7 @@
             </div>
             <div class="telemetry-right">
               <span class="status-indicator"></span>
-              <span class="telemetry-mono">SYS_ONLINE · 6 APPS + 4 REPOS</span>
+              <span class="telemetry-mono">SYS_ONLINE · 4 APPS + 4 REPOS</span>
             </div>
           </div>
 
@@ -386,19 +386,19 @@
             <div class="filter-controls" role="group" aria-label="按项目类型筛选">
               <button class="filter-tab is-active" type="button" data-filter="all" aria-pressed="true">
                 <span>全部</span>
-                <span class="filter-pill" data-count="all">05</span>
+                <span class="filter-pill" data-count="all">03</span>
               </button>
               <button class="filter-tab" type="button" data-filter="macos" aria-pressed="false">
                 <span>macOS 原生工具</span>
-                <span class="filter-pill" data-count="macos">03</span>
+                <span class="filter-pill" data-count="macos">02</span>
               </button>
               <button class="filter-tab" type="button" data-filter="cross" aria-pressed="false">
                 <span>跨端工作台</span>
                 <span class="filter-pill" data-count="cross">01</span>
               </button>
-              <button class="filter-tab" type="button" data-filter="cli" aria-pressed="false">
+              <button class="filter-tab is-empty" type="button" data-filter="cli" aria-pressed="false" aria-disabled="true">
                 <span>命令行与网络</span>
-                <span class="filter-pill" data-count="cli">01</span>
+                <span class="filter-pill" data-count="cli">00</span>
               </button>
             </div>
           </div>
@@ -554,12 +554,12 @@
             </article>
 
             <!-- ----------------------------------------------------
-                 卡片 3: 4 栏 — BarShelf (菜单栏图标收拢与透视)
+                 卡片 3: 6 栏 — haier-ac-mac (智能家居空调直控)
                  ---------------------------------------------------- -->
             <article
-              class="spotlight-card bento-col-4"
+              class="spotlight-card bento-col-6"
               data-category="macos"
-              data-project="barshelf"
+              data-project="haier-ac-mac"
             >
               <div class="spotlight-border" aria-hidden="true"></div>
               <div class="spotlight-core">
@@ -574,85 +574,6 @@
                         <span class="eyebrow-text">MODULE // 04</span>
                       </div>
                       <span class="card-index-mono">04</span>
-                    </div>
-
-                    <h3 class="bento-app-title">BarShelf</h3>
-                    <p class="bento-app-slogan">给右上角留白，空间被谁占了一目了然。</p>
-                    <p class="bento-app-story">
-                      随着常驻软件增多，刘海屏两侧图标极易被截断遮挡。物理折叠不常用图标，附带独立屏幕占用比诊断面板。
-                    </p>
-                  </div>
-
-                  <!-- 菜单栏图标交互微组件 -->
-                  <div class="widget-shelf-box">
-                    <div class="shelf-bar">
-                      <div class="shelf-visible-icons">
-                        <span class="shelf-icon">⌘</span>
-                        <span class="shelf-icon">📶</span>
-                        <span class="shelf-icon">🔋</span>
-                      </div>
-                      <div class="shelf-divider-pill">
-                        <span class="shelf-indicator">|</span>
-                      </div>
-                      <div class="shelf-hidden-icons" id="shelf-hidden-group">
-                        <span class="shelf-icon-dim">◒</span>
-                        <span class="shelf-icon-dim">◍</span>
-                        <span class="shelf-icon-dim">⌁</span>
-                      </div>
-                    </div>
-                    <div class="shelf-control-row">
-                      <span class="shelf-hint">状态：3 个图标已折叠收起</span>
-                      <button class="btn-shelf-toggle" type="button" id="btn-shelf-toggle">切换展开</button>
-                    </div>
-                  </div>
-
-                  <div class="card-bottom-group">
-                    <div class="tech-tag-row">
-                      <span class="tech-tag">AppKit Hook</span>
-                      <span class="tech-tag">8MB RAM</span>
-                    </div>
-
-                    <div class="card-actions-row">
-                      <button class="btn-button-in-button-sm" type="button" aria-haspopup="dialog" data-open-project="barshelf">
-                        <span>查看详情</span>
-                        <span class="btn-inner-circle-sm" aria-hidden="true">→</span>
-                      </button>
-                      <a
-                        class="btn-ghost-pill-sm"
-                        href="https://github.com/bitterSmilezzz/BarShelf"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <span>GitHub</span>
-                        <span class="pill-circle-arrow" aria-hidden="true">↗</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <!-- ----------------------------------------------------
-                 卡片 4: 4 栏 — haier-ac-mac (菜单栏智能家居空调直控)
-                 ---------------------------------------------------- -->
-            <article
-              class="spotlight-card bento-col-4"
-              data-category="macos"
-              data-project="haier-ac-mac"
-            >
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="specular-rim" aria-hidden="true"></div>
-
-                <div class="bento-inner-body flex-col-between">
-                  <div>
-                    <div class="card-meta-bar">
-                      <div class="eyebrow-pill-sm">
-                        <span class="eyebrow-dot"></span>
-                        <span class="eyebrow-text">MODULE // 05</span>
-                      </div>
-                      <span class="card-index-mono">05</span>
                     </div>
 
                     <h3 class="bento-app-title">haier-ac-mac</h3>
@@ -706,77 +627,7 @@
               </div>
             </article>
 
-            <!-- ----------------------------------------------------
-                 卡片 5: 4 栏 — hotel-cast (命令行酒店电视极速投屏)
-                 ---------------------------------------------------- -->
-            <article
-              class="spotlight-card bento-col-4"
-              data-category="cli"
-              data-project="hotel-cast"
-            >
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="specular-rim" aria-hidden="true"></div>
-
-                <div class="bento-inner-body flex-col-between">
-                  <div>
-                    <div class="card-meta-bar">
-                      <div class="eyebrow-pill-sm">
-                        <span class="eyebrow-dot"></span>
-                        <span class="eyebrow-text">MODULE // 06 · CLI</span>
-                      </div>
-                      <span class="card-index-mono">06</span>
-                    </div>
-
-                    <h3 class="bento-app-title">hotel-cast</h3>
-                    <p class="bento-app-slogan">一行命令，打通酒店大屏的隔离隔阂。</p>
-                    <p class="bento-app-story">
-                      解决酒店电视网页认证隔离、无法投屏的顽疾。终端一行命令自动完成网络握手认证，免密推送本地视频或实时投屏。
-                    </p>
-                  </div>
-
-                  <!-- 终端微组件 -->
-                  <div class="widget-terminal-box">
-                    <div class="terminal-bar-top">
-                      <span class="term-dot dot-red"></span>
-                      <span class="term-dot dot-yellow"></span>
-                      <span class="term-dot dot-green"></span>
-                      <span class="term-title">hotel-cast --cli</span>
-                    </div>
-                    <div class="terminal-content">
-                      <p class="term-cmd"><span class="term-prompt">$</span> hotel-cast --scan</p>
-                      <p class="term-out out-ok">✓ 发现大屏: Room 802 TV (DLNA)</p>
-                      <p class="term-out out-info">✓ 免密握手已完成 · 推送端口已建立</p>
-                    </div>
-                  </div>
-
-                  <div class="card-bottom-group">
-                    <div class="tech-tag-row">
-                      <span class="tech-tag">Python 3</span>
-                      <span class="tech-tag">Networking</span>
-                    </div>
-
-                    <div class="card-actions-row">
-                      <button class="btn-button-in-button-sm" type="button" aria-haspopup="dialog" data-open-project="hotel-cast">
-                        <span>查看详情</span>
-                        <span class="btn-inner-circle-sm" aria-hidden="true">→</span>
-                      </button>
-                      <a
-                        class="btn-ghost-pill-sm"
-                        href="https://github.com/bitterSmilezzz/hotel-cast"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        <span>GitHub</span>
-                        <span class="pill-circle-arrow" aria-hidden="true">↗</span>
-                      </a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </div>
+            </div>
 
           <p class="empty-state" hidden>当前分类暂无项目。</p>
         </div>
@@ -1099,6 +950,6 @@
       </div>
     </dialog>
 
-    <script src="script.js?v=20261011c" defer></script>
+    <script src="script.js?v=20261012" defer></script>
   </body>
 </html>

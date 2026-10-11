@@ -1,40 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="fangshoufanji · 个人项目">
-  <title>fangshoufanji · 个人项目</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="fangshoufanji · 把想法做成自己用的工具">
   <defs>
-    <!-- 顶部暖色渐晕：与页面 body::before 同一条氛围做法 -->
-    <radialGradient id="glow" cx="18%" cy="-12%" r="65%">
-      <stop offset="0%" stop-color="#0f7666" stop-opacity="0.14"/>
-      <stop offset="60%" stop-color="#0f7666" stop-opacity="0"/>
+    <radialGradient id="glow" cx="22%" cy="-8%" r="70%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.10"/>
+      <stop offset="60%" stop-color="#10b981" stop-opacity="0"/>
     </radialGradient>
-    <radialGradient id="glow2" cx="92%" cy="-10%" r="55%">
-      <stop offset="0%" stop-color="#8a560c" stop-opacity="0.10"/>
-      <stop offset="55%" stop-color="#8a560c" stop-opacity="0"/>
-    </radialGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#10b981" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#10b981" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#10b981" stop-opacity="0"/>
+    </linearGradient>
   </defs>
-  <style>
-    @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&amp;family=Inter:wght@500;600;700&amp;family=Noto+Sans+SC:wght@600;700&amp;display=swap");
-    .display{font-family:"Fraunces","Noto Sans SC","PingFang SC","Hiragino Sans GB",sans-serif;font-weight:600}
-    .mono{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace}
-  </style>
 
-  <!-- 暖纸底 + 渐晕 -->
-  <rect width="1200" height="630" fill="#f5f1e8"/>
+  <rect width="1200" height="630" fill="#08090a"/>
   <rect width="1200" height="630" fill="url(#glow)"/>
-  <rect width="1200" height="630" fill="url(#glow2)"/>
+  <rect x="48" y="48" width="1104" height="534" rx="24" fill="#12151b"/>
+  <rect x="48" y="48" width="1104" height="534" rx="24" fill="none" stroke="#ffffff" stroke-opacity="0.10"/>
+  <rect x="120" y="476" width="960" height="1" fill="url(#rim)"/>
 
-  <!-- 品牌：圆角方块 + 等宽用户名 -->
-  <rect x="100" y="82" width="30" height="30" rx="9" fill="#0f7666"/>
-  <text x="139" y="103" class="mono" fill="#5a5449" font-size="19" letter-spacing="0.3">fangshoufanji</text>
+  <g font-family="'JetBrains Mono','SF Mono',Menlo,monospace">
+    <text x="120" y="118" font-size="19" fill="#8e8e99" letter-spacing="3">f/ FANGSHOUFANJI</text>
+    <text x="1080" y="118" font-size="19" fill="#8e8e99" letter-spacing="3" text-anchor="end">PORTFOLIO // 2026.10</text>
+    <circle cx="1094" cy="147" r="5" fill="#10b981"/>
+    <text x="1078" y="153" font-size="18" fill="#8e8e99" letter-spacing="2" text-anchor="end">SYS_ONLINE</text>
+  </g>
 
-  <!-- 巨号标题：把想法（划掉）→ 做成自己用的 → 工具。（青）-->
-  <text x="100" y="300" class="display" fill="#6f6757" font-size="92" letter-spacing="-2">把想法</text>
-  <rect x="98" y="253" width="262" height="9" rx="4.5" fill="#0f7666"/>
-  <text x="100" y="404" class="display" fill="#1b1815" font-size="92" letter-spacing="-2">做成自己用的</text>
-  <text x="100" y="508" class="display" fill="#0f7666" font-size="92" letter-spacing="-2">工具。</text>
+  <text x="120" y="268" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="96" font-weight="800" fill="#f4f4f6" letter-spacing="2">把想法做成，</text>
+  <text x="120" y="392" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="96" font-weight="800" fill="#f4f4f6" letter-spacing="2">自己用的工具。</text>
+  <rect x="620" y="216" width="252" height="62" rx="31" fill="#10b981" fill-opacity="0.10" stroke="#10b981" stroke-opacity="0.3"/>
+  <text x="746" y="258" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="34" font-weight="700" fill="#10b981" text-anchor="middle">· 实作主义</text>
 
-  <!-- 底部规格条：等宽小字 + 发丝线 -->
-  <path d="M100 556H1100" stroke="#1b1815" stroke-opacity="0.22" stroke-width="1.5"/>
-  <text x="100" y="593" class="mono" fill="#6f6757" font-size="19" letter-spacing="1">项目 04</text>
-  <text x="330" y="593" class="mono" fill="#6f6757" font-size="19" letter-spacing="1">公开仓库 12</text>
-  <text x="640" y="593" class="mono" fill="#0f7666" font-size="19" letter-spacing="1">在开发 03</text>
+  <g font-family="'JetBrains Mono','SF Mono',Menlo,monospace" font-size="24" letter-spacing="4">
+    <text x="120" y="522" fill="#8e8e99">4 APPS</text>
+    <circle cx="246" cy="514" r="4" fill="#10b981"/>
+    <text x="270" y="522" fill="#8e8e99">4 REPOS</text>
+    <circle cx="404" cy="514" r="4" fill="#10b981"/>
+    <text x="428" y="522" fill="#8e8e99">MACOS NATIVE — AGENT TOOLING</text>
+  </g>
 </svg>
