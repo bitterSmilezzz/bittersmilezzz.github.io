@@ -183,7 +183,7 @@ button {
   top: -200px;
   left: 50%;
   transform: translateX(-50%);
-  width: min(960px, 98vw);
+  width: min(960px, 100%);
   height: 520px;
   background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.04) 0%, transparent 70%);
   pointer-events: none;
@@ -518,6 +518,52 @@ html[data-theme="dark"] .icon-moon { display: none; }
 html[data-theme="light"] .icon-sun { display: none; }
 html[data-theme="light"] .icon-moon { display: block; }
 
+/* ------------------------------------------------------------
+   小屏顶栏收纳 (P0)
+   实测 390px 视口 (clientWidth 375) 下 `.island-nav` 撑到 454px，
+   居中后 brand 左缘 -19、主题开关右缘 394 —— 两端各被裁 ~40px，
+   开关点不到、4 个导航标签折成竖排。以下两档把内容压回 343px 内：
+   ≤520 收间距 + 藏 brand 文字与分隔线（保留 f/ 字标与全部导航）；
+   ≤360 再藏 GitHub 药丸（首屏与页脚各有一处 GitHub 入口，不丢功能）。
+   ------------------------------------------------------------ */
+.nav-link,
+.brand-text {
+  white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+  .island-nav {
+    gap: 0.75rem;
+    padding: 0.5rem 0.9rem;
+  }
+
+  .nav-links {
+    gap: 0.65rem;
+  }
+
+  .nav-divider {
+    display: none;
+  }
+
+  .brand-text {
+    display: none;
+  }
+
+  .nav-actions {
+    gap: 0.5rem;
+  }
+
+  .nav-gh-pill {
+    padding: 0.35rem 0.7rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .nav-gh-pill {
+    display: none;
+  }
+}
+
 /* ============================================================
    首屏：画报级排版与真实开发者印章
    ============================================================ */
@@ -703,13 +749,6 @@ html[data-theme="light"] .icon-moon { display: block; }
   border-top: 1px solid var(--border-subtle);
 }
 
-@media (min-width: 860px) {
-  .hero-bottom-grid {
-    grid-template-columns: 4fr 5fr 3fr;
-    align-items: end;
-  }
-}
-
 .mono-label {
   display: block;
   font-family: var(--font-mono);
@@ -732,9 +771,21 @@ html[data-theme="light"] .icon-moon { display: block; }
   align-items: center;
   gap: 0.75rem;
   justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+/* 按钮不参与收缩：窄处宁可整颗换行，也不把文案压成两行 */
+.hero-action-cell > a {
+  flex: none;
 }
 
 @media (min-width: 860px) {
+  .hero-bottom-grid {
+    /* 第三列按内容取宽：固定 3fr 只有 254px，会把两个 CTA 压到文字折行 */
+    grid-template-columns: 4fr 5fr max-content;
+    align-items: end;
+  }
+
   .hero-action-cell {
     justify-content: flex-end;
   }
@@ -966,7 +1017,9 @@ html[data-theme="light"] .spotlight-border {
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
   padding: 1rem 1.25rem;
-  transition: all var(--dur-base) var(--ease-apple);
+  transition: background-color var(--dur-base) var(--ease-apple),
+    border-color var(--dur-base) var(--ease-apple),
+    box-shadow var(--dur-base) var(--ease-apple);
 }
 
 .island-pill-main {
@@ -1129,7 +1182,7 @@ html[data-theme="light"] .stage-toggle-group {
   font-size: 0.725rem;
   font-weight: 600;
   color: var(--text-muted);
-  transition: all var(--dur-fast);
+  transition: color var(--dur-fast), background-color var(--dur-fast);
 }
 
 .btn-stage-tab.is-active {
@@ -1274,7 +1327,8 @@ html[data-theme="light"] .stage-toggle-group {
   font-size: 0.775rem;
   font-weight: 500;
   color: var(--text-secondary);
-  transition: all var(--dur-fast);
+  transition: color var(--dur-fast), background-color var(--dur-fast),
+    border-color var(--dur-fast);
 }
 
 .filter-tab:hover {
@@ -1969,7 +2023,8 @@ html[data-theme="light"] .shelf-bar {
   border: 1px solid var(--border-subtle);
   font-size: 0.85rem;
   color: var(--text-muted);
-  transition: all var(--dur-fast);
+  transition: color var(--dur-fast), background-color var(--dur-fast),
+    border-color var(--dur-fast), transform var(--dur-fast);
 }
 
 .repo-row-card:hover .repo-circle-arrow {
@@ -2154,5 +2209,139 @@ html[data-theme="light"] .shelf-bar {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   系统件：键盘焦点环 / 高对比度 / 强制色彩 / 打印
+   （10-04/10-05 两次重设计中丢失，本轮补回）
+   ============================================================ */
+
+/* ---- 键盘焦点环：探照灯卡片 overflow:hidden 会裁掉外扩环，内缩画在自身框内 ---- */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.spotlight-card :where(a, button, [tabindex]):focus-visible {
+  outline-offset: -4px;
+}
+
+/* ---- prefers-contrast: more：抬升次级/辅助文字与描边 ---- */
+@media (prefers-contrast: more) {
+  html[data-theme="dark"] {
+    --text-secondary: #d4d4d8;
+    --text-muted: #a1a1aa;
+    --border-subtle: rgba(255, 255, 255, 0.24);
+    --border-rim: rgba(255, 255, 255, 0.44);
+  }
+
+  html[data-theme="light"] {
+    --text-secondary: #3f3f46;
+    --text-muted: #52525b;
+    --border-subtle: rgba(0, 0, 0, 0.24);
+    --border-rim: rgba(0, 0, 0, 0.44);
+  }
+}
+
+/* ---- forced-colors: active：形状靠描边，选中态用系统高亮色，状态彩点保留 ---- */
+@media (forced-colors: active) {
+  .spotlight-card,
+  .repo-row-card,
+  .filter-tab,
+  .btn-ghost-pill,
+  .nav-gh-pill,
+  .island-nav,
+  .developer-profile-shell,
+  .stage-toggle-group,
+  .telemetry-bar {
+    border: 1px solid CanvasText;
+  }
+
+  .btn-button-in-button,
+  .btn-button-in-button-sm {
+    border: 1px solid ButtonText;
+    forced-color-adjust: none;
+  }
+
+  .filter-tab.is-active,
+  .btn-stage-tab.is-active {
+    background: Highlight;
+    color: HighlightText;
+    forced-color-adjust: none;
+  }
+
+  .eyebrow-dot,
+  .eyebrow-dot-green,
+  .status-indicator,
+  .island-state-tag,
+  .term-dot {
+    forced-color-adjust: none;
+  }
+}
+
+/* ---- 打印：纸墨互换（深色主题也印成白底黑字）、撤固定导航与装饰、
+        不可点控件不上纸、开源仓库行印出真实 URL ---- */
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    box-shadow: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* 深色主题强制回浅色纸墨；浅色主题本就是这套值 */
+  html[data-theme="dark"] {
+    --bg-canvas: #ffffff;
+    --bg-shell: #ffffff;
+    --bg-surface: #ffffff;
+    --bg-elevated: #f4f4f5;
+    --bg-inset: #f4f4f5;
+    --text-primary: #111111;
+    --text-secondary: #3f3f46;
+    --text-muted: #52525b;
+    --border-subtle: rgba(0, 0, 0, 0.16);
+    --border-rim: rgba(0, 0, 0, 0.32);
+    --border-active: rgba(0, 0, 0, 0.45);
+  }
+
+  .island-nav-header,
+  .skip-link,
+  .ambient-glow,
+  .film-grain-overlay,
+  .spotlight-border,
+  .spotlight-surface,
+  .specular-rim,
+  .stage-toggle-group,
+  .island-action-subbar,
+  .filter-tab,
+  .theme-toggle {
+    display: none !important;
+  }
+
+  section .spotlight-card,
+  .repo-row-card,
+  .site-footer {
+    break-inside: avoid;
+  }
+
+  /* 仓库行整卡即 <a>，链接 URL 印在卡片末尾 */
+  a.repo-row-card[href^="http"]::after,
+  .site-footer a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.7em;
+    color: #52525b;
+    word-break: break-all;
   }
 }
