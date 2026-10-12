@@ -137,6 +137,23 @@ button {
   cursor: pointer;
 }
 
+/* 模态弹窗打开时锁背景滚动（原生 <dialog> 不锁，实测滚轮仍能滚 600px）。
+   视口滚动条消失会腾出 15px：用 body 内边距补回内容宽度，
+   固定顶栏同步补位——内容与导航都零位移（scrollbar-gutter 在
+   overflow:hidden 下不保留槽位，实测无效，故用补位法）。 */
+html.is-dialog-open,
+html.is-dialog-open body {
+  overflow: hidden;
+}
+
+html.is-dialog-open body {
+  padding-right: var(--scrollbar-w, 0px);
+}
+
+html.is-dialog-open .island-nav-header {
+  padding-right: calc(1rem + var(--scrollbar-w, 0px));
+}
+
 .skip-link {
   position: fixed;
   top: 1rem;
@@ -1391,16 +1408,10 @@ html[data-theme="light"] .filter-tab.is-active .filter-pill {
   grid-column: span 12;
 }
 
-.bento-col-4 {
-  grid-column: span 12;
-}
 
 @media (min-width: 860px) {
   .bento-col-6 {
     grid-column: span 6;
-  }
-  .bento-col-4 {
-    grid-column: span 4;
   }
 }
 

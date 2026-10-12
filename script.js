@@ -248,6 +248,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (typeof dialog.showModal === "function") {
+      document.documentElement.style.setProperty(
+        "--scrollbar-w",
+        window.innerWidth - document.documentElement.clientWidth + "px"
+      );
+      document.documentElement.classList.add("is-dialog-open");
       dialog.showModal();
     } else {
       dialog.setAttribute("open", "");
@@ -260,6 +265,13 @@ document.addEventListener("DOMContentLoaded", () => {
       openProjectDialog(pid);
     });
   });
+
+  if (dialog) {
+    // Escape / 关闭键 / 背景点击 全部收敛到 close 事件，一处解锁
+    dialog.addEventListener("close", () => {
+      document.documentElement.classList.remove("is-dialog-open");
+    });
+  }
 
   if (dialogCloseBtn && dialog) {
     dialogCloseBtn.addEventListener("click", () => {
