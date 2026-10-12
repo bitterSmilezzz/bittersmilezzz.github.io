@@ -301,25 +301,51 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 7. 深色 / 浅色模式切换
+  // 7. 深色 / 浅色模式切换（写入收敛到单一来源 applyTheme）
   const themeToggle = document.querySelector("[data-theme-toggle]");
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      const root = document.documentElement;
-      const current = root.getAttribute("data-theme") || "dark";
-      const next = current === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", next);
-      themeToggle.setAttribute("aria-pressed", next === "light" ? "true" : "false");
+  const readSavedTheme = () => {
+    try {
+      const saved = localStorage.getItem("theme");
+      return saved === "light" || saved === "dark" ? saved : null;
+    } catch (e) {
+      return null;
+    }
+  };
 
+  const applyTheme = (next, options) => {
+    const root = document.documentElement;
+    root.setAttribute("data-theme", next);
+    if (themeToggle) {
+      themeToggle.setAttribute("aria-pressed", next === "light" ? "true" : "false");
+    }
+    if (options && options.persist) {
       try {
         localStorage.setItem("theme", next);
       } catch (e) {}
+    }
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) {
+      metaTheme.setAttribute("content", next === "light" ? "#f9fafb" : "#08090a");
+    }
+  };
 
-      const metaTheme = document.querySelector('meta[name="theme-color"]');
-      if (metaTheme) {
-        metaTheme.setAttribute("content", next === "light" ? "#f9fafb" : "#08090a");
-      }
+  if (themeToggle) {
+    themeToggle.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme") || "dark";
+      applyTheme(current === "dark" ? "light" : "dark", { persist: true });
     });
+  }
+
+  // 系统外观变化时跟随——但用户显式选过主题就不再打扰
+  const schemeQuery = window.matchMedia("(prefers-color-scheme: light)");
+  const onSchemeChange = (event) => {
+    if (readSavedTheme()) return;
+    applyTheme(event.matches ? "light" : "dark");
+  };
+  if (typeof schemeQuery.addEventListener === "function") {
+    schemeQuery.addEventListener("change", onSchemeChange);
+  } else if (typeof schemeQuery.addListener === "function") {
+    schemeQuery.addListener(onSchemeChange);
   }
 
   // 8. 年份自动更新
@@ -371,5 +397,35 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener("resize", applyCurrent, { passive: true });
       applyCurrent();
     }
+  }
+
+  // 10. 顶栏滚动隐藏：向下滚让位、向上滚回归。
+  //     键盘焦点在顶栏内时始终显示（否则 Tab 会落在看不见的链接上）；
+  //     回到页顶也始终显示。位移量 <4px 视为抖动不响应。
+  const navHeader = document.querySelector(".island-nav-header");
+  if (navHeader) {
+    let lastY = window.scrollY;
+    const setNavHidden = (hidden) => {
+      document.documentElement.classList.toggle("nav-hidden", hidden);
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        const y = window.scrollY;
+        const delta = y - lastY;
+        if (Math.abs(delta) < 4) return;
+        lastY = y;
+
+        if (navHeader.contains(document.activeElement) || y < 120) {
+          setNavHidden(false);
+          return;
+        }
+        setNavHidden(delta > 0);
+      },
+      { passive: true }
+    );
+
+    navHeader.addEventListener("focusin", () => setNavHidden(false));
   }
 });

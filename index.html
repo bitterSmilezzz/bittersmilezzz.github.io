@@ -27,6 +27,34 @@
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2310b981'/%3E%3Cpath d='M19.6 20.4a4.4 4.4 0 1 1 0-8.8h.9v3h-.9a1.4 1.4 0 1 0 0 2.8h2.4v-2h-2.2v-3h5.2v5.1c0 1.9-1.5 3.4-3.4 3.4z' fill='%2308090a'/%3E%3C/svg%3E"
     />
+    <!-- iOS 加入主屏用位图图标（SVG 图标 iOS 不认，会退化成网页截图） -->
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+    <!-- 结构化数据：搜索引擎生成知识卡片的信号 -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Person",
+            "@id": "https://bittersmilezzz.github.io/#person",
+            "name": "fangshoufanji",
+            "url": "https://bittersmilezzz.github.io/",
+            "jobTitle": "个人开发者",
+            "description": "专注 macOS 原生开发与智能体协同工具",
+            "knowsAbout": ["macOS 原生开发", "SwiftUI", "AppKit", "智能体工具", "TypeScript"],
+            "sameAs": ["https://github.com/bitterSmilezzz"]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://bittersmilezzz.github.io/#website",
+            "url": "https://bittersmilezzz.github.io/",
+            "name": "fangshoufanji · 把想法做成自己用的工具",
+            "inLanguage": "zh-CN",
+            "author": { "@id": "https://bittersmilezzz.github.io/#person" }
+          }
+        ]
+      }
+    </script>
     <!-- 工业级字体栈：Plus Jakarta Sans + JetBrains Mono，中文回退系统苹方 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -34,7 +62,7 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261012b" />
+    <link rel="stylesheet" href="styles.css?v=20261012c" />
     <script>
       (function () {
         var r = document.documentElement;
@@ -950,6 +978,6 @@
       </div>
     </dialog>
 
-    <script src="script.js?v=20261012b" defer></script>
+    <script src="script.js?v=20261012c" defer></script>
   </body>
 </html>

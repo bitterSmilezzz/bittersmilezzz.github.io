@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#08090a" />
+    <title>404 · 这条路走不通 — fangshoufanji</title>
+    <!-- 404 会在任意路径下被服务，资产一律用绝对路径 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles.css?v=20261012c" />
+    <script>
+      (function () {
+        var r = document.documentElement;
+        r.classList.add("js");
+        var saved = null;
+        try {
+          saved = localStorage.getItem("theme");
+        } catch (e) {}
+        var theme =
+          saved === "light" || saved === "dark"
+            ? saved
+            : window.matchMedia("(prefers-color-scheme: light)").matches
+              ? "light"
+              : "dark";
+        r.setAttribute("data-theme", theme);
+        var m = document.querySelector('meta[name="theme-color"]');
+        if (m) m.setAttribute("content", theme === "light" ? "#f9fafb" : "#08090a");
+      })();
+    </script>
+    <style>
+      .lost-shell {
+        min-height: 100vh;
+        min-height: 100dvh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem var(--wrap-pad);
+      }
+
+      .lost-card {
+        width: 100%;
+        max-width: 640px;
+        padding: clamp(1.75rem, 4vw, 2.75rem);
+      }
+
+      .lost-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.12em;
+        color: var(--text-muted);
+        margin-bottom: 1.1rem;
+      }
+
+      .lost-code {
+        font-family: var(--font-mono);
+        font-size: clamp(3.4rem, 12vw, 5.6rem);
+        font-weight: 700;
+        line-height: 0.95;
+        letter-spacing: -0.04em;
+        color: var(--accent-ink);
+        margin-bottom: 0.6rem;
+      }
+
+      .lost-title {
+        font-size: clamp(1.4rem, 4vw, 2rem);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        color: var(--text-primary);
+        margin-bottom: 0.7rem;
+      }
+
+      .lost-desc {
+        font-size: 0.9rem;
+        line-height: 1.7;
+        color: var(--text-secondary);
+        margin-bottom: 1.9rem;
+      }
+
+      .lost-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.75rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="lost-shell">
+      <div class="spotlight-card lost-card">
+        <div class="spotlight-border" aria-hidden="true"></div>
+        <div class="spotlight-core">
+          <div class="spotlight-surface" aria-hidden="true"></div>
+          <div class="specular-rim" aria-hidden="true"></div>
+
+          <div class="bento-inner-body">
+            <p class="lost-eyebrow"><span>//</span><span>404 · NOT FOUND</span></p>
+            <p class="lost-code">404</p>
+            <h1 class="lost-title">这条路走不通。</h1>
+            <p class="lost-desc">
+              页面可能已经改名、下架，或者链接本身敲错了一个字符。回首页看看现在还在维护的那几个工具。
+            </p>
+
+            <div class="lost-actions">
+              <a class="btn-button-in-button" href="/">
+                <span>回到首页</span>
+                <span class="btn-inner-circle" aria-hidden="true">→</span>
+              </a>
+              <a
+                class="btn-ghost-pill"
+                href="https://github.com/bitterSmilezzz"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>GitHub 主页</span>
+                <span class="pill-circle-arrow" aria-hidden="true">↗</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

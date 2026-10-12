@@ -421,6 +421,13 @@ html[data-theme="light"] .btn-inner-circle-sm {
   justify-content: center;
   padding-inline: 1rem;
   pointer-events: none;
+  transition: transform var(--dur-base) var(--ease-apple), opacity var(--dur-base);
+}
+
+/* 向下滚让位、向上滚回归；焦点进入顶栏或回到页顶即刻显示（JS 挂类） */
+html.nav-hidden .island-nav-header {
+  transform: translateY(-140%);
+  opacity: 0;
 }
 
 .island-nav {
