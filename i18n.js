@@ -194,6 +194,8 @@
       "DSH model selector plugin with fuzzy search, model grouping and smooth reasoning-effort control.",
     "为 DimAgent 桌面端提供本地 TLS 网络握手与网络认证桥接支持。":
       "Local TLS handshake and network authentication bridge for the DimAgent desktop app.",
+    "DSH 桌面通知插件：审批、提问、轮次完成与会话结束时弹系统原生通知，点击直达对应会话。":
+      "DSH desktop notifications plugin: native alerts for approvals, questions, turn completion and session end — click one to jump straight to that session.",
     "DSH 插件伞仓库，规范插件契约标准并提供自动化测试与静态校验工具。":
       "DSH plugin umbrella repository standardising plugin contracts, with automated tests and static checks.",
     "TypeScript": "TypeScript",
