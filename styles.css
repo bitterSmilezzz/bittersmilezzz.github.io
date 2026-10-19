@@ -2045,6 +2045,100 @@ html.js .widget-learning-box {
   color: var(--text-secondary);
 }
 
+
+/* ============================================================
+   Tier 3.5: 手记 (FIELD NOTES)
+   ============================================================ */
+.section-notes {
+  padding-block: clamp(3rem, 6vw, 5.5rem);
+}
+
+.notes-grid {
+  display: grid;
+  /* 4 篇正好 2×2：auto-fit 会排成 3+1 留出空洞，固定两列更稳；
+     窄屏自然回落到单列。 */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 640px) {
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.note-card {
+  height: 100%;
+}
+
+.spotlight-inner {
+  position: relative;
+  z-index: 2;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  height: 100%;
+}
+
+.note-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent-ink);
+}
+
+.note-date {
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+}
+
+.note-title {
+  font-size: 1.02rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  color: var(--text-primary);
+  text-wrap: balance;
+}
+
+.note-body {
+  font-size: 0.83rem;
+  line-height: 1.72;
+  color: var(--text-secondary);
+}
+
+.note-body code {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  padding: 0.05rem 0.3rem;
+  border-radius: 4px;
+  background: var(--bg-inset);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.note-body strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.note-tag {
+  margin-top: auto;
+  padding-top: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+
 /* ============================================================
    Tier 4: GitHub 开源仓库 (High Density Row Cards)
    ============================================================ */

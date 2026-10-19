@@ -62,7 +62,7 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261019g" />
+    <link rel="stylesheet" href="styles.css?v=20261019i" />
     <script>
       (function () {
         var r = document.documentElement;
@@ -105,7 +105,7 @@
         <div class="nav-links">
           <a href="#flagship" class="nav-link">旗舰</a>
           <a href="#suite" class="nav-link">家族</a>
-          <a href="#about" class="nav-link">手记</a>
+          <a href="#notes" class="nav-link">手记</a>
           <a href="#github-work" class="nav-link">开源</a>
         </div>
 
@@ -779,6 +779,94 @@
         </div>
       </section>
 
+
+      <!-- ============================================================
+           Tier 3.5: 手记 (真实工程教训，全部带可核对的实测数字)
+           ============================================================ -->
+      <section class="section-notes" id="notes" aria-labelledby="notes-title">
+        <div class="wrap">
+          <div class="section-eyebrow">
+            <span class="mono-prefix">// 03.5</span>
+            <span>FIELD NOTES</span>
+          </div>
+          <h2 id="notes-title" class="section-title">做的时候踩到的坑</h2>
+          <p class="section-subtitle">这一站本身就是作品。以下都是这个仓库里真实发生过、量出来过的。</p>
+
+          <div class="notes-grid">
+            <article class="note-card spotlight-card">
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="spotlight-inner">
+                  <p class="note-meta"><span>01</span><span class="note-date">2026-10</span></p>
+                  <h3 class="note-title">hidden 不是万能锁</h3>
+                  <p class="note-body">
+                    给容器写了 <code>display: flex</code>，它就盖过了浏览器默认的
+                    <code>[hidden] { display: none }</code>。审批子栏在「任务执行态」下藏不住，
+                    实测 <code>hidden=true</code> 却仍有 <strong>40.5px</strong> 高度。
+                    显式补一条 <code>[hidden] { display: none }</code> 才算真收口。
+                  </p>
+                  <p class="note-tag">CSS · 属性优先级</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="note-card spotlight-card">
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="spotlight-inner">
+                  <p class="note-meta"><span>02</span><span class="note-date">2026-10</span></p>
+                  <h3 class="note-title">「永远深色」的块，别用会变色的墨</h3>
+                  <p class="note-body">
+                    灵动岛胶囊底恒为黑，里面的强调色却跟着主题走。浅色主题那支
+                    <code>#059669</code> 压在 12% 白罩的黑底上（实际渲染
+                    <code>rgb(31,31,31)</code>），合成后只有 <strong>4.39:1</strong>，差 4.5 一线。
+                    改用不随主题变化的墨色后达标。
+                  </p>
+                  <p class="note-tag">设计令牌 · 对比度</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="note-card spotlight-card">
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="spotlight-inner">
+                  <p class="note-meta"><span>03</span><span class="note-date">2026-10</span></p>
+                  <h3 class="note-title">过渡还没跑完，别急着读颜色</h3>
+                  <p class="note-body">
+                    验证三态指示灯时，三种状态的颜色读出来一模一样，差点当成缺陷去修。
+                    真因是 <code>getComputedStyle</code> 在过渡进行中返回的是<strong>插值中间值</strong>——
+                    点击后立刻读，读到的是起点色。等过渡结束再读，三态才各自成立。
+                  </p>
+                  <p class="note-tag">测量方法 · 假阳性</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="note-card spotlight-card">
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="spotlight-inner">
+                  <p class="note-meta"><span>04</span><span class="note-date">2026-10</span></p>
+                  <h3 class="note-title">「元素可见吗」不能只看它自己的 display</h3>
+                  <p class="note-body">
+                    <code>getComputedStyle(el).display</code> <strong>不继承</strong>祖先的
+                    <code>display: none</code>。父容器已隐藏时，子元素仍报 <code>block</code>，
+                    于是「无 JS 时还有几个死控件」数出来是三个，实际是零。
+                    要用 <code>getClientRects().length</code> 这类真实渲染判据。
+                  </p>
+                  <p class="note-tag">可访问性 · 判定口径</p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <!-- ============================================================
            Tier 4: GitHub 开源仓库 (智能体生态与基建)
            ============================================================ -->
@@ -991,6 +1079,6 @@
       </div>
     </dialog>
 
-    <script src="script.js?v=20261019g" defer></script>
+    <script src="script.js?v=20261019i" defer></script>
   </body>
 </html>
