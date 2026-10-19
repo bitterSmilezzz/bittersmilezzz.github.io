@@ -107,6 +107,13 @@ html[data-theme="light"] {
   padding: 0;
 }
 
+a,
+button,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
 html {
   font-size: 16px;
   scroll-behavior: smooth;
@@ -197,8 +204,8 @@ html.is-dialog-open .island-nav-header {
 
 .skip-link {
   position: fixed;
-  top: 1rem;
-  left: 1rem;
+  top: calc(1rem + env(safe-area-inset-top, 0px));
+  left: calc(1rem + env(safe-area-inset-left, 0px));
   z-index: 1000;
   padding: 0.6rem 1.2rem;
   border-radius: var(--r-pill);
@@ -454,13 +461,14 @@ html[data-theme="light"] .btn-inner-circle-sm {
    ============================================================ */
 .island-nav-header {
   position: fixed;
-  top: 1.25rem;
+  top: calc(1.25rem + env(safe-area-inset-top, 0px));
   left: 0;
   right: 0;
   z-index: 100;
   display: flex;
   justify-content: center;
-  padding-inline: 1rem;
+  padding-left: calc(1rem + env(safe-area-inset-left, 0px));
+  padding-right: calc(1rem + env(safe-area-inset-right, 0px));
   pointer-events: none;
   transition: transform var(--dur-base) var(--ease-apple), opacity var(--dur-base);
 }
@@ -2254,7 +2262,8 @@ html[data-theme="light"] .badge-lang {
    页脚与联系
    ============================================================ */
 .site-footer {
-  padding-block: clamp(3rem, 6vw, 5rem);
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: calc(clamp(3rem, 6vw, 5rem) + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--border-subtle);
   margin-top: 4rem;
 }
