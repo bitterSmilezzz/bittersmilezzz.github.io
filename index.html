@@ -62,7 +62,7 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261019m" />
+    <link rel="stylesheet" href="styles.css?v=20261019o" />
     <script>
       (function () {
         var r = document.documentElement;
@@ -225,7 +225,7 @@
 
             <div class="hero-tech-facts">
               <span class="mono-label">[TOOLCHAIN]</span>
-              <p>Swift · SwiftUI · AppKit · Kotlin · TypeScript · Python · Shell</p>
+              <p>Rust · Swift · SwiftUI · AppKit · Kotlin · TypeScript · Python · Shell</p>
             </div>
 
             <div class="hero-action-cell">
@@ -274,19 +274,19 @@
                   <div class="narrative-col">
                     <span class="narrative-tag">[THE TENSION // 痛点直击]</span>
                     <p class="narrative-text">
-                      终端多智能体（Claude Code、Codex 等）来回切屏心智负担重，重要危险操作容易漏看或盲目审批，背景执行毫无知觉。
+                      终端多智能体（Claude Code、Codex 等）来回切屏心智负担重，运行状态与用量散落各处，背景执行毫无知觉。
                     </p>
                   </div>
                   <div class="narrative-col">
                     <span class="narrative-tag">[THE CRAFT // 雕琢解法]</span>
                     <p class="narrative-text">
-                      与 macOS 刘海屏物理融为一体。悬停展开任务阶段与文件改动，支持快捷键秒级确认，Token 消耗与进程资源抬头一目了然。
+                      与 macOS 刘海屏物理融为一体。悬停展开任务阶段与文件改动，Token 消耗与进程资源抬头一目了然。打开来源只是导航，不代替批准操作。
                     </p>
                   </div>
                   <div class="narrative-col">
                     <span class="narrative-tag">[THE SPEC // 极简切面]</span>
                     <p class="narrative-text">
-                      Swift 6 + AppKit 原生渲染 · 内存占用稳定 &lt;28MB · 零 CPU 常驻唤醒 · 深度融合系统辅助功能。
+                      Rust / Tauri 常驻守护 · 系统级窗口控制与材质 · 轻量低占用 · 深度融合系统辅助功能。
                     </p>
                   </div>
                 </div>
@@ -324,12 +324,12 @@
                           </div>
                         </div>
 
-                        <!-- 审批操作交互模拟栏 -->
+                        <!-- 会话入口交互模拟栏：只读动作，不代批准（与仓库口径一致） -->
                         <div class="island-action-subbar" id="island-action-subbar" hidden>
-                          <span class="subbar-warn">⚠️ 检测到高危指令：git push --force origin main</span>
+                          <span class="subbar-warn">⚠️ 检测到待处理会话：高危指令等待在来源工具中确认</span>
                           <div class="subbar-buttons">
-                            <button class="btn-subbar-reject" type="button" id="btn-demo-reject">拒绝</button>
-                            <button class="btn-subbar-approve" type="button" id="btn-demo-approve">确认执行 ⏎</button>
+                            <button class="btn-subbar-secondary" type="button" id="btn-demo-secondary">打开工具</button>
+                            <button class="btn-subbar-primary" type="button" id="btn-demo-primary">查看会话 ⏎</button>
                           </div>
                         </div>
                       </div>
@@ -340,7 +340,7 @@
                       <span class="stage-ctrl-label">切换真实交互状态：</span>
                       <div class="stage-toggle-group">
                         <button class="btn-stage-tab is-active" type="button" data-island-state="running">任务执行态</button>
-                        <button class="btn-stage-tab" type="button" data-island-state="waiting">权限审批态</button>
+                        <button class="btn-stage-tab" type="button" data-island-state="waiting">待处理会话态</button>
                         <button class="btn-stage-tab" type="button" data-island-state="idle">空闲待机态</button>
                       </div>
                     </div>
@@ -371,7 +371,7 @@
                 <div class="flagship-footer-row">
                   <div class="flagship-tech-pills">
                     <span class="tech-tag">macOS Native</span>
-                    <span class="tech-tag">SwiftUI &amp; AppKit</span>
+                    <span class="tech-tag">Rust &amp; Tauri</span>
                     <span class="tech-tag">Agent Protocol</span>
                     <span class="tech-tag">Zero Overhead</span>
                   </div>
@@ -803,7 +803,7 @@
                   <h3 class="note-title">hidden 不是万能锁</h3>
                   <p class="note-body">
                     给容器写了 <code>display: flex</code>，它就盖过了浏览器默认的
-                    <code>[hidden] { display: none }</code>。审批子栏在「任务执行态」下藏不住，
+                    <code>[hidden] { display: none }</code>。会话入口子栏在「任务执行态」下藏不住，
                     实测 <code>hidden=true</code> 却仍有 <strong>40.5px</strong> 高度。
                     显式补一条 <code>[hidden] { display: none }</code> 才算真收口。
                   </p>
@@ -1093,6 +1093,6 @@
       </div>
     </dialog>
 
-    <script src="script.js?v=20261019m" defer></script>
+    <script src="script.js?v=20261019o" defer></script>
   </body>
 </html>

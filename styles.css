@@ -1247,7 +1247,7 @@ html[data-theme="light"] .spotlight-border {
   gap: 0.5rem;
 }
 
-.btn-subbar-reject {
+.btn-subbar-secondary {
   padding: 0.25rem 0.65rem;
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.12);
@@ -1256,7 +1256,7 @@ html[data-theme="light"] .spotlight-border {
   font-weight: 600;
 }
 
-.btn-subbar-approve {
+.btn-subbar-primary {
   padding: 0.25rem 0.75rem;
   border-radius: 6px;
   background: #d92c2a;

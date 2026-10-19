@@ -2,7 +2,7 @@
    fangshoufanji · 个人作品集与工具
    核心交互逻辑：
    1. 探照灯光标追踪 (ui-research/creatives/01 Spotlight)
-   2. 旗舰舞台 AgentIsland 多态交互 (任务态 / 审批态 / 待机态)
+   2. 旗舰舞台 AgentIsland 多态交互 (任务态 / 待处理会话态 / 待机态)
    3. 空调微组件互动调节 (haier-ac-mac 温度步进)
    4. 家族 Bento 分类筛选
    5. 语义详情弹窗 (<dialog>) 全量项目元数据与焦点闭环 (WCAG 2.4.3)
@@ -22,9 +22,9 @@ const projectData = {
   "agent-island": {
     title: "AgentIsland",
     subtitle: "常驻刘海屏，全局尽在掌控 · macOS 智能体协同中心",
-    tags: ["macOS Native", "Swift 6", "AppKit & SwiftUI", "Agent Tooling"],
+    tags: ["macOS Native", "Rust & Tauri", "Rust", "Agent Tooling"],
     description:
-      "把本机各个智能体（Claude Code、Codex、DSH 等）的运行状态、正在执行的任务和高危权限确认集中放到屏幕顶部灵动岛。不用来回在终端窗口切来切去，看一眼屏幕顶部就知道它执行到哪一步了。支持点击展开卡片、快捷键秒级审批危险指令，Token 消耗与内存指标常驻可视化，完全消除多会话切屏心智负担。",
+      "把本机各个智能体（Claude Code、Codex、DSH 等）的运行状态、正在执行的任务和高危权限确认集中放到屏幕顶部灵动岛。不用来回在终端窗口切来切去，看一眼屏幕顶部就知道它执行到哪一步了。支持点击展开卡片、只读查看会话来源，Token 消耗与内存指标常驻可视化；打开来源只是导航，不代替批准操作，完全消除多会话切屏心智负担。",
     url: "https://github.com/bitterSmilezzz/AgentIsland",
   },
   knowflick: {
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const islandActionSubbar = document.getElementById("island-action-subbar");
   const islandCpuVal = document.getElementById("island-cpu-val");
   const islandLatencyVal = document.getElementById("island-latency-val");
-  // 拟真刘海硬件指示灯：与三态联动（执行=绿 / 审批=橙 / 待机=熄灭）
+  // 拟真刘海硬件指示灯：与三态联动（执行=绿 / 待处理=橙 / 待机=熄灭）
   const hwLed = document.querySelector(".green-indicator");
 
   const islandStates = {
@@ -99,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     },
     waiting: {
       agent: "Codex Runtime",
-      task: "检测到高危指令，等待执行确认",
+      task: "检测到待处理会话，等待在来源工具中确认",
       tokens: "6,120",
       cpu: "1.2% (WAITING)",
       latency: "0.8 ms",
@@ -149,26 +149,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 审批模拟按钮响应
-  const btnApprove = document.getElementById("btn-demo-approve");
-  const btnReject = document.getElementById("btn-demo-reject");
+  // 会话入口模拟按钮响应：只读动作，不代批准（与仓库口径一致）
+  const btnApprove = document.getElementById("btn-demo-primary");
+  const btnReject = document.getElementById("btn-demo-secondary");
   if (btnApprove) {
     btnApprove.addEventListener("click", () => {
-      btnApprove.textContent = "已批准 ✓";
+      btnApprove.textContent = "已打开会话 ✓";
       setTimeout(() => {
         const runningTab = document.querySelector('[data-island-state="running"]');
         if (runningTab) runningTab.click();
-        btnApprove.textContent = "确认执行 ⏎";
+        btnApprove.textContent = "查看会话 ⏎";
       }, 600);
     });
   }
   if (btnReject) {
     btnReject.addEventListener("click", () => {
-      btnReject.textContent = "已终止 ✕";
+      btnReject.textContent = "已打开工具 ✓";
       setTimeout(() => {
         const idleTab = document.querySelector('[data-island-state="idle"]');
         if (idleTab) idleTab.click();
-        btnReject.textContent = "拒绝";
+        btnReject.textContent = "打开工具";
       }, 600);
     });
   }
