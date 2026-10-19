@@ -62,7 +62,7 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261019c" />
+    <link rel="stylesheet" href="styles.css?v=20261019d" />
     <script>
       (function () {
         var r = document.documentElement;
@@ -353,11 +353,11 @@
                     </div>
                     <div class="dock-metric">
                       <span class="dock-label">CPU FOOTPRINT</span>
-                      <strong class="dock-val val-emerald">0.4% (IDLE)</strong>
+                      <strong class="dock-val val-emerald" id="island-cpu-val">4.8% (ACTIVE)</strong>
                     </div>
                     <div class="dock-metric">
                       <span class="dock-label">LATENCY</span>
-                      <strong class="dock-val">1.2 ms</strong>
+                      <strong class="dock-val" id="island-latency-val">0.4 ms</strong>
                     </div>
                     <div class="dock-metric">
                       <span class="dock-label">ARCHITECTURE</span>
@@ -468,17 +468,17 @@
                   </div>
 
                   <!-- 学习进度微组件 -->
-                  <div class="widget-learning-box">
+                  <div class="widget-learning-box" id="knowflick-box" role="button" tabindex="0" aria-label="点击模拟完成今日卡片复习">
                     <div class="learning-header">
                       <span class="learning-title">艾宾浩斯复习进度</span>
-                      <span class="learning-rate">85% 已完成</span>
+                      <span class="learning-rate" id="kf-rate">85% 已完成</span>
                     </div>
                     <div class="learning-track">
-                      <div class="learning-fill" style="width: 85%;"></div>
+                      <div class="learning-fill" id="kf-fill" style="width: 85%;"></div>
                     </div>
                     <div class="learning-footer-meta">
-                      <span>今日待复习 4 张卡片</span>
-                      <span>连续高效打卡 28 天</span>
+                      <span id="kf-cards">今日待复习 4 张卡片</span>
+                      <span id="kf-streak">连续高效打卡 28 天</span>
                     </div>
                   </div>
 
@@ -629,7 +629,7 @@
                       </div>
                     </div>
                     <div class="ac-substatus">
-                      <span class="ac-mode-badge">制冷模式</span>
+                      <button class="ac-mode-badge" type="button" id="ac-mode-toggle" aria-label="切换空调冷暖模式">制冷模式</button>
                       <span class="ac-fan-badge">自动风速</span>
                     </div>
                   </div>
@@ -991,6 +991,6 @@
       </div>
     </dialog>
 
-    <script src="script.js?v=20261019c" defer></script>
+    <script src="script.js?v=20261019d" defer></script>
   </body>
 </html>

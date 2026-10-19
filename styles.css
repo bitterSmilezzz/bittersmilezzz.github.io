@@ -1556,6 +1556,17 @@ html[data-theme="light"] .filter-tab.is-active .filter-pill {
   background: var(--bg-inset);
   border: 1px solid var(--border-subtle);
   margin-bottom: 1.25rem;
+  cursor: pointer;
+  transition: border-color var(--dur-fast), background-color var(--dur-fast);
+}
+
+.widget-learning-box:hover {
+  border-color: var(--border-strong);
+}
+
+.widget-learning-box:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .learning-header {
@@ -1592,6 +1603,11 @@ html[data-theme="light"] .learning-track {
   height: 100%;
   background: var(--accent);
   border-radius: var(--r-pill);
+  transition: width var(--dur-base) var(--ease-apple), filter var(--dur-fast);
+}
+
+.learning-fill.is-pulsing {
+  filter: brightness(1.35);
 }
 
 .learning-footer-meta {
@@ -1762,18 +1778,42 @@ html[data-theme="light"] .learning-track {
 }
 
 .ac-mode-badge {
+  font: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
   color: #38bdf8;
   font-weight: 600;
+  transition: color var(--dur-fast), transform var(--dur-fast), filter var(--dur-fast);
+}
+
+.ac-mode-badge:hover {
+  filter: brightness(1.2);
+}
+
+.ac-mode-badge:active {
+  transform: scale(0.95);
+}
+
+.ac-mode-badge:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.ac-mode-badge.is-heat {
+  color: #f97316;
 }
 
 .ac-fan-badge {
   color: var(--text-muted);
 }
 
-/* 浅色下徽章文字压深（原 #38bdf8/#eab308 在浅底仅 1.9–2.1:1） */
+/* 浅色下徽章文字压深（原 #38bdf8/#eab308 在浅底仅 1.9–2.1:1，压深满足 WCAG AA >=4.5:1） */
 html[data-theme="light"] .lang-ts { color: #0369a1; }
 html[data-theme="light"] .lang-js { color: #854d0e; }
 html[data-theme="light"] .ac-mode-badge { color: #0369a1; }
+html[data-theme="light"] .ac-mode-badge.is-heat { color: #c2410c; }
 
 .empty-state {
   text-align: center;
@@ -2042,7 +2082,6 @@ html[data-theme="light"] .ac-mode-badge { color: #0369a1; }
 }
 
 .repo-row-card:hover .repo-circle-arrow {
-  color: var(--text-primary);
   background: var(--text-primary);
   color: var(--bg-canvas);
   transform: translate(2px, -2px);

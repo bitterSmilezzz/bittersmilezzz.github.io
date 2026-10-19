@@ -76,12 +76,16 @@ document.addEventListener("DOMContentLoaded", () => {
   const islandTokenCount = document.getElementById("island-token-count");
   const islandStateBadge = document.getElementById("island-state-badge");
   const islandActionSubbar = document.getElementById("island-action-subbar");
+  const islandCpuVal = document.getElementById("island-cpu-val");
+  const islandLatencyVal = document.getElementById("island-latency-val");
 
   const islandStates = {
     running: {
       agent: "Claude Code",
       task: "正在检索目录结构并构建依赖拓扑图",
       tokens: "4,280",
+      cpu: "4.8% (ACTIVE)",
+      latency: "0.4 ms",
       badge: "RUNNING",
       badgeClass: "tag-running",
       showSubbar: false,
@@ -90,6 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
       agent: "Codex Runtime",
       task: "检测到高危指令，等待执行确认",
       tokens: "6,120",
+      cpu: "1.2% (WAITING)",
+      latency: "0.8 ms",
       badge: "WAITING",
       badgeClass: "tag-waiting",
       showSubbar: true,
@@ -98,6 +104,8 @@ document.addEventListener("DOMContentLoaded", () => {
       agent: "AgentIsland Daemon",
       task: "本机所有智能体会话已就绪 · 等待唤醒",
       tokens: "0",
+      cpu: "0.4% (IDLE)",
+      latency: "1.2 ms",
       badge: "IDLE",
       badgeClass: "tag-idle",
       showSubbar: false,
@@ -116,6 +124,8 @@ document.addEventListener("DOMContentLoaded", () => {
       if (islandAgentText) islandAgentText.textContent = config.agent;
       if (islandTaskText) islandTaskText.textContent = config.task;
       if (islandTokenCount) islandTokenCount.textContent = config.tokens;
+      if (islandCpuVal && config.cpu) islandCpuVal.textContent = config.cpu;
+      if (islandLatencyVal && config.latency) islandLatencyVal.textContent = config.latency;
       if (islandStateBadge) {
         islandStateBadge.textContent = config.badge;
         islandStateBadge.className = `island-state-tag ${config.badgeClass}`;
@@ -150,27 +160,47 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 3. 空调温度调节微交互 (haier-ac-mac)
+  // 3. 空调温度与冷暖模式微交互 (haier-ac-mac)
   const acDegVal = document.getElementById("ac-deg-val");
   const btnTempDown = document.getElementById("btn-temp-down");
   const btnTempUp = document.getElementById("btn-temp-up");
+  const acModeToggle = document.getElementById("ac-mode-toggle");
   let currentTemp = 24;
+  let isCooling = true;
 
-  if (btnTempDown && acDegVal) {
-    btnTempDown.addEventListener("click", () => {
-      if (currentTemp > 16) {
-        currentTemp--;
-        acDegVal.textContent = String(currentTemp);
-      }
+  const setAcMode = (cooling) => {
+    isCooling = cooling;
+    if (acModeToggle) {
+      acModeToggle.textContent = isCooling ? "制冷模式" : "制热模式";
+      acModeToggle.classList.toggle("is-heat", !isCooling);
+    }
+  };
+
+  if (acModeToggle) {
+    acModeToggle.addEventListener("click", () => {
+      setAcMode(!isCooling);
     });
   }
-  if (btnTempUp && acDegVal) {
-    btnTempUp.addEventListener("click", () => {
-      if (currentTemp < 30) {
-        currentTemp++;
-        acDegVal.textContent = String(currentTemp);
+
+  const handleTempStep = (delta) => {
+    const next = currentTemp + delta;
+    if (next >= 16 && next <= 30) {
+      currentTemp = next;
+      if (acDegVal) acDegVal.textContent = String(currentTemp);
+      // 温度 >= 26 自动感知切为制热模式，<= 25 自动感知切为制冷模式
+      if (currentTemp >= 26 && isCooling) {
+        setAcMode(false);
+      } else if (currentTemp <= 25 && !isCooling) {
+        setAcMode(true);
       }
-    });
+    }
+  };
+
+  if (btnTempDown) {
+    btnTempDown.addEventListener("click", () => handleTempStep(-1));
+  }
+  if (btnTempUp) {
+    btnTempUp.addEventListener("click", () => handleTempStep(1));
   }
 
   // 5. 家族 Bento 分类筛选
@@ -518,6 +548,44 @@ document.addEventListener("DOMContentLoaded", () => {
       seg.addEventListener("mouseleave", deactivate);
       legend.addEventListener("mouseenter", activate);
       legend.addEventListener("mouseleave", deactivate);
+    });
+  }
+
+  // 13. KnowFlick 艾宾浩斯复习卡片打卡微交互体验
+  const kfBox = document.getElementById("knowflick-box");
+  const kfRate = document.getElementById("kf-rate");
+  const kfFill = document.getElementById("kf-fill");
+  const kfCards = document.getElementById("kf-cards");
+  const kfStreak = document.getElementById("kf-streak");
+
+  if (kfBox && kfRate && kfFill && kfCards && kfStreak) {
+    const steps = [
+      { rate: 85, cardsText: "今日待复习 4 张卡片", streakText: "连续高效打卡 28 天" },
+      { rate: 90, cardsText: "今日待复习 3 张卡片", streakText: "连续高效打卡 28 天" },
+      { rate: 95, cardsText: "今日待复习 2 张卡片", streakText: "连续高效打卡 28 天" },
+      { rate: 98, cardsText: "今日待复习 1 张卡片", streakText: "连续高效打卡 28 天" },
+      { rate: 100, cardsText: "今日复习已全部完成 ✨", streakText: "连续高效打卡 29 天" },
+    ];
+    let stepIndex = 0;
+
+    const advanceProgress = () => {
+      stepIndex = (stepIndex + 1) % steps.length;
+      const s = steps[stepIndex];
+      kfRate.textContent = `${s.rate}% 已完成`;
+      kfFill.style.width = `${s.rate}%`;
+      kfCards.textContent = s.cardsText;
+      kfStreak.textContent = s.streakText;
+
+      kfFill.classList.add("is-pulsing");
+      setTimeout(() => kfFill.classList.remove("is-pulsing"), 300);
+    };
+
+    kfBox.addEventListener("click", advanceProgress);
+    kfBox.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        advanceProgress();
+      }
     });
   }
 });
