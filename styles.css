@@ -809,31 +809,6 @@ html[data-theme="light"] .icon-moon { display: block; }
   color: var(--text-primary);
 }
 
-.hero-inline-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  vertical-align: middle;
-  height: 0.75em;
-  padding-inline: 0.6em;
-  margin-inline: 0.25em;
-  border-radius: var(--r-pill);
-  background: var(--accent-soft);
-  border: 1px solid var(--accent-border);
-  font-size: 0.38em;
-  font-weight: 600;
-  font-family: var(--font-mono);
-  color: var(--accent);
-  letter-spacing: 0.06em;
-}
-
-.inline-pill-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: var(--r-pill);
-  background: var(--accent);
-}
-
 .hero-title-accent {
   color: var(--text-secondary);
 }
@@ -849,6 +824,15 @@ html[data-theme="light"] .icon-moon { display: block; }
 .hero-manifesto strong {
   color: var(--text-primary);
   font-weight: 600;
+  /* 三个关键词是一个整体，避免「可验」/「证」被拆到两行 */
+  white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+  /* 窄屏允许换行，否则会撑出横向溢出 */
+  .hero-manifesto strong {
+    white-space: normal;
+  }
 }
 
 .hero-bottom-grid {

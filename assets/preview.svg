@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="fangshoufanji · 把想法做成自己用的工具">
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-label="fangshoufanji · 把问题做成工具">
   <defs>
     <radialGradient id="glow" cx="22%" cy="-8%" r="70%">
       <stop offset="0%" stop-color="#10b981" stop-opacity="0.10"/>
@@ -24,11 +24,9 @@
     <text x="1078" y="153" font-size="18" fill="#8e8e99" letter-spacing="2" text-anchor="end">SYS_ONLINE</text>
   </g>
 
-  <text x="120" y="268" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="96" font-weight="800" fill="#f4f4f6" letter-spacing="2">把想法做成，</text>
-  <text x="120" y="392" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="96" font-weight="800" fill="#f4f4f6" letter-spacing="2">自己用的工具。</text>
-  <rect x="620" y="216" width="252" height="62" rx="31" fill="#10b981" fill-opacity="0.10" stroke="#10b981" stroke-opacity="0.3"/>
-  <text x="746" y="258" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="34" font-weight="700" fill="#10b981" text-anchor="middle">· 实作主义</text>
-
+  <text x="120" y="268" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="96" font-weight="800" fill="#f4f4f6" letter-spacing="2">把问题，</text>
+  <text x="120" y="392" font-family="'PingFang SC','Hiragino Sans GB',sans-serif" font-size="96" font-weight="800" fill="#f4f4f6" letter-spacing="2">做成工具。</text>
+  
   <g font-family="'JetBrains Mono','SF Mono',Menlo,monospace" font-size="24" letter-spacing="4">
     <text x="120" y="522" fill="#8e8e99">4 APPS</text>
     <circle cx="246" cy="514" r="4" fill="#10b981"/>

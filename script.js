@@ -4,7 +4,7 @@
    1. 探照灯光标追踪 (ui-research/creatives/01 Spotlight)
    2. 旗舰舞台 AgentIsland 多态交互 (任务态 / 待处理会话态 / 待机态)
    3. 空调微组件互动调节 (haier-ac-mac 温度步进)
-   4. 家族 Bento 分类筛选
+   4. 在建项目 Bento 分类筛选
    5. 语义详情弹窗 (<dialog>) 全量项目元数据与焦点闭环 (WCAG 2.4.3)
    6. 深色 / 浅色模式切换 (View Transitions 圆形扩散)
    7. 年份自动更新
@@ -226,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnTempUp.addEventListener("click", () => handleTempStep(1));
   }
 
-  // 4. 家族 Bento 分类筛选
+  // 4. 在建项目 Bento 分类筛选
   const filterTabs = document.querySelectorAll(".filter-tab");
   const projectCards = document.querySelectorAll("[data-project-grid] .spotlight-card");
   const emptyStateEl = document.querySelector(".empty-state");
