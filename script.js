@@ -332,7 +332,43 @@ document.addEventListener("DOMContentLoaded", () => {
   if (themeToggle) {
     themeToggle.addEventListener("click", () => {
       const current = document.documentElement.getAttribute("data-theme") || "dark";
-      applyTheme(current === "dark" ? "light" : "dark", { persist: true });
+      const next = current === "dark" ? "light" : "dark";
+
+      if (
+        !document.startViewTransition ||
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      ) {
+        applyTheme(next, { persist: true });
+        return;
+      }
+
+      const rect = themeToggle.getBoundingClientRect();
+      const x = rect.left + rect.width / 2;
+      const y = rect.top + rect.height / 2;
+      const endRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      );
+
+      const transition = document.startViewTransition(() => {
+        applyTheme(next, { persist: true });
+      });
+
+      transition.ready.then(() => {
+        document.documentElement.animate(
+          {
+            clipPath: [
+              `circle(0px at ${x}px ${y}px)`,
+              `circle(${endRadius}px at ${x}px ${y}px)`
+            ]
+          },
+          {
+            duration: 440,
+            easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+            pseudoElement: "::view-transition-new(root)"
+          }
+        );
+      });
     });
   }
 
@@ -427,5 +463,19 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
     navHeader.addEventListener("focusin", () => setNavHidden(false));
+  }
+
+  // 11. 首屏开发者头像加载失败容灾（离线或 GitHub 资源受阻时优雅降级为品牌微标识）
+  const devAvatar = document.querySelector(".developer-avatar");
+  if (devAvatar) {
+    devAvatar.addEventListener(
+      "error",
+      () => {
+        devAvatar.src =
+          "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='24' fill='%2312151b'/%3E%3Cpath d='M25.6 27.4a4.4 4.4 0 1 1 0-8.8h.9v3h-.9a1.4 1.4 0 1 0 0 2.8h2.4v-2h-2.2v-3h5.2v5.1c0 1.9-1.5 3.4-3.4 3.4z' fill='%2310b981'/%3E%3C/svg%3E";
+        devAvatar.alt = "fangshoufanji 默认标识";
+      },
+      { once: true }
+    );
   }
 });
