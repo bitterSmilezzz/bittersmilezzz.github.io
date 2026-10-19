@@ -1628,12 +1628,20 @@ html[data-theme="light"] .learning-track {
   gap: 2px;
   height: 6px;
   border-radius: var(--r-pill);
-  overflow: hidden;
+  overflow: visible;
   margin-bottom: 0.5rem;
 }
 
 .segment {
   height: 100%;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: transform var(--dur-fast) var(--ease-apple), filter var(--dur-fast);
+}
+
+.segment.is-hovered {
+  transform: scaleY(1.6);
+  filter: brightness(1.25);
 }
 
 .seg-cache { background: #38bdf8; }
@@ -1648,12 +1656,28 @@ html[data-theme="light"] .learning-track {
   font-family: var(--font-mono);
 }
 
+.storage-legend span {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  transition: color var(--dur-fast);
+}
+
+.storage-legend span.is-hovered {
+  color: var(--text-primary);
+}
+
+.storage-legend span.is-hovered i {
+  transform: scale(1.35);
+}
+
 .storage-legend i {
   display: inline-block;
   width: 6px;
   height: 6px;
   border-radius: var(--r-pill);
-  margin-right: 2px;
+  margin-right: 4px;
+  transition: transform var(--dur-fast);
 }
 
 .dot-cache { background: #38bdf8; }

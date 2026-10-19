@@ -4,10 +4,14 @@
    1. 探照灯光标追踪 (ui-research/creatives/01 Spotlight)
    2. 旗舰舞台 AgentIsland 多态交互 (任务态 / 审批态 / 待机态)
    3. 空调微组件互动调节 (haier-ac-mac 温度步进)
-   4. 菜单栏图标收拢/展开 (BarShelf)
-   5. 家族 Bento 分类筛选
-   6. 语义详情弹窗 (<dialog>) 全量项目元数据
-   7. 深色 / 浅色模式切换
+   4. 家族 Bento 分类筛选
+   5. 语义详情弹窗 (<dialog>) 全量项目元数据与焦点闭环 (WCAG 2.4.3)
+   6. 深色 / 浅色模式切换 (View Transitions 圆形扩散)
+   7. 年份自动更新
+   8. 顶栏滚动高亮 (30% 判定线)
+   9. 顶栏滚动让位与焦点唤回
+   10. 首屏开发者头像加载容灾
+   11. MacClean 存储分段与图例联动
    ============================================================ */
 
 const projectData = {
@@ -212,7 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 6. 项目详情语义弹窗 (<dialog>)
+  // 6. 项目详情语义弹窗 (<dialog>) 与焦点恢复闭环 (WCAG 2.4.3)
   const dialog = document.querySelector(".project-dialog");
   const dialogTitle = document.getElementById("dialog-title");
   const dialogSubtitle = document.getElementById("dialog-subtitle");
@@ -221,10 +225,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const dialogLink = document.getElementById("dialog-link");
   const dialogPrivate = document.getElementById("dialog-private");
   const dialogCloseBtn = document.querySelector("[data-dialog-close]");
+  let lastDialogTrigger = null;
 
-  function openProjectDialog(projectId) {
+  function openProjectDialog(projectId, triggerEl) {
     const data = projectData[projectId];
     if (!data || !dialog) return;
+
+    lastDialogTrigger = triggerEl || document.activeElement;
 
     dialogTitle.textContent = data.title;
     dialogSubtitle.textContent = data.subtitle;
@@ -262,14 +269,19 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll("[data-open-project]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const pid = btn.getAttribute("data-open-project");
-      openProjectDialog(pid);
+      openProjectDialog(pid, btn);
     });
   });
 
   if (dialog) {
-    // Escape / 关闭键 / 背景点击 全部收敛到 close 事件，一处解锁
+    // Escape / 关闭键 / 背景点击 全部收敛到 close 事件，一处解锁并精确还原焦点
     dialog.addEventListener("close", () => {
       document.documentElement.classList.remove("is-dialog-open");
+      if (lastDialogTrigger && typeof lastDialogTrigger.focus === "function") {
+        try {
+          lastDialogTrigger.focus();
+        } catch (e) {}
+      }
     });
   }
 
@@ -477,5 +489,35 @@ document.addEventListener("DOMContentLoaded", () => {
       },
       { once: true }
     );
+  }
+
+  // 12. MacClean 存储分段条与图例联动微交互
+  const segCache = document.querySelector(".seg-cache");
+  const segResidue = document.querySelector(".seg-residue");
+  const segDup = document.querySelector(".seg-dup");
+  const legendItems = document.querySelectorAll(".storage-legend span");
+
+  if (legendItems.length >= 3) {
+    const pairs = [
+      { seg: segCache, legend: legendItems[0] },
+      { seg: segResidue, legend: legendItems[1] },
+      { seg: segDup, legend: legendItems[2] },
+    ];
+
+    pairs.forEach(({ seg, legend }) => {
+      if (!seg || !legend) return;
+      const activate = () => {
+        seg.classList.add("is-hovered");
+        legend.classList.add("is-hovered");
+      };
+      const deactivate = () => {
+        seg.classList.remove("is-hovered");
+        legend.classList.remove("is-hovered");
+      };
+      seg.addEventListener("mouseenter", activate);
+      seg.addEventListener("mouseleave", deactivate);
+      legend.addEventListener("mouseenter", activate);
+      legend.addEventListener("mouseleave", deactivate);
+    });
   }
 });
