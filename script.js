@@ -30,7 +30,7 @@ const projectData = {
   knowflick: {
     title: "KnowFlick",
     subtitle: "把阅读、思考与复习，收拢进同一个工作台 · 跨端自律闭环",
-    tags: ["macOS", "Android", "SwiftUI", "Kotlin Multiplatform"],
+    tags: ["macOS", "Android", "SwiftUI", "Jetpack Compose"],
     description:
       "解决碎片化阅读与记忆复习割裂的顽疾。在电脑端深度归纳结构化资料与阅读手记，在移动端利用碎片化时间刷艾宾浩斯复习卡片。支持端到端离线加密双端同步，毫秒级卡片检索渲染，告别臃肿三方云笔记。",
     url: "https://github.com/bitterSmilezzz/knowflick",
