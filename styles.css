@@ -492,6 +492,7 @@ html[data-theme="light"] .island-nav {
 .nav-brand {
   display: flex;
   align-items: center;
+  min-height: 24px;
   gap: 0.35rem;
   padding: 0.4rem 0.2rem;
   margin: -0.4rem -0.2rem;
@@ -522,6 +523,9 @@ html[data-theme="light"] .island-nav {
 }
 
 .nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
   font-size: 0.825rem;
   font-weight: 500;
   padding: 0.4rem 0.2rem;
@@ -549,6 +553,7 @@ html[data-theme="light"] .island-nav {
 .nav-gh-pill {
   display: inline-flex;
   align-items: center;
+  min-height: 24px;
   gap: 0.4rem;
   padding: 0.35rem 0.85rem;
   border-radius: var(--r-pill);
