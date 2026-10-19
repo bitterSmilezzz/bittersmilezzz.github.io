@@ -32,8 +32,8 @@
   <g font-family="'JetBrains Mono','SF Mono',Menlo,monospace" font-size="24" letter-spacing="4">
     <text x="120" y="522" fill="#8e8e99">4 APPS</text>
     <circle cx="246" cy="514" r="4" fill="#10b981"/>
-    <text x="270" y="522" fill="#8e8e99">4 REPOS</text>
-    <circle cx="404" cy="514" r="4" fill="#10b981"/>
-    <text x="428" y="522" fill="#8e8e99">MACOS NATIVE — AGENT TOOLING</text>
+    <text x="270" y="522" fill="#8e8e99">3 REPOS</text>
+    <circle cx="415" cy="514" r="4" fill="#10b981"/>
+    <text x="439" y="522" fill="#8e8e99">MACOS NATIVE — AGENT TOOLING</text>
   </g>
 </svg>
