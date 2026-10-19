@@ -1,11 +1,16 @@
 /* ============================================================
-   运行时中英文切换器
+   运行时中英文切换器（双向）
    ------------------------------------------------------------
-   中文原文是唯一事实源：
-   - 切英文：遍历文本节点，用中文原文查 I18N_EN 替换
-   - 切中文：从 WeakMap 还原原始节点内容（零副本、零漂移）
-   - 富文本走 data-i18n-html，属性和 title 走 I18N_EN_ATTR
-   跳过 script/style/code（代码示例必须保持原样）。
+   源码里的文案中英混杂，所以两个方向都要处理：
+
+   切英文：中文原文 -> 英文（I18N_EN）
+   切中文：源码里的英文 -> 中文（I18N_ZH）
+           中文原文保持不动
+
+   还原策略：每次切换前先把「原始节点值」存进 WeakMap（只存第一次见到的值），
+   之后所有写入都从原始值推导，避免来回切换后累积错乱。
+
+   跳过 script/style/code/pre，代码示例永远原样。
    ============================================================ */
 (function () {
   "use strict";
@@ -13,10 +18,9 @@
   var STORAGE_KEY = "lang";
   var SKIP_TAGS = { SCRIPT: 1, STYLE: 1, CODE: 1, PRE: 1, KBD: 1, SAMP: 1 };
 
-  /* 原文备忘：文本节点 -> 原始字符串；元素 -> 原始 innerHTML / 属性值 */
-  var textMemo = new WeakMap();
-  var htmlMemo = new WeakMap();
-  var attrMemo = new WeakMap();
+  var textMemo = new WeakMap();   /* 文本节点 -> 源码原始字符串 */
+  var htmlMemo = new WeakMap();   /* 富文本元素 -> 原始 innerHTML */
+  var attrMemo = new WeakMap();   /* 元素 -> { attr: 原始值 } */
 
   function currentLang() {
     return document.documentElement.getAttribute("data-lang") === "en" ? "en" : "zh";
@@ -26,7 +30,10 @@
     return s.replace(/\s+/g, " ").trim();
   }
 
-  /* ---------- 遍历所有可翻译文本节点 ---------- */
+  function has(obj, k) {
+    return obj && Object.prototype.hasOwnProperty.call(obj, k);
+  }
+
   function textNodes(root) {
     var out = [];
     var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
@@ -42,105 +49,86 @@
     return out;
   }
 
-  function toEnglish() {
-    var dict = window.I18N_EN || {};
+  /* 记录首次见到的原始值 */
+  function memo(node) {
+    if (!textMemo.has(node)) textMemo.set(node, node.nodeValue);
+    return textMemo.get(node);
+  }
 
-    /* 1. 纯文本节点 */
+  /* 按原始值 + 目标语言算出应该显示的字符串 */
+  function resolve(original, lang) {
+    var key = norm(original);
+    var dict = lang === "en" ? window.I18N_EN : window.I18N_ZH;
+    if (!has(dict, key)) return original;
+    /* 保留原节点的首尾空白，避免 inline 元素粘连或排版塌陷 */
+    var lead = original.match(/^\s*/)[0];
+    var trail = original.match(/\s*$/)[0];
+    return lead + dict[key] + trail;
+  }
+
+  function applyText(lang) {
     textNodes(document.body).forEach(function (node) {
-      if (!textMemo.has(node)) textMemo.set(node, node.nodeValue);
-      var original = textMemo.get(node);
-      var key = norm(original);
-      if (Object.prototype.hasOwnProperty.call(dict, key)) {
-        /* 保留原节点的前后空白，避免排版塌陷 */
-        var lead = original.match(/^\s*/)[0];
-        var trail = original.match(/\s*$/)[0];
-        node.nodeValue = lead + dict[key] + trail;
-      }
+      var original = memo(node);
+      node.nodeValue = resolve(original, lang);
     });
+  }
 
-    /* 2. 富文本节点 */
-    var htmlDict = window.I18N_EN_HTML || {};
+  function applyRich(lang) {
+    var dict = lang === "en" ? window.I18N_EN_HTML : window.I18N_ZH_HTML;
     document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
       if (!htmlMemo.has(el)) htmlMemo.set(el, el.innerHTML);
       var key = el.getAttribute("data-i18n-html");
-      if (Object.prototype.hasOwnProperty.call(htmlDict, key)) {
-        el.innerHTML = htmlDict[key];
-      }
+      if (has(dict, key)) el.innerHTML = dict[key];
+      else el.innerHTML = htmlMemo.get(el);
     });
+  }
 
-    /* 3. 属性文案 */
-    var attrDict = window.I18N_EN_ATTR || {};
+  function applyAttr(lang) {
+    var dict = lang === "en" ? window.I18N_EN_ATTR : window.I18N_ZH_ATTR;
     ["aria-label", "title", "alt"].forEach(function (attr) {
       document.querySelectorAll("[" + attr + "]").forEach(function (el) {
         var store = attrMemo.get(el) || {};
         if (!(attr in store)) store[attr] = el.getAttribute(attr);
         attrMemo.set(el, store);
         var original = store[attr];
-        if (original && Object.prototype.hasOwnProperty.call(attrDict, norm(original))) {
-          el.setAttribute(attr, attrDict[norm(original)]);
-        }
+        if (!original) return;
+        el.setAttribute(attr, has(dict, norm(original)) ? dict[norm(original)] : original);
       });
     });
+  }
 
-    /* 4. 页面标题与描述 */
-    var page = window.I18N_EN_PAGE || {};
+  function applyPage(lang) {
+    var page = lang === "en" ? window.I18N_EN_PAGE : null;
     if (!htmlMemo.has(document.head)) htmlMemo.set(document.head, document.title);
-    if (page.title) document.title = page.title;
+    document.title = page && page.title ? page.title : htmlMemo.get(document.head);
+
     var desc = document.querySelector('meta[name="description"]');
-    if (desc && page.description) {
+    if (desc) {
       if (!desc.hasAttribute("data-orig-desc")) {
         desc.setAttribute("data-orig-desc", desc.getAttribute("content"));
       }
-      desc.setAttribute("content", page.description);
+      var orig = desc.getAttribute("data-orig-desc");
+      desc.setAttribute("content", page && page.description ? page.description : orig);
     }
-
-    document.documentElement.setAttribute("lang", "en");
   }
 
-  function toChinese() {
-    /* 文本节点：还原备忘的原文 */
-    textNodes(document.body).forEach(function (node) {
-      if (textMemo.has(node)) node.nodeValue = textMemo.get(node);
-    });
-
-    /* 富文本 */
-    document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
-      if (htmlMemo.has(el)) el.innerHTML = htmlMemo.get(el);
-    });
-
-    /* 属性 */
-    ["aria-label", "title", "alt"].forEach(function (attr) {
-      document.querySelectorAll("[" + attr + "]").forEach(function (el) {
-        var store = attrMemo.get(el);
-        if (store && attr in store) el.setAttribute(attr, store[attr]);
-      });
-    });
-
-    /* 标题与描述 */
-    if (htmlMemo.has(document.head)) document.title = htmlMemo.get(document.head);
-    var desc = document.querySelector('meta[name="description"]');
-    if (desc && desc.hasAttribute("data-orig-desc")) {
-      desc.setAttribute("content", desc.getAttribute("data-orig-desc"));
+  /* 弹窗内容是 JS 动态注入的，切换语言时要让它自己重绘 */
+  function refreshOpenDialog() {
+    var dlg = document.querySelector(".project-dialog");
+    if (!dlg || !dlg.open) return;
+    var id = dlg.getAttribute("data-project-id");
+    if (id && typeof window.reopenProjectDialog === "function") {
+      window.reopenProjectDialog(id);
     }
-
-    document.documentElement.setAttribute("lang", "zh-CN");
   }
 
-  /* ---------- 应用语言（不落盘，供初始化调用） ---------- */
   function render(lang) {
-    if (lang === "en") toEnglish();
-    else toChinese();
-  }
-
-  /* ---------- 切换并持久化 ---------- */
-  function setLang(lang) {
-    var next = lang === "en" ? "en" : "zh";
-    document.documentElement.setAttribute("data-lang", next);
-    render(next);
-    syncButtons(next);
-    try {
-      localStorage.setItem(STORAGE_KEY, next);
-    } catch (e) {}
+    applyText(lang);
+    applyRich(lang);
+    applyAttr(lang);
+    applyPage(lang);
+    document.documentElement.setAttribute("lang", lang === "en" ? "en" : "zh-CN");
+    refreshOpenDialog();
   }
 
   function syncButtons(lang) {
@@ -151,11 +139,21 @@
     });
   }
 
-  /* ---------- 初始化 ---------- */
+  function setLang(lang) {
+    var next = lang === "en" ? "en" : "zh";
+    document.documentElement.setAttribute("data-lang", next);
+    render(next);
+    syncButtons(next);
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch (e) {}
+  }
+
   function init() {
     var lang = currentLang();
     syncButtons(lang);
-    if (lang === "en") render("en");
+    /* 中文模式也要跑一遍：把源码里的英文换成中文 */
+    render(lang);
 
     document.querySelectorAll("[data-lang-btn]").forEach(function (btn) {
       btn.addEventListener("click", function () {
@@ -170,6 +168,5 @@
     init();
   }
 
-  /* 暴露给调试与外部调用 */
   window.setSiteLanguage = setLang;
 })();

@@ -280,21 +280,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const dialogCloseBtn = document.querySelector("[data-dialog-close]");
   let lastDialogTrigger = null;
 
+  /* 语言切换时需要按新语言重绘已打开的弹窗 */
+  window.reopenProjectDialog = function (projectId) {
+    openProjectDialog(projectId, lastDialogTrigger);
+  };
+
   function openProjectDialog(projectId, triggerEl) {
     const data = projectData[projectId];
     if (!data || !dialog) return;
 
     lastDialogTrigger = triggerEl || document.activeElement;
+    dialog.setAttribute("data-project-id", projectId);
 
-    dialogTitle.textContent = data.title;
-    dialogSubtitle.textContent = data.subtitle;
-    dialogDesc.textContent = data.description;
+    /* 按当前语言取文案：中文用原文，英文查 I18N_EN 表 */
+    const isEn = document.documentElement.getAttribute("data-lang") === "en";
+    const tr = (s) => {
+      if (!isEn || !s) return s;
+      const key = s.replace(/\s+/g, " ").trim();
+      const dict = window.I18N_EN || {};
+      return Object.prototype.hasOwnProperty.call(dict, key) ? dict[key] : s;
+    };
+
+    dialogTitle.textContent = tr(data.title);
+    dialogSubtitle.textContent = tr(data.subtitle);
+    dialogDesc.textContent = tr(data.description);
 
     dialogTags.innerHTML = "";
     data.tags.forEach((tag) => {
       const span = document.createElement("span");
       span.className = "tech-tag";
-      span.textContent = tag;
+      span.textContent = tr(tag);
       dialogTags.appendChild(span);
     });
 
