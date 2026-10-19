@@ -62,7 +62,7 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261019j" />
+    <link rel="stylesheet" href="styles.css?v=20261019k" />
     <script>
       (function () {
         var r = document.documentElement;
@@ -864,6 +864,43 @@
                 </div>
               </div>
             </article>
+
+            <article class="note-card spotlight-card">
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="spotlight-inner">
+                  <p class="note-meta"><span>05</span><span class="note-date">2026-10</span></p>
+                  <h3 class="note-title">声明的对比度 ≠ 渲染出来的对比度</h3>
+                  <p class="note-body">
+                    上一轮把小字从 <strong>1.49:1</strong> 修到 <strong>4.63:1</strong>，结论写「读得清」，
+                    还附了一句「<code>blur(2px)</code> 不改变实测对比度」。
+                    <strong>那句话没被验证过，而它是错的</strong>——对比度按 CSS 颜色算，
+                    <code>blur</code> 改的是渲染像素。11.5px 的中文字笔画约 1px，2px 半径比笔画还宽，
+                    字形直接糊掉。改用逐像素算相对亮度才量得出来。
+                  </p>
+                  <p class="note-tag">测量方法 · 自我推翻</p>
+                </div>
+              </div>
+            </article>
+
+            <article class="note-card spotlight-card">
+              <div class="spotlight-border" aria-hidden="true"></div>
+              <div class="spotlight-core">
+                <div class="spotlight-surface" aria-hidden="true"></div>
+                <div class="spotlight-inner">
+                  <p class="note-meta"><span>06</span><span class="note-date">2026-10</span></p>
+                  <h3 class="note-title">调 opacity 让内容「退后」，这条路走不通</h3>
+                  <p class="note-body">
+                    想让非活跃行淡下去，把 alpha 从 0.30 一路扫到 1.00——
+                    小字要够 4.5:1，所需 alpha 恰好是 <strong>1.00</strong>（0.85 时才 4.19:1）。
+                    根因是墨色满强度也只有 <strong>5.42:1</strong>，<strong>没有余量供衰减</strong>，
+                    而 opacity 是作用在整行上的。改成明度分档后层次差从「1.49 vs 17.12」变成「5.42 vs 17.12」。
+                  </p>
+                  <p class="note-tag">对比度 · 层次设计</p>
+                </div>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -1080,6 +1117,6 @@
       </div>
     </dialog>
 
-    <script src="script.js?v=20261019j" defer></script>
+    <script src="script.js?v=20261019k" defer></script>
   </body>
 </html>
