@@ -655,11 +655,58 @@ html[data-theme="light"] .icon-moon { display: block; }
 }
 
 /* ============================================================
+   语言切换微型双态胶囊开关 (中 / EN)
+   ============================================================ */
+.lang-switch-capsule {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px;
+  border-radius: var(--r-pill);
+  background: var(--bg-inset);
+  border: 1px solid var(--border-subtle);
+  gap: 2px;
+}
+
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.15rem 0.5rem;
+  min-height: 24px;
+  border-radius: var(--r-pill);
+  border: none;
+  background: transparent;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--dur-fast), color var(--dur-fast), transform var(--dur-fast);
+}
+
+.lang-btn:hover {
+  color: var(--text-primary);
+}
+
+.lang-btn.is-active {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+html[data-theme="light"] .lang-btn.is-active {
+  background: #ffffff;
+  color: #08090a;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+/* ============================================================
    首屏：画报级排版与真实开发者印章
    ============================================================ */
 .hero-section {
-  padding-top: clamp(6.5rem, 13vw, 9.5rem);
-  padding-bottom: clamp(3rem, 6vw, 4.5rem);
+  padding-top: clamp(4.5rem, 8vw, 6rem);
+  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
 }
 
 .telemetry-bar {
@@ -667,7 +714,7 @@ html[data-theme="light"] .icon-moon { display: block; }
   align-items: center;
   justify-content: space-between;
   padding-bottom: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   border-bottom: 1px solid var(--border-subtle);
   font-family: var(--font-mono);
   font-size: 0.7rem;
@@ -818,7 +865,7 @@ html[data-theme="light"] .icon-moon { display: block; }
   color: var(--text-secondary);
   max-width: 44rem;
   line-height: 1.7;
-  margin-bottom: 2.75rem;
+  margin-bottom: 1.5rem;
 }
 
 .hero-manifesto strong {
@@ -838,8 +885,8 @@ html[data-theme="light"] .icon-moon { display: block; }
 .hero-bottom-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.75rem;
-  padding-top: 2rem;
+  gap: 1.25rem;
+  padding-top: 1.25rem;
   border-top: 1px solid var(--border-subtle);
 }
 
@@ -966,7 +1013,7 @@ html[data-theme="light"] .spotlight-border {
    Tier 1: 苹果发布会式单品旗舰展台 (AgentIsland Showcase)
    ============================================================ */
 .section-flagship {
-  padding-block: clamp(3rem, 6vw, 5.5rem);
+  padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
 }
 
 .showcase-shell {
@@ -1377,7 +1424,7 @@ html[data-theme="light"] .stage-toggle-group {
    Tier 2: 原生自研工具家族矩阵 (Apple-Tier Bento Suite)
    ============================================================ */
 .section-suite {
-  padding-block: clamp(3rem, 6vw, 5.5rem);
+  padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
 }
 
 .section-header-row {
@@ -1441,6 +1488,8 @@ html[data-theme="light"] .stage-toggle-group {
   font-size: 0.775rem;
   font-weight: 500;
   color: var(--text-secondary);
+  /* 标签文案整体不折行：英文比中文长，折行会让控件高度跳变 */
+  white-space: nowrap;
   transition: color var(--dur-fast), background-color var(--dur-fast),
     border-color var(--dur-fast);
 }
@@ -1540,7 +1589,7 @@ html[data-theme="light"] .filter-tab.is-active .filter-pill {
 .bento-inner-body {
   position: relative;
   z-index: 2;
-  padding: 1.85rem;
+  padding: 1.35rem;
   height: 100%;
 }
 
@@ -1893,14 +1942,14 @@ html[data-theme="light"] .ac-mode-badge.is-heat { color: #ad3c08; } /* 实测 5.
    Tier 3: 做事方式与工程规格 (8+4 不对称布局)
    ============================================================ */
 .section-about {
-  padding-block: clamp(3rem, 6vw, 5.5rem);
+  padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
 }
 
 .about-bento-grid {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   gap: 1.25rem;
-  margin-top: 2rem;
+  margin-top: 1.25rem;
 }
 
 .about-col-8 {
@@ -1932,13 +1981,13 @@ html[data-theme="light"] .ac-mode-badge.is-heat { color: #ad3c08; } /* 实测 5.
   font-weight: 800;
   color: var(--text-primary);
   letter-spacing: -0.02em;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .philosophy-steps {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.85rem;
 }
 
 .step-row {
@@ -2031,7 +2080,7 @@ html.js .widget-learning-box {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 0.65rem;
 }
 
 .tech-spec-list li {
@@ -2081,7 +2130,7 @@ html.js .widget-learning-box {
    Tier 3.5: 手记 (FIELD NOTES)
    ============================================================ */
 .section-notes {
-  padding-block: clamp(3rem, 6vw, 5.5rem);
+  padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
 }
 
 .notes-grid {
@@ -2090,7 +2139,7 @@ html.js .widget-learning-box {
      当前 6 篇 = 3 行 × 2 列，正好填满。窄屏（≤640px）回落单列。 */
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
-  margin-top: 2rem;
+  margin-top: 1.25rem;
 }
 
 @media (max-width: 640px) {
@@ -2106,10 +2155,10 @@ html.js .widget-learning-box {
 .spotlight-inner {
   position: relative;
   z-index: 2;
-  padding: 1.5rem;
+  padding: 1.2rem;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.45rem;
   height: 100%;
 }
 
@@ -2174,7 +2223,7 @@ html.js .widget-learning-box {
    Tier 4: GitHub 开源仓库 (High Density Row Cards)
    ============================================================ */
 .section-repos {
-  padding-block: clamp(3rem, 6vw, 5.5rem);
+  padding-block: clamp(1.75rem, 3.5vw, 2.75rem);
 }
 
 .link-more-gh {
@@ -2285,16 +2334,16 @@ html[data-theme="light"] .badge-lang {
    页脚与联系
    ============================================================ */
 .site-footer {
-  padding-top: clamp(3rem, 6vw, 5rem);
-  padding-bottom: calc(clamp(3rem, 6vw, 5rem) + env(safe-area-inset-bottom, 0px));
+  padding-top: clamp(2rem, 4vw, 3.25rem);
+  padding-bottom: calc(clamp(2rem, 4vw, 3.25rem) + env(safe-area-inset-bottom, 0px));
   border-top: 1px solid var(--border-subtle);
-  margin-top: 4rem;
+  margin-top: 2.25rem;
 }
 
 .footer-card-inner {
   position: relative;
   z-index: 2;
-  padding: clamp(2rem, 5vw, 3.5rem);
+  padding: clamp(1.4rem, 3.5vw, 2.25rem);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;

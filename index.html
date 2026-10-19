@@ -62,7 +62,7 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261019u" />
+    <link rel="stylesheet" href="styles.css?v=20261019v" />
     <script>
       (function () {
         var r = document.documentElement;
@@ -80,6 +80,12 @@
         r.setAttribute("data-theme", theme);
         var m = document.querySelector('meta[name="theme-color"]');
         if (m) m.setAttribute("content", theme === "light" ? "#f9fafb" : "#08090a");
+
+        var savedLang = null;
+        try { savedLang = localStorage.getItem("lang"); } catch(e){}
+        var lang = (savedLang === "en" || savedLang === "zh") ? savedLang : "zh";
+        r.setAttribute("data-lang", lang);
+        r.setAttribute("lang", lang === "en" ? "en" : "zh-CN");
       })();
     </script>
   </head>
@@ -111,6 +117,11 @@
         </div>
 
         <div class="nav-actions">
+          <div class="lang-switch-capsule" role="group" aria-label="语言切换 / Language Switcher" data-i18n-aria="nav.langAria">
+            <button class="lang-btn is-active" type="button" data-lang-btn="zh" aria-pressed="true">中</button>
+            <button class="lang-btn" type="button" data-lang-btn="en" aria-pressed="false">EN</button>
+          </div>
+
           <a
             class="nav-gh-pill"
             href="https://github.com/bitterSmilezzz"
@@ -200,14 +211,14 @@
 
           <!-- 苹果 Keynote 风格画报大标题 (8:1 视觉反差) -->
           <div class="hero-heading-block">
-            <h1 id="hero-title" class="hero-title">
+            <h1 id="hero-title" class="hero-title" data-i18n-html="hero.title">
               把问题，
               <br />
               <span class="hero-title-accent">做成工具。</span>
             </h1>
           </div>
 
-          <p class="hero-manifesto">
+          <p class="hero-manifesto" data-i18n-html="hero.manifesto">
             从真实问题出发，先交付可用的实现，再以可测量的标准反复验证与迭代。
             <strong>可验证 · 可维护 · 可持续。</strong>
           </p>
@@ -802,7 +813,7 @@
                 <div class="spotlight-inner">
                   <p class="note-meta"><span>01</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">hidden 不是万能锁</h3>
-                  <p class="note-body">
+                  <p class="note-body" data-i18n-html="notes.n1Body">
                     给容器写了 <code>display: flex</code>，它就盖过了浏览器默认的
                     <code>[hidden] { display: none }</code>。会话入口子栏在「任务执行态」下藏不住，
                     实测 <code>hidden=true</code> 却仍有 <strong>40.5px</strong> 高度。
@@ -820,7 +831,7 @@
                 <div class="spotlight-inner">
                   <p class="note-meta"><span>02</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">「永远深色」的块，别用会变色的墨</h3>
-                  <p class="note-body">
+                  <p class="note-body" data-i18n-html="notes.n2Body">
                     灵动岛胶囊底恒为黑，里面的强调色却跟着主题走。浅色主题那支
                     <code>#059669</code> 压在 12% 白罩的黑底上（实际渲染
                     <code>rgb(31,31,31)</code>），合成后只有 <strong>4.39:1</strong>，差 4.5 一线。
@@ -838,7 +849,7 @@
                 <div class="spotlight-inner">
                   <p class="note-meta"><span>03</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">过渡还没跑完，别急着读颜色</h3>
-                  <p class="note-body">
+                  <p class="note-body" data-i18n-html="notes.n3Body">
                     验证三态指示灯时，三种状态的颜色读出来一模一样，差点当成缺陷去修。
                     真因是 <code>getComputedStyle</code> 在过渡进行中返回的是<strong>插值中间值</strong>——
                     点击后立刻读，读到的是起点色。等过渡结束再读，三态才各自成立。
@@ -855,7 +866,7 @@
                 <div class="spotlight-inner">
                   <p class="note-meta"><span>04</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">「元素可见吗」不能只看它自己的 display</h3>
-                  <p class="note-body">
+                  <p class="note-body" data-i18n-html="notes.n4Body">
                     <code>getComputedStyle(el).display</code> <strong>不继承</strong>祖先的
                     <code>display: none</code>。父容器已隐藏时，子元素仍报 <code>block</code>，
                     于是「无 JS 时还有几个死控件」数出来是三个，实际是零。
@@ -873,7 +884,7 @@
                 <div class="spotlight-inner">
                   <p class="note-meta"><span>05</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">声明的对比度 ≠ 渲染出来的对比度</h3>
-                  <p class="note-body">
+                  <p class="note-body" data-i18n-html="notes.n5Body">
                     上一轮把小字从 <strong>1.49:1</strong> 修到 <strong>4.63:1</strong>，结论写「读得清」，
                     还附了一句「<code>blur(2px)</code> 不改变实测对比度」。
                     <strong>那句话没被验证过，而它是错的</strong>——对比度按 CSS 颜色算，
@@ -892,7 +903,7 @@
                 <div class="spotlight-inner">
                   <p class="note-meta"><span>06</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">调 opacity 让内容「退后」，这条路走不通</h3>
-                  <p class="note-body">
+                  <p class="note-body" data-i18n-html="notes.n6Body">
                     想让非活跃行淡下去，把 alpha 从 0.30 一路扫到 1.00——
                     小字要够 4.5:1，所需 alpha 恰好是 <strong>1.00</strong>（0.85 时才 4.19:1）。
                     根因是墨色满强度也只有 <strong>5.42:1</strong>，<strong>没有余量供衰减</strong>，
@@ -1094,6 +1105,8 @@
       </div>
     </dialog>
 
-    <script src="script.js?v=20261019u" defer></script>
+    <script src="i18n.js?v=20261019v" defer></script>
+    <script src="i18n-runtime.js?v=20261019v" defer></script>
+    <script src="script.js?v=20261019v" defer></script>
   </body>
 </html>
