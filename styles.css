@@ -1503,14 +1503,53 @@ html[data-theme="light"] .filter-tab.is-active .filter-pill {
   gap: 1.25rem;
 }
 
-.bento-col-6 {
+.bento-col-6,
+.bento-col-12 {
   grid-column: span 12;
 }
-
 
 @media (min-width: 860px) {
   .bento-col-6 {
     grid-column: span 6;
+  }
+  .bento-col-12 {
+    grid-column: span 12;
+  }
+}
+
+/* ---- 宽幅 Bento 卡 (2+1 闭环栅格) ---- */
+.bento-wide-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media (min-width: 860px) {
+  .bento-wide-body {
+    display: grid;
+    grid-template-columns: 1fr minmax(280px, 340px);
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "content widget"
+      "footer  widget";
+    gap: 1.25rem 2.5rem;
+    align-items: center;
+  }
+
+  .bento-wide-content {
+    grid-area: content;
+  }
+
+  .bento-card-wide .card-bottom-group {
+    grid-area: footer;
+    margin-top: 0;
+  }
+
+  .bento-card-wide .widget-ac-box {
+    grid-area: widget;
+    margin-bottom: 0;
+    width: 100%;
+    padding: 1.5rem 1.6rem;
   }
 }
 
