@@ -2055,8 +2055,8 @@ html.js .widget-learning-box {
 
 .notes-grid {
   display: grid;
-  /* 4 篇正好 2×2：auto-fit 会排成 3+1 留出空洞，固定两列更稳；
-     窄屏自然回落到单列。 */
+  /* 固定两列：auto-fit 在篇数不是列数整数倍时会留空洞（4 篇时曾排成 3+1）；
+     当前 6 篇 = 3 行 × 2 列，正好填满。窄屏（≤640px）回落单列。 */
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.25rem;
   margin-top: 2rem;
