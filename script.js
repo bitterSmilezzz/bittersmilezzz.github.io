@@ -12,6 +12,10 @@
    9. 顶栏滚动让位与焦点唤回
    10. 首屏开发者头像加载容灾
    11. MacClean 存储分段与图例联动
+   12. KnowFlick 复习打卡微交互
+
+   渐进增强约定：可点语义（role / tabindex / aria-label）与指针手势都由 JS 注入，
+   无 JS 时这些控件退化为纯展示内容，不做「点了没反应却看着能点」的假控件。
    ============================================================ */
 
 const projectData = {
@@ -186,8 +190,18 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   if (acModeToggle) {
-    acModeToggle.addEventListener("click", () => {
-      setAcMode(!isCooling);
+    // 可点语义由 JS 注入：无 JS 时它是纯文本，不该被读屏当成按钮、也不该被 Tab 聚焦
+    acModeToggle.setAttribute("role", "button");
+    acModeToggle.setAttribute("tabindex", "0");
+    acModeToggle.setAttribute("aria-label", "切换空调冷暖模式");
+
+    const toggleAcMode = () => setAcMode(!isCooling);
+    acModeToggle.addEventListener("click", toggleAcMode);
+    acModeToggle.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        toggleAcMode();
+      }
     });
   }
 
@@ -212,7 +226,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btnTempUp.addEventListener("click", () => handleTempStep(1));
   }
 
-  // 5. 家族 Bento 分类筛选
+  // 4. 家族 Bento 分类筛选
   const filterTabs = document.querySelectorAll(".filter-tab");
   const projectCards = document.querySelectorAll("[data-project-grid] .spotlight-card");
   const emptyStateEl = document.querySelector(".empty-state");
@@ -255,7 +269,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 6. 项目详情语义弹窗 (<dialog>) 与焦点恢复闭环 (WCAG 2.4.3)
+  // 5. 项目详情语义弹窗 (<dialog>) 与焦点恢复闭环 (WCAG 2.4.3)
   const dialog = document.querySelector(".project-dialog");
   const dialogTitle = document.getElementById("dialog-title");
   const dialogSubtitle = document.getElementById("dialog-subtitle");
@@ -352,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 7. 深色 / 浅色模式切换（写入收敛到单一来源 applyTheme）
+  // 6. 深色 / 浅色模式切换（写入收敛到单一来源 applyTheme）
   const themeToggle = document.querySelector("[data-theme-toggle]");
   const readSavedTheme = () => {
     try {
@@ -435,13 +449,13 @@ document.addEventListener("DOMContentLoaded", () => {
     schemeQuery.addListener(onSchemeChange);
   }
 
-  // 8. 年份自动更新
+  // 7. 年份自动更新
   const yearEl = document.getElementById("current-year");
   if (yearEl) {
     yearEl.textContent = String(new Date().getFullYear());
   }
 
-  // 9. 顶栏滚动高亮：判定线取视口 30% 高度处，高亮「上沿已越过判定线的
+  // 8. 顶栏滚动高亮：判定线取视口 30% 高度处，高亮「上沿已越过判定线的
   //    最后一个区块」；顶部 hero 与页脚区域无区块越线 → 全部取消。
   //    不用 IntersectionObserver 的相交占比：区块高矮不一时占比会偏袒矮者
   //    （实测 suite 位置上 flagship 尾部以 0.081 vs 0.067 抢走高亮），
@@ -486,7 +500,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // 10. 顶栏滚动隐藏：向下滚让位、向上滚回归。
+  // 9. 顶栏滚动隐藏：向下滚让位、向上滚回归。
   //     键盘焦点在顶栏内时始终显示（否则 Tab 会落在看不见的链接上）；
   //     回到页顶也始终显示。位移量 <4px 视为抖动不响应。
   const navHeader = document.querySelector(".island-nav-header");
@@ -516,7 +530,7 @@ document.addEventListener("DOMContentLoaded", () => {
     navHeader.addEventListener("focusin", () => setNavHidden(false));
   }
 
-  // 11. 首屏开发者头像加载失败容灾（离线或 GitHub 资源受阻时优雅降级为品牌微标识）
+  // 10. 首屏开发者头像加载失败容灾（离线或 GitHub 资源受阻时优雅降级为品牌微标识）
   const devAvatar = document.querySelector(".developer-avatar");
   if (devAvatar) {
     devAvatar.addEventListener(
@@ -530,7 +544,7 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
-  // 12. MacClean 存储分段条与图例联动微交互
+  // 11. MacClean 存储分段条与图例联动微交互
   const segCache = document.querySelector(".seg-cache");
   const segResidue = document.querySelector(".seg-residue");
   const segDup = document.querySelector(".seg-dup");
@@ -560,7 +574,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // 13. KnowFlick 艾宾浩斯复习卡片打卡微交互体验
+  // 12. KnowFlick 艾宾浩斯复习卡片打卡微交互体验
   const kfBox = document.getElementById("knowflick-box");
   const kfRate = document.getElementById("kf-rate");
   const kfFill = document.getElementById("kf-fill");
@@ -588,6 +602,11 @@ document.addEventListener("DOMContentLoaded", () => {
       kfFill.classList.add("is-pulsing");
       setTimeout(() => kfFill.classList.remove("is-pulsing"), 300);
     };
+
+    // 同上：可点语义只在 JS 可用时存在
+    kfBox.setAttribute("role", "button");
+    kfBox.setAttribute("tabindex", "0");
+    kfBox.setAttribute("aria-label", "点击模拟完成今日卡片复习");
 
     kfBox.addEventListener("click", advanceProgress);
     kfBox.addEventListener("keydown", (e) => {

@@ -114,7 +114,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-canvas);
   scrollbar-width: thin;
-  scrollbar-color: var(--border-strong) transparent;
+  scrollbar-color: var(--border-active) transparent;
 }
 
 body {
@@ -150,7 +150,7 @@ html[data-theme="light"] ::selection {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-strong);
+  background: var(--border-active);
   border-radius: var(--r-pill);
   border: 2px solid transparent;
   background-clip: padding-box;
@@ -1228,6 +1228,13 @@ html[data-theme="light"] .spotlight-border {
   gap: 0.75rem;
 }
 
+/* 作者样式里的 display:flex 会盖过 UA 的 [hidden]{display:none}，
+   导致「任务执行态」也一直露出审批子栏（实测 hidden=true 但高度 40.5px）。
+   显式补回：隐藏态一律不显示。 */
+.island-action-subbar[hidden] {
+  display: none;
+}
+
 .subbar-warn {
   font-size: 0.725rem;
   color: #ff9f0a;
@@ -1587,12 +1594,11 @@ html[data-theme="light"] .filter-tab.is-active .filter-pill {
   background: var(--bg-inset);
   border: 1px solid var(--border-subtle);
   margin-bottom: 1.25rem;
-  cursor: pointer;
   transition: border-color var(--dur-fast), background-color var(--dur-fast);
 }
 
 .widget-learning-box:hover {
-  border-color: var(--border-strong);
+  border-color: var(--border-active);
 }
 
 .widget-learning-box:focus-visible {
@@ -1813,7 +1819,6 @@ html[data-theme="light"] .learning-track {
   background: none;
   border: none;
   padding: 0;
-  cursor: pointer;
   color: #38bdf8;
   font-weight: 600;
   transition: color var(--dur-fast), transform var(--dur-fast), filter var(--dur-fast);
@@ -1921,6 +1926,12 @@ html[data-theme="light"] .ac-mode-badge.is-heat { color: #ad3c08; } /* 实测 5.
   background: var(--accent-soft);
   border: 1px solid var(--accent-border);
   transition: box-shadow var(--dur-fast), background-color var(--dur-fast);
+}
+
+/* 指针手势：仅在 JS 可用时呈现（无 JS 时这些控件不工作，不该装作可点） */
+html.js .ac-mode-badge,
+html.js .widget-learning-box {
+  cursor: pointer;
 }
 
 /* 悬停推进：整行右移 + 序号亮起。位移用 transform，不产生布局位移；
@@ -2354,6 +2365,20 @@ html[data-theme="light"] .badge-lang {
     transition-duration: 0.01ms !important;
   }
 
+  /* 缩短时长只是「变快」，位移与平滑滚动仍是动。
+     减弱动效要做的是去掉前庭刺激源本身（旧档：保留状态变更、去掉位移与缩放）。 */
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .step-row:hover {
+    transform: none;
+  }
+
+  .status-indicator::after {
+    display: none;
+  }
+
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
@@ -2369,8 +2394,17 @@ html[data-theme="light"] .badge-lang {
 /* ---- 无 JS：点了没反应的控件不装作可点（页内锚点与全部静态内容仍可用） ---- */
 html:not(.js) [data-theme-toggle],
 html:not(.js) .filter-tab,
-html:not(.js) [data-open-project] {
+html:not(.js) [data-open-project],
+html:not(.js) .stage-control-bar,
+html:not(.js) .btn-temp-step {
   display: none;
+}
+
+/* 无 JS 时「可点的样子」也要一并撤掉：指针手势与可点语义（role/tabindex）都改由 JS 注入，
+   否则键盘仍能聚焦到一个点了没反应的控件上。 */
+html:not(.js) .ac-mode-badge,
+html:not(.js) .widget-learning-box {
+  cursor: default;
 }
 
 /* ---- 键盘焦点环：探照灯卡片 overflow:hidden 会裁掉外扩环，内缩画在自身框内 ---- */
@@ -2431,7 +2465,8 @@ html:not(.js) [data-open-project] {
      保色文字在系统画布上实测仅 2.22:1（旧档原话：状态用系统色、保留状态球颜色） */
   .eyebrow-dot,
   .eyebrow-dot-green,
-  .status-indicator {
+  .status-indicator,
+  .green-indicator {
     forced-color-adjust: none;
   }
 }
