@@ -244,6 +244,10 @@
     "跨端工作台": "Cross-Platform",
     "macOS 原生工具": "macOS Native",
 
+    "浅色": "Light",
+    "深色": "Dark",
+    "外观模式：浅色 / 深色": "Appearance: light / dark",
+
     /* ---- 弹窗 ---- */
     "访问 GitHub 代码仓库": "Visit GitHub Repository",
     "该项目暂未开放公开仓库。": "This project's repository is not public yet.",
@@ -357,6 +361,8 @@
     "降低温度": "Decrease temperature",
     "升高温度": "Increase temperature",
     "关闭对话框": "Close dialog",
+    "外观模式：浅色 / 深色": "Appearance: light / dark",
+
     "fangshoufanji 的头像": "fangshoufanji avatar"
   };
 
