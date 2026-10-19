@@ -588,25 +588,155 @@ html[data-theme="light"] .nav-gh-pill {
 }
 
 .theme-toggle {
-  display: flex;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem 0.3rem 0.45rem;
+  border-radius: var(--r-pill);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: color var(--dur-fast), border-color var(--dur-fast), background var(--dur-fast);
+}
+
+.theme-toggle:hover {
+  color: var(--text-primary);
+  border-color: var(--border-active);
+}
+
+.theme-icon-box {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: var(--r-pill);
-  color: var(--text-secondary);
-  transition: color var(--dur-fast), background var(--dur-fast);
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+/* ---- 灯泡本体 ---- */
+.bulb {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+}
+
+.bulb-glass {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  transition: color var(--dur-base);
+}
+
+/* 光晕：点亮时从灯泡背后散开（slingshot-lamp 的柔光余晖） */
+.bulb-glow {
+  position: absolute;
+  left: 50%;
+  top: 45%;
+  width: 26px;
+  height: 26px;
+  transform: translate(-50%, -50%) scale(0.4);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 205, 110, 0.55) 0%,
+    rgba(255, 190, 90, 0.22) 42%,
+    transparent 72%
+  );
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 灯绳：垂在灯泡下方的小线，暗示"拉一下" */
+.bulb-cord {
+  position: absolute;
+  left: 50%;
+  top: 15px;
+  width: 1px;
+  height: 4px;
+  margin-left: calc(1px / -2);
+  background: currentColor;
+  opacity: 0.45;
+  border-radius: 1px;
+  transform-origin: top center;
+  transition: transform var(--dur-base) var(--ease-apple);
+}
+
+.theme-toggle:hover .bulb-cord {
+  transform: scaleY(1.35);
+}
+
+/* ---- 三态表现 ---- */
+/* 深色：灯泡亮起（暖黄），光晕可见 */
+html[data-theme="dark"] .theme-toggle .bulb-glass {
+  color: #ffc46b;
+}
+
+html[data-theme="dark"] .theme-toggle .bulb-glow {
+  opacity: 0.5;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* 浅色：灯泡熄灭（灰），光晕消失 */
+html[data-theme="light"] .theme-toggle .bulb-glass {
+  color: var(--text-muted);
+}
+
+html[data-theme="light"] .theme-toggle .bulb-glow {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
+}
+
+/* 跟随系统：灯泡半亮，带一圈虚线感提示"随环境" */
+html[data-theme-mode="auto"] .theme-toggle .bulb-glass {
+  color: #ffc46b;
+  opacity: 0.62;
+}
+
+html[data-theme-mode="auto"] .theme-toggle .bulb-glow {
+  opacity: 0.3;
+  transform: translate(-50%, -50%) scale(0.85);
+}
+
+/* 模式文字 */
+.theme-mode-label {
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* 窄屏只留灯泡 */
+@media (max-width: 560px) {
+  .theme-mode-label {
+    display: none;
+  }
+  .theme-toggle {
+    padding: 0.3rem;
+  }
+}
+
+/* 减少动效：不做灯丝抖动 */
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle,
+  .bulb-glass,
+  .bulb-glow,
+  .bulb-cord {
+    transition: none !important;
+  }
 }
 
 .theme-toggle:hover {
   color: var(--text-primary);
   background: rgba(255, 255, 255, 0.08);
 }
-
-html[data-theme="dark"] .icon-sun { display: block; }
-html[data-theme="dark"] .icon-moon { display: none; }
-html[data-theme="light"] .icon-sun { display: none; }
-html[data-theme="light"] .icon-moon { display: block; }
 
 /* ------------------------------------------------------------
    小屏顶栏收纳 (P0)
