@@ -587,63 +587,43 @@ html[data-theme="light"] .nav-gh-pill {
   transform: scale(0.97);
 }
 
-.theme-switch {
+.theme-toggle {
   display: inline-flex;
   align-items: center;
-  padding: 2px;
+  justify-content: center;
+  padding: 0.34rem;
+  min-height: 28px;
+  min-width: 28px;
   border-radius: var(--r-pill);
-  background: var(--bg-inset);
+  background: var(--bg-surface);
   border: 1px solid var(--border-subtle);
-  gap: 2px;
-}
-
-.theme-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.3rem;
-  padding: 0.15rem 0.5rem;
-  min-height: 24px;
-  border-radius: var(--r-pill);
-  border: none;
-  background: transparent;
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  font-weight: 600;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   cursor: pointer;
-  white-space: nowrap;
-  transition: background var(--dur-fast), color var(--dur-fast);
+  transition: color var(--dur-fast), border-color var(--dur-fast), background var(--dur-fast);
 }
 
-.theme-btn:hover {
+.theme-toggle:hover {
   color: var(--text-primary);
+  border-color: var(--border-active);
 }
 
-.theme-btn.is-active {
-  background: var(--bg-elevated);
-  color: var(--text-primary);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-html[data-theme="light"] .theme-btn.is-active {
-  background: #ffffff;
-  color: #08090a;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-}
-
-.theme-btn-icon {
+.theme-icon-box {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 13px;
-  height: 13px;
   position: relative;
+  width: 16px;
+  height: 16px;
 }
 
-/* ---- 灯泡：只在深色按钮上，点亮时暖黄 + 光晕 ---- */
+/* ---- 灯泡本体 ---- */
 .bulb {
   position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
 }
 
 .bulb-glass {
@@ -653,18 +633,19 @@ html[data-theme="light"] .theme-btn.is-active {
   transition: color var(--dur-base);
 }
 
+/* 光晕：点亮时从灯泡背后散开 */
 .bulb-glow {
   position: absolute;
   left: 50%;
-  top: 50%;
-  width: 22px;
-  height: 22px;
+  top: 48%;
+  width: 26px;
+  height: 26px;
   transform: translate(-50%, -50%) scale(0.4);
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(255, 205, 110, 0.6) 0%,
-    rgba(255, 190, 90, 0.24) 42%,
+    rgba(255, 205, 110, 0.55) 0%,
+    rgba(255, 190, 90, 0.22) 42%,
     transparent 72%
   );
   opacity: 0;
@@ -672,39 +653,26 @@ html[data-theme="light"] .theme-btn.is-active {
   z-index: 1;
 }
 
-/* 深色激活：灯泡点亮 */
-html[data-theme="dark"] .theme-btn[data-theme-btn="dark"].is-active .bulb-glass {
+/* 深色：灯泡亮 */
+html[data-theme="dark"] .theme-toggle .bulb-glass {
   color: #ffc46b;
 }
-
-html[data-theme="dark"] .theme-btn[data-theme-btn="dark"].is-active .bulb-glow {
+html[data-theme="dark"] .theme-toggle .bulb-glow {
   opacity: 0.55;
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* 深色未激活：灯泡熄灭 */
-.theme-btn[data-theme-btn="dark"]:not(.is-active) .bulb-glass {
+/* 浅色：灯泡灭 */
+html[data-theme="light"] .theme-toggle .bulb-glass {
   color: var(--text-muted);
-  opacity: 0.75;
 }
-
-/* 浅色模式下的浅色按钮：太阳图标偏暖 */
-html[data-theme="light"] .theme-btn[data-theme-btn="light"].is-active .theme-btn-icon {
-  color: #b45309;
-}
-
-/* 窄屏只留图标 */
-@media (max-width: 560px) {
-  .theme-btn-text {
-    display: none;
-  }
-  .theme-btn {
-    padding: 0.2rem 0.42rem;
-  }
+html[data-theme="light"] .theme-toggle .bulb-glow {
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.4);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .theme-btn,
+  .theme-toggle,
   .bulb-glass,
   .bulb-glow {
     transition: none !important;
@@ -2670,7 +2638,7 @@ html[data-theme="light"] .badge-lang {
    ============================================================ */
 
 /* ---- 无 JS：点了没反应的控件不装作可点（页内锚点与全部静态内容仍可用） ---- */
-html:not(.js) [data-theme-switch],
+html:not(.js) [data-theme-toggle],
 html:not(.js) .filter-tab,
 html:not(.js) [data-open-project],
 html:not(.js) .stage-control-bar,
@@ -2793,7 +2761,7 @@ html:not(.js) .widget-learning-box {
   .stage-toggle-group,
   .island-action-subbar,
   .filter-tab,
-  .theme-switch {
+  .theme-toggle {
     display: none !important;
   }
 

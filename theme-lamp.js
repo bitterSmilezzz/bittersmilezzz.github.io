@@ -1,13 +1,13 @@
 /* ============================================================
-   外观切换：浅色 / 深色 两个按钮
+   外观切换：单按钮一键切换 浅色 ⇄ 深色
    ------------------------------------------------------------
-   内部仍保留 auto 作为「用户从未手动选择」的隐式默认：
+   默认值（经确认的口径）：
    - 首次访问（无 localStorage）：跟随系统偏好，兜底浅色
    - 系统外观变化：未手动选过时实时跟随
-   - 一旦手动点选，即写入 localStorage，不再被系统覆盖
-   - UI 只渲染两段：浅色 / 深色，不出现「跟随系统」
+   - 一旦点击，写入 localStorage，此后固定为用户所选
+   - UI 上只有一个灯泡按钮，点击即在浅/深之间切换
 
-   灯泡动效沿用 slingshot-lamp 的三条手法：
+   灯泡动效沿用 slingshot-lamp 的手法：
    不对称速率、钨丝暖机抖动、光晕由暗到亮。
    ============================================================ */
 (function () {
@@ -17,7 +17,7 @@
   var VALID = ["auto", "dark", "light"];
 
   var root = document.documentElement;
-  var buttons = document.querySelectorAll("[data-theme-btn]");
+  var toggle = document.querySelector("[data-theme-toggle]");
   var bulb = document.querySelector("[data-theme-bulb]");
 
   var mql = window.matchMedia("(prefers-color-scheme: light)");
@@ -85,6 +85,18 @@
     if (meta) meta.setAttribute("content", theme === "light" ? "#f9fafb" : "#08090a");
   }
 
+  function syncToggle(theme) {
+    if (!toggle) return;
+    toggle.setAttribute("aria-pressed", theme === "light" ? "true" : "false");
+  }
+
+  function apply(theme, opts) {
+    root.setAttribute("data-theme", theme);
+    syncToggle(theme);
+    if (!(opts && opts.silent)) animateBulb(theme === "light");
+    paintMeta(theme);
+  }
+
   function wipeTo(theme, origin) {
     if (
       !document.startViewTransition ||
@@ -121,27 +133,11 @@
     return true;
   }
 
-  function syncUI(theme) {
-    buttons.forEach(function (btn) {
-      var on = btn.getAttribute("data-theme-btn") === theme;
-      btn.classList.toggle("is-active", on);
-      btn.setAttribute("aria-pressed", on ? "true" : "false");
-    });
-  }
-
-  function apply(theme, opts) {
-    root.setAttribute("data-theme", theme);
-    syncUI(theme);
-    if (!(opts && opts.silent)) animateBulb(theme === "light");
-    paintMeta(theme);
-  }
-
   function choose(theme, origin) {
-    var wiped = wipeTo(theme, origin);
-    if (!wiped) {
+    if (!wipeTo(theme, origin)) {
       apply(theme, { silent: false });
     } else {
-      syncUI(theme);
+      syncToggle(theme);
       animateBulb(theme === "light");
       paintMeta(theme);
     }
@@ -151,22 +147,22 @@
   }
 
   function init() {
-    var mode = storedMode();
-    var theme = resolve(mode);
+    var theme = resolve(storedMode());
     apply(theme, { silent: true });
 
-    buttons.forEach(function (btn) {
-      btn.addEventListener("click", function () {
-        var next = btn.getAttribute("data-theme-btn");
-        if (next === root.getAttribute("data-theme")) return;
-        choose(next, btn.getBoundingClientRect());
+    if (toggle) {
+      toggle.addEventListener("click", function () {
+        var cur = root.getAttribute("data-theme") || "dark";
+        choose(cur === "dark" ? "light" : "dark", toggle.getBoundingClientRect());
       });
-    });
+    }
 
     var onSys = function () {
       if (storedMode() !== "auto") return;
       var next = systemTheme();
-      if (next !== root.getAttribute("data-theme")) apply(next, { silent: false });
+      if (next !== root.getAttribute("data-theme")) {
+        apply(next, { silent: false });
+      }
     };
     if (mql.addEventListener) mql.addEventListener("change", onSys);
     else if (mql.addListener) mql.addListener(onSys);
