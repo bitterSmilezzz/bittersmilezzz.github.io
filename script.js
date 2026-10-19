@@ -78,6 +78,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const islandActionSubbar = document.getElementById("island-action-subbar");
   const islandCpuVal = document.getElementById("island-cpu-val");
   const islandLatencyVal = document.getElementById("island-latency-val");
+  // 拟真刘海硬件指示灯：与三态联动（执行=绿 / 审批=橙 / 待机=熄灭）
+  const hwLed = document.querySelector(".green-indicator");
 
   const islandStates = {
     running: {
@@ -86,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tokens: "4,280",
       cpu: "4.8% (ACTIVE)",
       latency: "0.4 ms",
+      led: "",
       badge: "RUNNING",
       badgeClass: "tag-running",
       showSubbar: false,
@@ -96,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tokens: "6,120",
       cpu: "1.2% (WAITING)",
       latency: "0.8 ms",
+      led: "led-waiting",
       badge: "WAITING",
       badgeClass: "tag-waiting",
       showSubbar: true,
@@ -106,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
       tokens: "0",
       cpu: "0.4% (IDLE)",
       latency: "1.2 ms",
+      led: "led-idle",
       badge: "IDLE",
       badgeClass: "tag-idle",
       showSubbar: false,
@@ -126,6 +131,10 @@ document.addEventListener("DOMContentLoaded", () => {
       if (islandTokenCount) islandTokenCount.textContent = config.tokens;
       if (islandCpuVal && config.cpu) islandCpuVal.textContent = config.cpu;
       if (islandLatencyVal && config.latency) islandLatencyVal.textContent = config.latency;
+      if (hwLed) {
+        hwLed.classList.toggle("led-waiting", config.led === "led-waiting");
+        hwLed.classList.toggle("led-idle", config.led === "led-idle");
+      }
       if (islandStateBadge) {
         islandStateBadge.textContent = config.badge;
         islandStateBadge.className = `island-state-tag ${config.badgeClass}`;
