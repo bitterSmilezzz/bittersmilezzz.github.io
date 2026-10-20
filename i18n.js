@@ -296,7 +296,7 @@
     "GitHub Source": "访问 GitHub 源码",
 
     /* 在建项目 */
-    "PROJECTS IN PROGRESS": "在建项目",
+    "PROJECTS IN PROGRESS": "项目矩阵",
     "All": "全部",
     "macOS Native Tools": "macOS 原生工具",
     "Cross-Platform": "跨端工作台",

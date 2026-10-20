@@ -680,48 +680,70 @@ html[data-theme="light"] .theme-toggle .bulb-glow {
 }
 
 /* ------------------------------------------------------------
-   小屏顶栏收纳 (P0)
-   实测 390px 视口 (clientWidth 375) 下 `.island-nav` 撑到 454px，
-   居中后 brand 左缘 -19、主题开关右缘 394 —— 两端各被裁 ~40px，
-   开关点不到、4 个导航标签折成竖排。以下两档把内容压回 343px 内：
-   ≤520 收间距 + 藏 brand 文字与分隔线（保留 f/ 字标与全部导航）；
-   ≤360 再藏 GitHub 药丸（首屏与页脚各有一处 GitHub 入口，不丢功能）。
+   小屏顶栏动态收纳阶梯 (实测数据标定，杜绝任何视口下的元素裁切)
+   - 完整未收纳态 (~630px)：需 >=680px 视口方能舒适容纳；
+   - 阶梯一 (<=680px)：藏 brand 文本与分隔线，收纳内衬，降至 ~430px；
+   - 阶梯二 (<=500px，涵盖 iPhone 375~480px)：隐藏 GitHub 药丸，降至 ~340px；
+   - 阶梯三 (<=350px，涵盖 320px 超窄视口)：收紧间隙与内衬，降至 ~285px，完美居中。
    ------------------------------------------------------------ */
 .nav-link,
 .brand-text {
   white-space: nowrap;
 }
 
-@media (max-width: 520px) {
+@media (max-width: 680px) {
   .island-nav {
     gap: 0.75rem;
-    padding: 0.5rem 0.9rem;
+    padding: 0.45rem 0.85rem;
   }
 
   .nav-links {
     gap: 0.65rem;
   }
 
-  .nav-divider {
-    display: none;
-  }
-
+  .nav-divider,
   .brand-text {
     display: none;
   }
 
   .nav-actions {
-    gap: 0.5rem;
+    gap: 0.45rem;
   }
 
   .nav-gh-pill {
-    padding: 0.35rem 0.7rem;
+    padding: 0.3rem 0.65rem;
   }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 500px) {
   .nav-gh-pill {
     display: none;
+  }
+
+  .island-nav {
+    gap: 0.6rem;
+    padding: 0.4rem 0.75rem;
+  }
+}
+
+@media (max-width: 350px) {
+  .island-nav {
+    gap: 0.4rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .nav-links {
+    gap: 0.3rem;
+  }
+
+  .nav-link {
+    font-size: 0.72rem;
+    padding: 0.15rem 0.3rem;
+  }
+
+  .lang-btn {
+    padding: 0.1rem 0.35rem;
+    font-size: 0.64rem;
   }
 }
 
@@ -791,6 +813,15 @@ html[data-theme="light"] .lang-btn.is-active {
   font-size: 0.7rem;
   color: var(--text-muted);
   letter-spacing: 0.04em;
+}
+
+@media (max-width: 480px) {
+  .telemetry-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding-bottom: 0.75rem;
+  }
 }
 
 .telemetry-left {
@@ -2705,6 +2736,22 @@ html:not(.js) .widget-learning-box {
     background: Highlight;
     color: HighlightText;
     forced-color-adjust: none;
+  }
+
+  /* 计数药丸：半透明白底在系统色下被压成"浅底浅字"，实测仅 1.86:1。
+     改用系统画布色 + 描边，与卡片底明确区分且达到 4.5:1。
+     选中标签内的药丸改用透明底继承 HighlightText，避免与高亮底打架。 */
+  .filter-pill {
+    background: Canvas;
+    color: CanvasText;
+    border: 1px solid CanvasText;
+    forced-color-adjust: none;
+  }
+
+  .filter-tab.is-active .filter-pill {
+    background: transparent;
+    color: inherit;
+    border-color: currentColor;
   }
 
   /* 只保「状态球」的颜色；文字（.island-state-tag 等）交还系统色——
