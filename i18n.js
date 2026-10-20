@@ -424,7 +424,7 @@
   };
 
   window.I18N_EN_404_PAGE = {
-    title: "404 · Page not found"
+    title: "404 · Page not found — fangshoufanji"
   };
 
   /* 页面标题与描述 */
