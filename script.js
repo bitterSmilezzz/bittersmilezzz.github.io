@@ -673,3 +673,41 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+
+/* ============================================================
+   13. 区块进场动画（IntersectionObserver + reduced-motion 守卫）
+   ------------------------------------------------------------
+   - 仅在 JS 可用且用户未偏好减弱动效时启用；
+   - 首屏（视口内）的区块立即标记 is-revealed，不做延迟；
+   - 其余区块进入视口 20% 时触发，一次性（unobserve）。
+   ============================================================ */
+(function () {
+  "use strict";
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.querySelectorAll("main > section").forEach(function (sec) {
+      sec.classList.add("is-revealed");
+    });
+    return;
+  }
+
+  var sections = document.querySelectorAll("main > section");
+  if (!("IntersectionObserver" in window)) {
+    sections.forEach(function (sec) { sec.classList.add("is-revealed"); });
+    return;
+  }
+
+  var observer = new IntersectionObserver(
+    function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+  );
+
+  sections.forEach(function (sec) { observer.observe(sec); });
+})();

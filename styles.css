@@ -566,6 +566,14 @@ html[data-theme="light"] .island-nav {
   color: var(--text-primary);
 }
 
+/* 品牌字标、速链与页脚回顶：与 .nav-link 同曲线的悬停过渡 */
+.nav-brand,
+.developer-gh,
+.link-more-gh,
+.footer-top-link {
+  transition: color var(--dur-fast);
+}
+
 /* 滚动高亮：JS 写 aria-current（CJK 无字宽变化，加字重不引起重排） */
 .nav-link[aria-current="true"] {
   color: var(--text-primary);
@@ -648,7 +656,8 @@ html[data-theme="light"] .nav-gh-pill {
   position: relative;
   z-index: 2;
   display: inline-flex;
-  transition: color var(--dur-base);
+  /* 主题切换时灯泡颜色平滑渐变（与 glow 的 JS 动画同曲线） */
+  transition: color 340ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* 光晕：点亮时从灯泡背后散开 */
@@ -694,6 +703,55 @@ html[data-theme="light"] .theme-toggle .bulb-glow {
   .bulb-glass,
   .bulb-glow {
     transition: none !important;
+  }
+}
+
+/* ---- 窄触控热区扩展：伪元素扩到 44px，纯视觉尺寸不变 ---- */
+.nav-link,
+.lang-btn,
+.theme-toggle {
+  position: relative;
+}
+
+/* ---- 区块进场：首次进入视口时轻微上浮淡入（IntersectionObserver 驱动） ----
+   reduced-motion 下直接可见，不做任何动画。 */
+html.js main > section {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 520ms var(--ease-apple), transform 520ms var(--ease-apple);
+}
+
+html.js main > section.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js main > section {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---- 窄触控热区扩展：伪元素扩到 44px，纯视觉尺寸不变 ---- */
+.nav-link,
+.lang-btn,
+.theme-toggle {
+  position: relative;
+}
+
+@media (pointer: coarse) {
+  .nav-link::after,
+  .lang-btn::after {
+    content: "";
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    transform: translate(-50%, -50%);
   }
 }
 
