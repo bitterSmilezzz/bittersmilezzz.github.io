@@ -314,8 +314,11 @@ html[data-theme="dark"] .btn-inner-circle {
   color: #08090a;
 }
 
+/* 浅色主题的 CTA 底已改为深翡翠 #047857；
+   内圆若继续用「半透明白」，白字压白只剩 3.41:1。
+   改半透明黑，白字回到 8.26:1。 */
 html[data-theme="light"] .btn-inner-circle {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(0, 0, 0, 0.28);
   color: #ffffff;
 }
 
@@ -359,7 +362,7 @@ html[data-theme="dark"] .btn-inner-circle-sm {
 }
 
 html[data-theme="light"] .btn-inner-circle-sm {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(0, 0, 0, 0.3);
   color: #ffffff;
 }
 
@@ -747,6 +750,66 @@ html[data-theme="light"] .theme-toggle .bulb-glow {
   }
 }
 
+/* 英文导航文案更长：平板提前收纳，手机分两行保留全部入口。 */
+@media (min-width: 681px) and (max-width: 860px) {
+  html[lang="en"] .island-nav {
+    gap: 0.75rem;
+    padding: 0.45rem 0.85rem;
+  }
+
+  html[lang="en"] .brand-text,
+  html[lang="en"] .nav-divider {
+    display: none;
+  }
+
+  html[lang="en"] .nav-links {
+    gap: 0.65rem;
+  }
+}
+
+@media (max-width: 600px) {
+  html[lang="en"] .island-nav {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 0.75rem;
+    width: 100%;
+    max-width: 28rem;
+    min-width: 0;
+    padding: 0.55rem 0.75rem;
+  }
+
+  html[lang="en"] .nav-brand {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+    margin: 0;
+    padding: 0;
+  }
+
+  html[lang="en"] .nav-actions {
+    grid-column: 2;
+    grid-row: 1;
+    justify-self: end;
+  }
+
+  html[lang="en"] .nav-links {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  html[lang="en"] .nav-link {
+    margin: 0;
+    padding: 0;
+    font-size: 0.72rem;
+  }
+
+  html[lang="en"] .hero-section {
+    padding-top: calc(7rem + env(safe-area-inset-top, 0px));
+  }
+}
+
 /* ============================================================
    语言切换微型双态胶囊开关 (中 / EN)
    ============================================================ */
@@ -804,6 +867,8 @@ html[data-theme="light"] .lang-btn.is-active {
 
 .telemetry-bar {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
   align-items: center;
   justify-content: space-between;
   padding-bottom: 1rem;
@@ -836,14 +901,11 @@ html[data-theme="light"] .lang-btn.is-active {
 }
 
 .telemetry-center {
-  display: none;
-}
-
-@media (min-width: 768px) {
-  .telemetry-center {
-    display: block;
-    color: var(--text-secondary);
-  }
+  /* 原先 <768px 直接隐藏，导致中间那条信息在手机上彻底消失；
+     改为始终显示，窄屏随 .telemetry-bar 一起纵向堆叠 */
+  display: block;
+  color: var(--text-secondary);
+  min-width: 0;
 }
 
 .telemetry-right {
@@ -2090,6 +2152,10 @@ html[data-theme="light"] .ac-mode-badge.is-heat { color: #ad3c08; } /* 实测 5.
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  /* 与右侧「技术栈」卡等高时，本卡内容较短会留出约 174px 空洞；
+     让步骤区吃掉剩余高度并均匀分布，视觉上成为有意的宽松节奏 */
+  flex: 1;
+  justify-content: space-evenly;
 }
 
 .step-row {
@@ -2827,5 +2893,15 @@ html:not(.js) .widget-learning-box {
     font-size: 0.7em;
     color: #52525b;
     word-break: break-all;
+  }
+}
+
+/* 浅色 CTA 使用深翡翠；打印和强制色彩保留各自的系统配色。 */
+@media screen and (forced-colors: none) {
+  html[data-theme="light"] .btn-button-in-button,
+  html[data-theme="light"] .btn-button-in-button-sm {
+    background: var(--accent-ink);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(4, 120, 87, 0.28);
   }
 }
