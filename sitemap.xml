@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  维护：lastmod 必须与最后一次内容提交的日期（git log -1 --date=short）保持一致。
+  陈旧的 lastmod 会让搜索引擎跳过重新抓取，比不写更糟。
+  发布前请执行：git log -1 --date=short --format=%ad 并核对本文件。
+-->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://bittersmilezzz.github.io/</loc>
-    <lastmod>2026-10-19</lastmod>
+    <lastmod>2026-10-21</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

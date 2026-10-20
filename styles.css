@@ -706,31 +706,15 @@ html[data-theme="light"] .theme-toggle .bulb-glow {
   }
 }
 
-/* ---- 窄触控热区扩展：伪元素扩到 44px，纯视觉尺寸不变 ---- */
-.nav-link,
-.lang-btn,
-.theme-toggle {
-  position: relative;
+/* 内容默认可读。进场仅播放一次，不以透明度或观察比例控制内容可见性。 */
+@keyframes section-enter {
+  from { transform: translateY(10px); }
+  to { transform: none; }
 }
 
-/* ---- 区块进场：首次进入视口时轻微上浮淡入（IntersectionObserver 驱动） ----
-   reduced-motion 下直接可见，不做任何动画。 */
-html.js main > section {
-  opacity: 0;
-  transform: translateY(14px);
-  transition: opacity 520ms var(--ease-apple), transform 520ms var(--ease-apple);
-}
-
-html.js main > section.is-revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html.js main > section {
-    opacity: 1;
-    transform: none;
-    transition: none;
+@media (prefers-reduced-motion: no-preference) {
+  main > section.is-entering {
+    animation: section-enter 360ms var(--ease-apple) both;
   }
 }
 
@@ -747,11 +731,23 @@ html.js main > section.is-revealed {
     content: "";
     position: absolute;
     inset: 50% auto auto 50%;
-    width: 44px;
-    height: 44px;
+    /* 只扩展垂直热区，横向保持各按钮边界，避免中/EN 相互覆盖。 */
+    width: 100%;
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+
+  /* 独立按钮直接加高，触屏下视觉与热区同步 */
+  .theme-toggle,
+  .dialog-close,
+  .filter-tab,
+  .btn-stage-tab {
+    min-height: 44px;
+  }
+
+  .btn-temp-step {
     min-width: 44px;
     min-height: 44px;
-    transform: translate(-50%, -50%);
   }
 }
 
@@ -1072,14 +1068,6 @@ html[data-theme="light"] .lang-btn.is-active {
   }
 }
 
-.hero-bottom-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.25rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--border-subtle);
-}
-
 .mono-label {
   display: block;
   font-family: var(--font-mono);
@@ -1088,13 +1076,6 @@ html[data-theme="light"] .lang-btn.is-active {
   font-weight: 700;
   letter-spacing: 0.05em;
   margin-bottom: 0.35rem;
-}
-
-.hero-directive p,
-.hero-tech-facts p {
-  font-size: 0.825rem;
-  color: var(--text-muted);
-  line-height: 1.6;
 }
 
 .hero-action-cell {
@@ -1110,15 +1091,14 @@ html[data-theme="light"] .lang-btn.is-active {
   flex: none;
 }
 
-@media (min-width: 860px) {
-  .hero-bottom-grid {
-    /* 第三列按内容取宽：固定 3fr 只有 254px，会把两个 CTA 压到文字折行 */
-    grid-template-columns: 4fr 5fr max-content;
-    align-items: end;
-  }
+.hero-lead .hero-action-cell {
+  margin-top: 1.5rem;
+}
 
-  .hero-action-cell {
-    justify-content: flex-end;
+@media (max-width: 979px) {
+  .hero-main { gap: 1.5rem; }
+  .hero-work-item {
+    grid-template-areas: "name tag" "note note";
   }
 }
 

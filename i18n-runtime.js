@@ -106,7 +106,10 @@
   }
 
   function applyPage(lang) {
-    var page = lang === "en" ? window.I18N_EN_PAGE : null;
+    var page = lang === "en"
+      ? (document.documentElement.getAttribute("data-page") === "404"
+        ? window.I18N_EN_404_PAGE : window.I18N_EN_PAGE)
+      : null;
     if (!htmlMemo.has(document.head)) htmlMemo.set(document.head, document.title);
     document.title = page && page.title ? page.title : htmlMemo.get(document.head);
 

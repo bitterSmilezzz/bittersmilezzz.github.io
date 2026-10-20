@@ -288,6 +288,8 @@
      这些是专有名词，翻译反而降低可读性。
      ============================================================ */
   window.I18N_ZH = {
+    "Agent Tooling": "智能体工具",
+    "404 · NOT FOUND": "404 · 页面未找到",
     /* 顶部标尺 */
     "SYS_ONLINE · 4 APPS + 4 REPOS": "系统在线 · 4 个应用 + 4 个开源项目",
 
@@ -419,6 +421,10 @@
     "Decrease temperature": "降低温度",
     "Increase temperature": "升高温度",
     "Close dialog": "关闭对话框"
+  };
+
+  window.I18N_EN_404_PAGE = {
+    title: "404 · Page not found"
   };
 
   /* 页面标题与描述 */

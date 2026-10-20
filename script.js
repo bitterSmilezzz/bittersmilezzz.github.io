@@ -72,15 +72,19 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isEn) {
       return key === "all"
         ? `Showing all ${count} projects`
-        : `Showing ${count} ${names.en} projects`;
+        : `Showing ${count} ${names.en} ${count === 1 ? "project" : "projects"}`;
     }
-    return `已筛选出 ${count} 个${names.zh}项目`;
+    return key === "all" ? `显示全部 ${count} 个项目` : `已筛选出 ${count} 个${names.zh}项目`;
   };
 
   // 首屏精选作品点击联动：若目标项目当前被分类筛选隐藏，先自动重置为全部
-  document.querySelectorAll(".hero-work-item").forEach((item) => {
+  document.querySelectorAll(".hero-work-item, .hero-work-all").forEach((item) => {
     item.addEventListener("click", () => {
       const targetId = item.getAttribute("data-target-project");
+      if (item.classList.contains("hero-work-all")) {
+        document.querySelector('[data-filter="all"]')?.click();
+        return;
+      }
       if (!targetId || targetId === "agent-island") return;
       const targetCard = document.querySelector(`[data-project="${targetId}"]`);
       if (targetCard && targetCard.hidden) {
@@ -302,6 +306,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const filterStatusEl = document.getElementById("filter-status");
   let lastFilter = null;
 
+  /* 计数从卡片实测，不信任 HTML 里的硬编码数字：加/删项目后药丸不会说谎 */
+  {
+    const tally = { all: projectCards.length };
+    projectCards.forEach((card) => {
+      const c = card.getAttribute("data-category");
+      if (c) tally[c] = (tally[c] || 0) + 1;
+    });
+    document.querySelectorAll("[data-count]").forEach((pill) => {
+      const key = pill.getAttribute("data-count");
+      pill.textContent = String(tally[key] || 0).padStart(2, "0");
+    });
+    /* 某分类若从 0 变为有项目，取消禁用，避免出现「能点却无反应」 */
+    filterTabs.forEach((tab) => {
+      const key = tab.getAttribute("data-filter");
+      if (key === "all") return;
+      const n = tally[key] || 0;
+      const empty = n === 0;
+      tab.classList.toggle("is-empty", empty);
+      tab.disabled = empty;
+      tab.setAttribute("aria-disabled", empty ? "true" : "false");
+    });
+  }
+
   filterTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
       if (tab.getAttribute("aria-disabled") === "true") return;
@@ -328,6 +355,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
+      /* 防御性空态：当前唯一 0 计数分类 (cli) 已被 disabled，正常点击到不了这里；
+         保留是因为 D2 的实测计数可能把某个分类重新启用。 */
       if (emptyStateEl) {
         emptyStateEl.hidden = visibleCount > 0;
       }
@@ -662,7 +691,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 同上：可点语义只在 JS 可用时存在
     kfBox.setAttribute("role", "button");
     kfBox.setAttribute("tabindex", "0");
-    kfBox.setAttribute("aria-label", "点击模拟完成今日卡片复习");
+    kfBox.setAttribute("aria-label", t("点击模拟完成今日卡片复习"));
 
     kfBox.addEventListener("click", advanceProgress);
     kfBox.addEventListener("keydown", (e) => {
@@ -675,39 +704,39 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-/* ============================================================
-   13. 区块进场动画（IntersectionObserver + reduced-motion 守卫）
-   ------------------------------------------------------------
-   - 仅在 JS 可用且用户未偏好减弱动效时启用；
-   - 首屏（视口内）的区块立即标记 is-revealed，不做延迟；
-   - 其余区块进入视口 20% 时触发，一次性（unobserve）。
-   ============================================================ */
+/* 一次性进场提示；内容可见性不依赖 JS、观察比例或动画完成。 */
 (function () {
   "use strict";
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    document.querySelectorAll("main > section").forEach(function (sec) {
-      sec.classList.add("is-revealed");
+  var motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  if (motion.matches || !("IntersectionObserver" in window)) return;
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-entering");
+      entry.target.addEventListener("animationend", function (event) {
+        if (event.target !== entry.target || event.animationName !== "section-enter") return;
+        entry.target.classList.remove("is-entering");
+      }, { once: false });
+      observer.unobserve(entry.target);
     });
-    return;
+  }, { threshold: 0, rootMargin: "0px 0px 40px 0px" });
+
+  document.querySelectorAll("main > section").forEach(function (section) {
+    var rect = section.getBoundingClientRect();
+    if (rect.top < innerHeight && rect.bottom > 0) return;
+    observer.observe(section);
+  });
+
+  function onMotionChange(event) {
+    if (!event.matches) return;
+    observer.disconnect();
+    document.querySelectorAll(".is-entering").forEach(function (section) {
+      section.classList.remove("is-entering");
+    });
   }
 
-  var sections = document.querySelectorAll("main > section");
-  if (!("IntersectionObserver" in window)) {
-    sections.forEach(function (sec) { sec.classList.add("is-revealed"); });
-    return;
-  }
-
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("is-revealed");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
-  );
-
-  sections.forEach(function (sec) { observer.observe(sec); });
+  /* Safari ≤13.9 uses addListener */
+  if (typeof motion.addEventListener === "function") motion.addEventListener("change", onMotionChange);
+  else if (typeof motion.addListener === "function") motion.addListener(onMotionChange);
 })();
