@@ -95,6 +95,14 @@
         el.setAttribute(attr, has(dict, norm(original)) ? dict[norm(original)] : original);
       });
     });
+
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-aria");
+      var textDict = lang === "en" ? window.I18N_EN : window.I18N_ZH;
+      if (has(textDict, key)) {
+        el.setAttribute("aria-label", textDict[key]);
+      }
+    });
   }
 
   function applyPage(lang) {

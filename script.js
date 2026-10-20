@@ -77,6 +77,19 @@ document.addEventListener("DOMContentLoaded", () => {
     return `已筛选出 ${count} 个${names.zh}项目`;
   };
 
+  // 首屏精选作品点击联动：若目标项目当前被分类筛选隐藏，先自动重置为全部
+  document.querySelectorAll(".hero-work-item").forEach((item) => {
+    item.addEventListener("click", () => {
+      const targetId = item.getAttribute("data-target-project");
+      if (!targetId || targetId === "agent-island") return;
+      const targetCard = document.querySelector(`[data-project="${targetId}"]`);
+      if (targetCard && targetCard.hidden) {
+        const allBtn = document.querySelector('[data-filter="all"]');
+        if (allBtn) allBtn.click();
+      }
+    });
+  });
+
   // 1. 探照灯光标追踪 (ui-research/creatives/01)
   const isTouchDevice = window.matchMedia("(hover: none)").matches;
   if (!isTouchDevice) {
@@ -211,8 +224,22 @@ document.addEventListener("DOMContentLoaded", () => {
   let currentTemp = 24;
   let isCooling = true;
 
-  const setAcMode = (cooling) => {
+  let isManualMode = false;
+
+  const updateTempButtons = () => {
+    if (btnTempDown) {
+      btnTempDown.disabled = currentTemp <= 16;
+      btnTempDown.setAttribute("aria-disabled", currentTemp <= 16 ? "true" : "false");
+    }
+    if (btnTempUp) {
+      btnTempUp.disabled = currentTemp >= 30;
+      btnTempUp.setAttribute("aria-disabled", currentTemp >= 30 ? "true" : "false");
+    }
+  };
+
+  const setAcMode = (cooling, manual = false) => {
     isCooling = cooling;
+    if (manual) isManualMode = true;
     if (acModeToggle) {
       acModeToggle.textContent = t(isCooling ? "制冷模式" : "制热模式");
       acModeToggle.classList.toggle("is-heat", !isCooling);
@@ -223,9 +250,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // 可点语义由 JS 注入：无 JS 时它是纯文本，不该被读屏当成按钮、也不该被 Tab 聚焦
     acModeToggle.setAttribute("role", "button");
     acModeToggle.setAttribute("tabindex", "0");
-    acModeToggle.setAttribute("aria-label", "切换空调冷暖模式");
+    acModeToggle.setAttribute("aria-label", t("切换空调冷暖模式"));
 
-    const toggleAcMode = () => setAcMode(!isCooling);
+    const toggleAcMode = () => setAcMode(!isCooling, true);
     acModeToggle.addEventListener("click", toggleAcMode);
     acModeToggle.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
@@ -240,17 +267,26 @@ document.addEventListener("DOMContentLoaded", () => {
     if (next >= 16 && next <= 30) {
       currentTemp = next;
       if (acDegVal) acDegVal.textContent = String(currentTemp);
-      // 温度 >= 26 自动感知切为制热模式，<= 25 自动感知切为制冷模式
-      if (currentTemp >= 26 && isCooling) {
-        setAcMode(false);
-      } else if (currentTemp <= 25 && !isCooling) {
-        setAcMode(true);
+      updateTempButtons();
+      // 只有在未手动指定冷暖模式时，才根据温度阈值自动推荐模式
+      if (!isManualMode) {
+        if (currentTemp >= 26 && isCooling) {
+          setAcMode(false, false);
+        } else if (currentTemp <= 25 && !isCooling) {
+          setAcMode(true, false);
+        }
       }
     }
   };
 
   // 语言切换后重绘模式徽章（它是脚本写入的文本，不在 DOM 字典里）
-  window.addEventListener("site:langchange", () => setAcMode(isCooling));
+  updateTempButtons();
+
+  window.addEventListener("site:langchange", () => {
+    setAcMode(isCooling, isManualMode);
+    if (acModeToggle) acModeToggle.setAttribute("aria-label", t("切换空调冷暖模式"));
+    if (kfBox) kfBox.setAttribute("aria-label", t("点击模拟完成今日卡片复习"));
+  });
 
   if (btnTempDown) {
     btnTempDown.addEventListener("click", () => handleTempStep(-1));
@@ -310,6 +346,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  /* 弹窗标签中英文映射：保证中文模式下不显示纯英文标签 */
+  const TAG_I18N = {
+    zh: {
+      "macOS Native": "macOS 原生",
+      "Rust & Tauri": "Rust & Tauri",
+      "Rust": "Rust",
+      "Agent Tooling": "智能体工具",
+      "SwiftUI": "SwiftUI",
+      "Jetpack Compose": "Jetpack Compose",
+      "macOS": "macOS",
+      "Android": "Android",
+      "Offline-First": "离线优先",
+      "Swift 6": "Swift 6",
+      "AppKit": "AppKit",
+      "Zero Telemetry": "零数据回传",
+      "Menu Bar": "菜单栏",
+      "Cloud Protocol": "云端协议",
+    },
+    en: {
+      "macOS Native": "macOS Native",
+      "Rust & Tauri": "Rust & Tauri",
+      "Rust": "Rust",
+      "Agent Tooling": "Agent Tooling",
+      "SwiftUI": "SwiftUI",
+      "Jetpack Compose": "Jetpack Compose",
+      "macOS": "macOS",
+      "Android": "Android",
+      "Offline-First": "Offline-First",
+      "Swift 6": "Swift 6",
+      "AppKit": "AppKit",
+      "Zero Telemetry": "Zero Telemetry",
+      "Menu Bar": "Menu Bar",
+      "Cloud Protocol": "Cloud Protocol",
+    }
+  };
+
   // 5. 项目详情语义弹窗 (<dialog>) 与焦点恢复闭环 (WCAG 2.4.3)
   const dialog = document.querySelector(".project-dialog");
   const dialogTitle = document.getElementById("dialog-title");
@@ -347,10 +419,12 @@ document.addEventListener("DOMContentLoaded", () => {
     dialogDesc.textContent = tr(data.description);
 
     dialogTags.innerHTML = "";
+    const curLang = document.documentElement.getAttribute("data-lang") === "en" ? "en" : "zh";
+    const tagDict = TAG_I18N[curLang] || TAG_I18N.zh;
     data.tags.forEach((tag) => {
       const span = document.createElement("span");
       span.className = "tech-tag";
-      span.textContent = tr(tag);
+      span.textContent = tagDict[tag] || tr(tag);
       dialogTags.appendChild(span);
     });
 

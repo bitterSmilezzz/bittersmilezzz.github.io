@@ -112,24 +112,30 @@
       Math.max(y, window.innerHeight - y)
     );
 
-    var t = document.startViewTransition(function () {
+    try {
+      var t = document.startViewTransition(function () {
+        root.setAttribute("data-theme", theme);
+      });
+      t.ready.then(function () {
+        root.animate(
+          {
+            clipPath: [
+              "circle(0px at " + x + "px " + y + "px)",
+              "circle(" + endRadius + "px at " + x + "px " + y + "px)"
+            ]
+          },
+          {
+            duration: 480,
+            easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+            pseudoElement: "::view-transition-new(root)"
+          }
+        );
+      }).catch(function () {});
+      if (t.finished) t.finished.catch(function () {});
+    } catch (e) {
       root.setAttribute("data-theme", theme);
-    });
-    t.ready.then(function () {
-      root.animate(
-        {
-          clipPath: [
-            "circle(0px at " + x + "px " + y + "px)",
-            "circle(" + endRadius + "px at " + x + "px " + y + "px)"
-          ]
-        },
-        {
-          duration: 480,
-          easing: "cubic-bezier(0.16, 1, 0.3, 1)",
-          pseudoElement: "::view-transition-new(root)"
-        }
-      );
-    });
+      return false;
+    }
     return true;
   }
 

@@ -459,6 +459,21 @@ html[data-theme="light"] .btn-inner-circle-sm {
   background: var(--accent);
 }
 
+/* ---- 锚点跳转滚动留白：预留浮动顶栏高度 + 安全区，避免标题被顶栏遮盖 ---- */
+section[id],
+footer[id],
+header[id] {
+  scroll-margin-top: calc(4.75rem + env(safe-area-inset-top, 0px));
+}
+
+@media (max-width: 600px) {
+  section[id],
+  footer[id],
+  header[id] {
+    scroll-margin-top: calc(5.75rem + env(safe-area-inset-top, 0px));
+  }
+}
+
 /* ============================================================
    悬浮流体玻璃导航栏 (ui-research/platforms/web/DESIGN-GUIDE.md)
    ============================================================ */
@@ -2163,6 +2178,13 @@ html[data-theme="light"] .learning-track {
   background: rgba(255, 255, 255, 0.12);
 }
 
+
+.btn-temp-step:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .btn-temp-step:active {
   transform: scale(0.92);
 }
@@ -2549,7 +2571,8 @@ html.js .widget-learning-box {
   grid-area: meta;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.1rem;
+  justify-content: flex-start;
+  gap: 0.2rem;
   font-size: 0.7rem;
 }
 
@@ -2776,8 +2799,10 @@ html[data-theme="light"] .badge-lang {
   border: none;
   background: transparent;
   max-width: min(580px, 92vw);
+  max-height: calc(100dvh - 2.5rem);
   border-radius: var(--r-outer);
-  overflow: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .project-dialog::backdrop {

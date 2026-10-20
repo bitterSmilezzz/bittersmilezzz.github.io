@@ -25,7 +25,7 @@
     /* ---- 首屏 ---- */
     "个人作品集 // 2026.10": "PORTFOLIO // 2026.10",
     "MACOS 原生架构 · 智能体工具 · 工程工艺": "MACOS NATIVE ARCHITECTURE · AGENT TOOLING · CRAFT",
-    "系统在线 · 4 个应用 + 3 个开源项目": "SYS_ONLINE · 4 APPS + 3 REPOS",
+    "系统在线 · 4 个应用 + 4 个开源项目": "SYS_ONLINE · 4 APPS + 4 REPOS",
     "个人开发者 · 专注 macOS 原生与智能体工具": "Independent Engineer · macOS Native & Agent Tooling",
     "[设计理念]": "[PHILOSOPHY]",
     "不解决伪需求。每个工具都运行在自己的工作流中，经历数千小时高频真实使用检验。零商业广告，极致原生性能。":
@@ -45,6 +45,9 @@
     "Cross-platform": "Cross-platform",
     "macOS Native": "macOS Native",
 
+    "模拟状态演示：": "Interaction Demo:",
+    "切换空调冷暖模式": "Toggle AC cooling/heating mode",
+    "点击模拟完成今日卡片复习": "Click to simulate completing today's review",
     /* ---- 旗舰 ---- */
     "旗舰展台 // 01 · MACOS 原生": "FLAGSHIP SHOWCASE // 01 · MACOS NATIVE",
     "日常工作流活跃中": "ACTIVE IN WORKFLOW",
@@ -290,7 +293,7 @@
     /* 顶部标尺 */
     "PORTFOLIO // 2026.10": "个人作品集 // 2026.10",
     "MACOS NATIVE ARCHITECTURE · AGENT TOOLING · CRAFT": "MACOS 原生架构 · 智能体工具 · 工程工艺",
-    "SYS_ONLINE · 4 APPS + 3 REPOS": "系统在线 · 4 个应用 + 3 个开源项目",
+    "SYS_ONLINE · 4 APPS + 4 REPOS": "系统在线 · 4 个应用 + 4 个开源项目",
 
     /* 首屏 */
     "[PHILOSOPHY]": "[设计理念]",
@@ -302,11 +305,16 @@
     "[THE CRAFT // 雕琢解法]": "[雕琢解法]",
     "[THE SPEC // 极简切面]": "[规格切面]",
 
+    "WAITING": "待确认",
+    "IDLE": "待机",
+    "模拟状态演示：": "模拟状态演示：",
+    "切换空调冷暖模式": "切换空调冷暖模式",
+    "点击模拟完成今日卡片复习": "点击模拟完成今日卡片复习",
     /* 旗舰 */
     "FLAGSHIP SHOWCASE // 01 · MACOS NATIVE": "旗舰展台 // 01 · MACOS 原生",
     "ACTIVE IN WORKFLOW": "日常工作流活跃中",
     "AgentIsland": "AgentIsland",
-    "tokens": "个代币",
+    "tokens": "Tokens",
     "RUNNING": "执行中",
     "MEMORY FOOTPRINT": "内存占用",
     "CPU FOOTPRINT": "CPU 占用",
