@@ -23,8 +23,6 @@
     "（在新标签页打开）": "(opens in new tab)",
 
     /* ---- 首屏 ---- */
-    "个人作品集 // 2026.10": "PORTFOLIO // 2026.10",
-    "MACOS 原生架构 · 智能体工具 · 工程工艺": "MACOS NATIVE ARCHITECTURE · AGENT TOOLING · CRAFT",
     "系统在线 · 4 个应用 + 4 个开源项目": "SYS_ONLINE · 4 APPS + 4 REPOS",
     "个人开发者 · 专注 macOS 原生与智能体工具": "Independent Engineer · macOS Native & Agent Tooling",
     "[设计理念]": "[PHILOSOPHY]",
@@ -291,8 +289,6 @@
      ============================================================ */
   window.I18N_ZH = {
     /* 顶部标尺 */
-    "PORTFOLIO // 2026.10": "个人作品集 // 2026.10",
-    "MACOS NATIVE ARCHITECTURE · AGENT TOOLING · CRAFT": "MACOS 原生架构 · 智能体工具 · 工程工艺",
     "SYS_ONLINE · 4 APPS + 4 REPOS": "系统在线 · 4 个应用 + 4 个开源项目",
 
     /* 首屏 */

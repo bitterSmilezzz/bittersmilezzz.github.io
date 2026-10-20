@@ -23,12 +23,12 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="zh_CN" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261021a" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261021c" />
     <link
       rel="alternate icon"
       type="image/png"
       sizes="16x16 32x32"
-      href="assets/favicon.png?v=20261021a"
+      href="assets/favicon.png?v=20261021c"
     />
     <!-- iOS 加入主屏用位图图标（SVG 图标 iOS 不认，会退化成网页截图） -->
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
@@ -70,7 +70,7 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261021a" />
+    <link rel="stylesheet" href="styles.css?v=20261021c" />
     <script>
       (function () {
         var r = document.documentElement;
@@ -182,23 +182,9 @@
            ============================================================ -->
       <section class="hero-section" id="top" aria-labelledby="hero-title">
         <div class="wrap">
-          <!-- 顶部精密标尺栏 -->
-          <div class="telemetry-bar">
-            <div class="telemetry-left">
-              <span class="telemetry-cross">+</span>
-              <span class="telemetry-mono">PORTFOLIO // 2026.10</span>
-            </div>
-            <div class="telemetry-center">
-              <span>MACOS NATIVE ARCHITECTURE · AGENT TOOLING · CRAFT</span>
-            </div>
-            <div class="telemetry-right">
-              <span class="status-indicator"></span>
-              <span class="telemetry-mono">SYS_ONLINE · 4 APPS + 4 REPOS</span>
-            </div>
-          </div>
-
-          <!-- 真实开发者身份印章 (Doppelrand 嵌套微胶囊) -->
-          <div class="developer-profile-shell">
+          <!-- 身份行：印章 + 运行状态，合并为一行（原标尺行与印章两行） -->
+          <div class="hero-identity">
+            <div class="developer-profile-shell">
             <div class="developer-profile-core">
               <img
                 class="developer-avatar"
@@ -221,6 +207,12 @@
                 </div>
                 <span class="developer-role">个人开发者 · 专注 macOS 原生与智能体工具</span>
               </div>
+            </div>
+            </div>
+
+            <div class="hero-status">
+              <span class="status-indicator" aria-hidden="true"></span>
+              <span class="telemetry-mono">SYS_ONLINE · 4 APPS + 4 REPOS</span>
             </div>
           </div>
 
@@ -1180,9 +1172,9 @@
       </div>
     </dialog>
 
-    <script src="i18n.js?v=20261021a" defer></script>
-    <script src="theme-lamp.js?v=20261021a" defer></script>
-    <script src="i18n-runtime.js?v=20261021a" defer></script>
-    <script src="script.js?v=20261021a" defer></script>
+    <script src="i18n.js?v=20261021c" defer></script>
+    <script src="theme-lamp.js?v=20261021c" defer></script>
+    <script src="i18n-runtime.js?v=20261021c" defer></script>
+    <script src="script.js?v=20261021c" defer></script>
   </body>
 </html>

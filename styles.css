@@ -934,58 +934,16 @@ html[data-theme="light"] .lang-btn.is-active {
    首屏：画报级排版与真实开发者印章
    ============================================================ */
 .hero-section {
-  padding-top: clamp(4.5rem, 8vw, 6rem);
-  padding-bottom: clamp(1.5rem, 3vw, 2.25rem);
+  /* 浮动导航下缘 73px；留 20px 呼吸 → 顶部至少 93px */
+  padding-top: clamp(5.75rem, 7vw, 6.5rem);
+  padding-bottom: clamp(1.25rem, 2.5vw, 1.75rem);
 }
 
-.telemetry-bar {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem 1rem;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 1rem;
-  margin-bottom: 1.25rem;
-  border-bottom: 1px solid var(--border-subtle);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  letter-spacing: 0.04em;
-}
 
-@media (max-width: 480px) {
-  .telemetry-bar {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.35rem;
-    padding-bottom: 0.75rem;
-  }
-}
 
-.telemetry-left {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
 
-.telemetry-cross {
-  color: var(--text-primary);
-  font-weight: 700;
-}
 
-.telemetry-center {
-  /* 原先 <768px 直接隐藏，导致中间那条信息在手机上彻底消失；
-     改为始终显示，窄屏随 .telemetry-bar 一起纵向堆叠 */
-  display: block;
-  color: var(--text-secondary);
-  min-width: 0;
-}
 
-.telemetry-right {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
-}
 
 .status-indicator {
   position: relative;
@@ -1023,7 +981,7 @@ html[data-theme="light"] .lang-btn.is-active {
   padding: 2px;
   border-radius: var(--r-pill);
   background: var(--border-subtle);
-  margin-bottom: 2rem;
+  margin-bottom: 0;
 }
 
 .developer-profile-core {
@@ -1082,7 +1040,7 @@ html[data-theme="light"] .lang-btn.is-active {
 
 /* 画报级大标题 (8:1 视觉悬殊对比) */
 .hero-heading-block {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.125rem;
 }
 
 .hero-title {
@@ -1102,7 +1060,7 @@ html[data-theme="light"] .lang-btn.is-active {
   color: var(--text-secondary);
   max-width: 44rem;
   line-height: 1.7;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .hero-manifesto strong {
@@ -1169,6 +1127,37 @@ html[data-theme="light"] .lang-btn.is-active {
   }
 }
 
+
+
+/* ---- 身份行：印章 + 运行状态合并（替代原标尺行 + 印章两行） ---- */
+.hero-identity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  padding-bottom: 0.85rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.hero-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+}
+
+@media (max-width: 620px) {
+  .hero-identity {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}
 
 /* ---- 首屏双栏：左主张 / 右精选作品（真实项目，不用虚构截图） ---- */
 .hero-main {
@@ -3071,7 +3060,7 @@ html:not(.js) .widget-learning-box {
   .island-nav,
   .developer-profile-shell,
   .stage-toggle-group,
-  .telemetry-bar {
+  .hero-identity {
     border: 1px solid CanvasText;
   }
 
