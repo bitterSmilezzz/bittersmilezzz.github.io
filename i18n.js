@@ -75,9 +75,9 @@
     "打开工具": "Open Tool",
     "查看会话 ⏎": "View Session ⏎",
     "切换真实交互状态：": "Switch live interaction state:",
-    "任务执行态": "Running",
-    "待处理会话态": "Pending Session",
-    "空闲待机态": "Idle Standby",
+    "执行中": "Running",
+    "待确认": "Waiting",
+    "待机": "Idle",
     "内存占用": "MEMORY FOOTPRINT",
     "CPU 占用": "CPU FOOTPRINT",
     "响应延迟": "LATENCY",
@@ -361,7 +361,7 @@
     "hero.title":
       'Turn problems,<br /><span class="hero-title-accent">into tools.</span>',
     "hero.manifesto":
-      'Start from real problems: ship a working implementation first, then verify and iterate against measurable criteria. <strong class="manifesto-kw">Verifiable · Maintainable · Sustainable.</strong>',
+      'Start from real problems: ship a working implementation first, then verify and iterate against measurable criteria. <strong class="manifesto-kw"><span class="manifesto-term">Verifiable</span> · <span class="manifesto-term">Maintainable</span> · <span class="manifesto-term">Sustainable.</span></strong>',
 
     "notes.n1Body":
       'Setting <code>display: flex</code> on a container overrides the browser default <code>[hidden] { display: none }</code>. The session subbar refused to hide in the running state — measured <strong>40.5px</strong> of height with <code>hidden=true</code>. Only an explicit <code>[hidden] { display: none }</code> really closes it.',
@@ -389,6 +389,9 @@
     "按项目类型筛选": "Filter by project category",
     "降低温度": "Decrease temperature",
     "升高温度": "Increase temperature",
+    "开发构建缓存 9.5 GB": "Build caches 9.5 GB",
+    "软件残留文件 5.1 GB": "App residue 5.1 GB",
+    "大文件备份 3.8 GB": "Large file backups 3.8 GB",
     "关闭对话框": "Close dialog",
     "外观模式：浅色 / 深色": "Appearance: light / dark",
 

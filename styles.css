@@ -520,6 +520,7 @@ html[data-theme="light"] .island-nav {
 .nav-brand {
   display: flex;
   align-items: center;
+  min-width: 24px;
   min-height: 24px;
   gap: 0.35rem;
   padding: 0.4rem 0.2rem;
@@ -1061,8 +1062,13 @@ html[data-theme="light"] .lang-btn.is-active {
   white-space: nowrap;
 }
 
+.manifesto-term {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 @media (max-width: 520px) {
-  /* 窄屏允许换行，否则会撑出横向溢出 */
+  /* 允许在词组之间换行，每个完整关键词保持在同一行。 */
   .hero-manifesto strong {
     white-space: normal;
   }
@@ -1502,8 +1508,13 @@ html[data-theme="light"] .spotlight-border {
 .island-agent-info {
   display: flex;
   align-items: center;
+  min-width: 0;
   gap: 0.75rem;
 }
+
+.island-agent-info > div { min-width: 0; }
+.island-symbol { flex-shrink: 0; }
+.island-task-desc { overflow-wrap: anywhere; }
 
 .island-symbol {
   display: flex;
@@ -1732,8 +1743,80 @@ html[data-theme="light"] .stage-toggle-group {
 
 .flagship-actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.75rem;
+  max-width: 100%;
+}
+
+@media (max-width: 520px) {
+  .macbook-stage { padding: 1rem; }
+
+  .island-expanded-pill { padding: 0.9rem 0.75rem; }
+
+  .island-pill-main {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .island-agent-info {
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 0.4rem 0.75rem;
+  }
+
+  .island-agent-info > div { display: contents; }
+  .island-active-agent { align-self: center; }
+  .island-task-desc { grid-column: 1 / -1; }
+
+  .island-status-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .island-token-pill { white-space: nowrap; }
+
+  .island-action-subbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .subbar-buttons {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .subbar-buttons > button { min-height: 36px; }
+
+  .stage-control-bar,
+  .stage-toggle-group { width: 100%; }
+
+  .stage-toggle-group {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .btn-stage-tab {
+    min-width: 0;
+    padding-inline: 0.3rem;
+    white-space: nowrap;
+  }
+
+  .flagship-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .flagship-actions > * {
+    width: 100%;
+    justify-content: space-between;
+    white-space: nowrap;
+  }
 }
 
 /* ============================================================
@@ -2495,6 +2578,7 @@ html.js .widget-learning-box {
   color: var(--text-muted);
   font-weight: 500;
   letter-spacing: 0.04em;
+  white-space: nowrap;
 }
 
 .note-title {
@@ -2572,7 +2656,7 @@ html.js .widget-learning-box {
 
 .note-card {
   display: grid;
-  grid-template-columns: 2.75rem minmax(0, 1fr);
+  grid-template-columns: max-content minmax(0, 1fr);
   grid-template-areas:
     "meta title"
     "meta body"
@@ -2796,6 +2880,8 @@ html[data-theme="light"] .badge-lang {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  flex-wrap: wrap;
   padding-top: 2rem;
   margin-top: 2rem;
   border-top: 1px solid var(--border-subtle);
@@ -2805,8 +2891,30 @@ html[data-theme="light"] .badge-lang {
 
 .footer-left {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 0.5rem;
+}
+
+.footer-left > span:first-child,
+.footer-top-link {
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .footer-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .footer-left {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .footer-sep { display: none; }
 }
 
 .footer-top-link {
