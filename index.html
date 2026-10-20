@@ -23,12 +23,12 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="zh_CN" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261021c" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261021e" />
     <link
       rel="alternate icon"
       type="image/png"
       sizes="16x16 32x32"
-      href="assets/favicon.png?v=20261021c"
+      href="assets/favicon.png?v=20261021e"
     />
     <!-- iOS 加入主屏用位图图标（SVG 图标 iOS 不认，会退化成网页截图） -->
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
@@ -70,7 +70,7 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261021c" />
+    <link rel="stylesheet" href="styles.css?v=20261021e" />
     <script>
       (function () {
         var r = document.documentElement;
@@ -848,11 +848,7 @@
           <p class="section-subtitle">这一站本身就是作品。以下都是这个仓库里真实发生过、量出来过的。</p>
 
           <div class="notes-grid">
-            <article class="note-card spotlight-card">
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="spotlight-inner">
+            <article class="note-card">
                   <p class="note-meta"><span>01</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">hidden 不是万能锁</h3>
                   <p class="note-body" data-i18n-html="notes.n1Body">
@@ -862,15 +858,9 @@
                     显式补一条 <code>[hidden] { display: none }</code> 才算真收口。
                   </p>
                   <p class="note-tag">CSS · 属性优先级</p>
-                </div>
-              </div>
             </article>
 
-            <article class="note-card spotlight-card">
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="spotlight-inner">
+            <article class="note-card">
                   <p class="note-meta"><span>02</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">「永远深色」的块，别用会变色的墨</h3>
                   <p class="note-body" data-i18n-html="notes.n2Body">
@@ -880,15 +870,9 @@
                     改用不随主题变化的墨色后达标。
                   </p>
                   <p class="note-tag">设计令牌 · 对比度</p>
-                </div>
-              </div>
             </article>
 
-            <article class="note-card spotlight-card">
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="spotlight-inner">
+            <article class="note-card">
                   <p class="note-meta"><span>03</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">过渡还没跑完，别急着读颜色</h3>
                   <p class="note-body" data-i18n-html="notes.n3Body">
@@ -897,15 +881,9 @@
                     点击后立刻读，读到的是起点色。等过渡结束再读，三态才各自成立。
                   </p>
                   <p class="note-tag">测量方法 · 假阳性</p>
-                </div>
-              </div>
             </article>
 
-            <article class="note-card spotlight-card">
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="spotlight-inner">
+            <article class="note-card">
                   <p class="note-meta"><span>04</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">「元素可见吗」不能只看它自己的 display</h3>
                   <p class="note-body" data-i18n-html="notes.n4Body">
@@ -915,15 +893,9 @@
                     要用 <code>getClientRects().length</code> 这类真实渲染判据。
                   </p>
                   <p class="note-tag">可访问性 · 判定口径</p>
-                </div>
-              </div>
             </article>
 
-            <article class="note-card spotlight-card">
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="spotlight-inner">
+            <article class="note-card">
                   <p class="note-meta"><span>05</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">声明的对比度 ≠ 渲染出来的对比度</h3>
                   <p class="note-body" data-i18n-html="notes.n5Body">
@@ -934,15 +906,9 @@
                     字形直接糊掉。改用逐像素算相对亮度才量得出来。
                   </p>
                   <p class="note-tag">测量方法 · 自我推翻</p>
-                </div>
-              </div>
             </article>
 
-            <article class="note-card spotlight-card">
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="spotlight-inner">
+            <article class="note-card">
                   <p class="note-meta"><span>06</span><span class="note-date">2026-10</span></p>
                   <h3 class="note-title">调 opacity 让内容「退后」，这条路走不通</h3>
                   <p class="note-body" data-i18n-html="notes.n6Body">
@@ -952,8 +918,6 @@
                     而 opacity 是作用在整行上的。改成明度分档后层次差从「1.49 vs 17.12」变成「5.42 vs 17.12」。
                   </p>
                   <p class="note-tag">对比度 · 层次设计</p>
-                </div>
-              </div>
             </article>
           </div>
         </div>
@@ -989,102 +953,82 @@
           <div class="repos-list">
             <!-- 仓库 1 -->
             <a
-              class="repo-row-card spotlight-card"
+              class="repo-row-card"
               href="https://bittersmilezzz.github.io/dsh-model-selector/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="specular-rim" aria-hidden="true"></div>
-                <div class="repo-row-inner">
-                  <div class="repo-main-info">
+              <div class="repo-row-inner">
+                <div class="repo-main-info">
                     <div class="repo-name-group">
                       <span class="repo-name">dsh-model-selector</span>
                       <span class="badge-lang lang-ts">TypeScript</span>
                     </div>
                     <p class="repo-desc">DSH 模型选择器插件：搜索、供应商分组与推理强度调节。点击查看插件介绍页。</p>
                   </div>
-                  <span class="repo-circle-arrow" aria-hidden="true">↗</span>
-                  <span class="sr-only">（在新标签页打开）</span>
-                </div>
+                <span class="repo-circle-arrow" aria-hidden="true">↗</span>
+                <span class="sr-only">（在新标签页打开）</span>
               </div>
             </a>
 
 
             <!-- 仓库 2 -->
             <a
-              class="repo-row-card spotlight-card"
+              class="repo-row-card"
               href="https://github.com/bitterSmilezzz/dimagent-login-fix"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="specular-rim" aria-hidden="true"></div>
-                <div class="repo-row-inner">
-                  <div class="repo-main-info">
+              <div class="repo-row-inner">
+                <div class="repo-main-info">
                     <div class="repo-name-group">
                       <span class="repo-name">dimagent-login-fix</span>
                       <span class="badge-lang lang-js">JavaScript</span>
                     </div>
                     <p class="repo-desc">为 DimAgent 桌面端提供本地 TLS 网络握手与网络认证桥接支持。</p>
                   </div>
-                  <span class="repo-circle-arrow" aria-hidden="true">↗</span>
-                  <span class="sr-only">（在新标签页打开）</span>
-                </div>
+                <span class="repo-circle-arrow" aria-hidden="true">↗</span>
+                <span class="sr-only">（在新标签页打开）</span>
               </div>
             </a>
 
             <!-- 仓库 3 -->
             <a
-              class="repo-row-card spotlight-card"
+              class="repo-row-card"
               href="https://github.com/bitterSmilezzz/dsh-notify"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="specular-rim" aria-hidden="true"></div>
-                <div class="repo-row-inner">
-                  <div class="repo-main-info">
+              <div class="repo-row-inner">
+                <div class="repo-main-info">
                     <div class="repo-name-group">
                       <span class="repo-name">dsh-notify</span>
                       <span class="badge-lang lang-ts">TypeScript</span>
                     </div>
                     <p class="repo-desc">DSH 桌面通知插件：审批、提问、轮次完成与会话结束时弹系统原生通知，点击直达对应会话。</p>
                   </div>
-                  <span class="repo-circle-arrow" aria-hidden="true">↗</span>
-                  <span class="sr-only">（在新标签页打开）</span>
-                </div>
+                <span class="repo-circle-arrow" aria-hidden="true">↗</span>
+                <span class="sr-only">（在新标签页打开）</span>
               </div>
             </a>
 
             <!-- 仓库 4 -->
             <a
-              class="repo-row-card spotlight-card"
+              class="repo-row-card"
               href="https://github.com/bitterSmilezzz/dsh-plugins"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <div class="spotlight-border" aria-hidden="true"></div>
-              <div class="spotlight-core">
-                <div class="spotlight-surface" aria-hidden="true"></div>
-                <div class="specular-rim" aria-hidden="true"></div>
-                <div class="repo-row-inner">
-                  <div class="repo-main-info">
+              <div class="repo-row-inner">
+                <div class="repo-main-info">
                     <div class="repo-name-group">
                       <span class="repo-name">dsh-plugins</span>
                       <span class="badge-lang lang-js">JavaScript</span>
                     </div>
                     <p class="repo-desc">DSH 插件伞仓库，规范插件契约标准并提供自动化测试与静态校验工具。</p>
                   </div>
-                  <span class="repo-circle-arrow" aria-hidden="true">↗</span>
-                  <span class="sr-only">（在新标签页打开）</span>
-                </div>
+                <span class="repo-circle-arrow" aria-hidden="true">↗</span>
+                <span class="sr-only">（在新标签页打开）</span>
               </div>
             </a>
           </div>
@@ -1096,7 +1040,7 @@
            ============================================================ -->
       <footer class="site-footer" id="contact">
         <div class="wrap">
-          <div class="footer-card spotlight-card">
+          <div class="footer-card">
             <div class="spotlight-border" aria-hidden="true"></div>
             <div class="spotlight-core">
               <div class="spotlight-surface" aria-hidden="true"></div>
@@ -1172,9 +1116,9 @@
       </div>
     </dialog>
 
-    <script src="i18n.js?v=20261021c" defer></script>
-    <script src="theme-lamp.js?v=20261021c" defer></script>
-    <script src="i18n-runtime.js?v=20261021c" defer></script>
-    <script src="script.js?v=20261021c" defer></script>
+    <script src="i18n.js?v=20261021e" defer></script>
+    <script src="theme-lamp.js?v=20261021e" defer></script>
+    <script src="i18n-runtime.js?v=20261021e" defer></script>
+    <script src="script.js?v=20261021e" defer></script>
   </body>
 </html>

@@ -940,11 +940,6 @@ html[data-theme="light"] .lang-btn.is-active {
 }
 
 
-
-
-
-
-
 .status-indicator {
   position: relative;
   width: 7px;
@@ -1126,7 +1121,6 @@ html[data-theme="light"] .lang-btn.is-active {
     justify-content: flex-end;
   }
 }
-
 
 
 /* ---- 身份行：印章 + 运行状态合并（替代原标尺行 + 印章两行） ---- */
@@ -2505,15 +2499,6 @@ html.js .widget-learning-box {
   height: 100%;
 }
 
-.spotlight-inner {
-  position: relative;
-  z-index: 2;
-  padding: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  height: 100%;
-}
 
 .note-meta {
   display: flex;
@@ -2588,21 +2573,24 @@ html.js .widget-learning-box {
   padding: 0;
   border-radius: 0;
   border-bottom: 1px solid var(--border-subtle);
-  overflow: visible;
-}
-
-.note-card .spotlight-core {
-  background: none;
-  border-radius: 0;
+  /* 卡片外壳已剥离，探照灯装饰层不再有裁切容器，必须隐藏否则 inset:-1px 会外溢 */
   overflow: visible;
 }
 
 .note-card .spotlight-border,
-.note-card .spotlight-surface {
+.note-card .spotlight-surface,
+.note-card .specular-rim,
+.repo-row-card .spotlight-border,
+.repo-row-card .spotlight-surface,
+.repo-row-card .specular-rim,
+.footer-card .spotlight-border,
+.footer-card .spotlight-surface,
+.footer-card .specular-rim {
   display: none;
 }
 
-.note-card .spotlight-inner {
+
+.note-card {
   display: grid;
   grid-template-columns: 2.75rem minmax(0, 1fr);
   grid-template-areas:
@@ -2641,7 +2629,7 @@ html.js .widget-learning-box {
 }
 
 @media (min-width: 900px) {
-  .note-card .spotlight-inner {
+  .note-card {
     grid-template-columns: 3.25rem minmax(0, 1fr) 9.5rem;
     grid-template-areas:
       "meta title tag"
@@ -2689,6 +2677,10 @@ html.js .widget-learning-box {
 
 .repo-row-card {
   display: block;
+  border-radius: var(--r-outer);
+  overflow: hidden;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-rim);
 }
 
 .repo-row-inner {
@@ -2779,10 +2771,19 @@ html[data-theme="light"] .badge-lang {
   margin-top: 2.25rem;
 }
 
+.footer-card {
+  padding: 2px;
+  border-radius: var(--r-outer);
+  background: var(--border-subtle);
+}
+
 .footer-card-inner {
   position: relative;
   z-index: 2;
   padding: clamp(1.4rem, 3.5vw, 2.25rem);
+  border-radius: calc(var(--r-outer) - 2px);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-rim);
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
@@ -3053,7 +3054,8 @@ html:not(.js) .widget-learning-box {
 /* ---- forced-colors: active：形状靠描边，选中态用系统高亮色，状态彩点保留 ---- */
 @media (forced-colors: active) {
   .spotlight-card,
-  .repo-row-card,
+  .repo-row-inner,
+  .filter-tab,
   .filter-tab,
   .btn-ghost-pill,
   .nav-gh-pill,
