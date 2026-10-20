@@ -25,12 +25,7 @@
     /* ---- 首屏 ---- */
     "系统在线 · 4 个应用 + 4 个开源项目": "SYS_ONLINE · 4 APPS + 4 REPOS",
     "个人开发者 · 专注 macOS 原生与智能体工具": "Independent Engineer · macOS Native & Agent Tooling",
-    "[设计理念]": "[PHILOSOPHY]",
-    "不解决伪需求。每个工具都运行在自己的工作流中，经历数千小时高频真实使用检验。零商业广告，极致原生性能。":
-      "No synthetic demands. Every tool runs inside real daily workflows, battle-tested across thousands of hours. Zero ads, uncompromising native performance.",
     "[技术栈事实]": "[TOOLCHAIN FACTS]",
-    "Rust · Swift · SwiftUI · AppKit · Kotlin · TypeScript · Python · Shell":
-      "Rust · Swift · SwiftUI · AppKit · Kotlin · TypeScript · Python · Shell",
     "探索旗舰单品": "Explore Flagship",
     "GitHub 主页": "GitHub Profile",
 
@@ -294,10 +289,6 @@
     "SYS_ONLINE · 4 APPS + 4 REPOS": "系统在线 · 4 个应用 + 4 个开源项目",
 
     /* 首屏 */
-    "[PHILOSOPHY]": "[设计理念]",
-    "[TOOLCHAIN]": "[技术栈]",
-    "Explore Flagship": "探索旗舰单品",
-    "GitHub Profile": "GitHub 主页",
 
     "[THE TENSION // 痛点直击]": "[痛点直击]",
     "[THE CRAFT // 雕琢解法]": "[雕琢解法]",
