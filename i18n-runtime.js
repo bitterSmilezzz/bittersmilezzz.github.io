@@ -147,7 +147,20 @@
     try {
       localStorage.setItem(STORAGE_KEY, next);
     } catch (e) {}
+    /* 动态组件（灵动岛三态 / 空调模式 / 复习进度 / 筛选结果）
+       的内容由脚本写入，不在 DOM 里，需要它们按新语言自行重绘。 */
+    window.dispatchEvent(
+      new CustomEvent("site:langchange", { detail: { lang: next } })
+    );
   }
+
+  /* 供脚本翻译「运行时才生成的字符串」。中文查 I18N_EN，英文查 I18N_ZH。 */
+  window.tSiteText = function (text) {
+    if (!text) return text;
+    var dict = currentLang() === "en" ? window.I18N_EN : window.I18N_ZH;
+    var key = norm(String(text));
+    return has(dict, key) ? dict[key] : text;
+  };
 
   function init() {
     var lang = currentLang();

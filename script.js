@@ -54,6 +54,29 @@ const projectData = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  /* 动态注入的文案由脚本写入，必须走同一个翻译源，
+     否则英文页面里切换灵动岛状态 / 空调模式会出现中英混排。 */
+  const t = (text) => (typeof window.tSiteText === "function" ? window.tSiteText(text) : text);
+  /* 中文提示里的分类名要用中文原文，不能直接用已被翻译成英文的标签文本 */
+  /* 分类名用固定映射，不读标签文本——标签会被语言切换改写，
+     读它会导致「英文句式 + 中文分类名」的混排。 */
+  const FILTER_NAMES = {
+    all: { zh: "全部", en: "all" },
+    macos: { zh: "macOS 原生工具", en: "macOS Native" },
+    cross: { zh: "跨端工作台", en: "Cross-Platform" },
+    cli: { zh: "命令行与网络", en: "CLI & Network" },
+  };
+  const filterStatusText = (count, key) => {
+    const isEn = document.documentElement.getAttribute("data-lang") === "en";
+    const names = FILTER_NAMES[key] || FILTER_NAMES.all;
+    if (isEn) {
+      return key === "all"
+        ? `Showing all ${count} projects`
+        : `Showing ${count} ${names.en} projects`;
+    }
+    return `已筛选出 ${count} 个${names.zh}项目`;
+  };
+
   // 1. 探照灯光标追踪 (ui-research/creatives/01)
   const isTouchDevice = window.matchMedia("(hover: none)").matches;
   if (!isTouchDevice) {
@@ -121,31 +144,38 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   };
 
+  let currentIslandState = "running";
+
+  const renderIsland = () => {
+    const config = islandStates[currentIslandState];
+    if (!config) return;
+
+    if (islandAgentText) islandAgentText.textContent = t(config.agent);
+    if (islandTaskText) islandTaskText.textContent = t(config.task);
+    if (islandTokenCount) islandTokenCount.textContent = config.tokens;
+    if (islandCpuVal && config.cpu) islandCpuVal.textContent = config.cpu;
+    if (islandLatencyVal && config.latency) islandLatencyVal.textContent = config.latency;
+    if (hwLed) {
+      hwLed.classList.toggle("led-waiting", config.led === "led-waiting");
+      hwLed.classList.toggle("led-idle", config.led === "led-idle");
+    }
+    if (islandStateBadge) {
+      islandStateBadge.textContent = t(config.badge);
+      islandStateBadge.className = `island-state-tag ${config.badgeClass}`;
+    }
+    if (islandActionSubbar) {
+      islandActionSubbar.hidden = !config.showSubbar;
+    }
+  };
+
+  window.addEventListener("site:langchange", renderIsland);
+
   stageTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      stageTabs.forEach((t) => t.classList.remove("is-active"));
+      stageTabs.forEach((x) => x.classList.remove("is-active"));
       tab.classList.add("is-active");
-
-      const stateKey = tab.getAttribute("data-island-state");
-      const config = islandStates[stateKey];
-      if (!config) return;
-
-      if (islandAgentText) islandAgentText.textContent = config.agent;
-      if (islandTaskText) islandTaskText.textContent = config.task;
-      if (islandTokenCount) islandTokenCount.textContent = config.tokens;
-      if (islandCpuVal && config.cpu) islandCpuVal.textContent = config.cpu;
-      if (islandLatencyVal && config.latency) islandLatencyVal.textContent = config.latency;
-      if (hwLed) {
-        hwLed.classList.toggle("led-waiting", config.led === "led-waiting");
-        hwLed.classList.toggle("led-idle", config.led === "led-idle");
-      }
-      if (islandStateBadge) {
-        islandStateBadge.textContent = config.badge;
-        islandStateBadge.className = `island-state-tag ${config.badgeClass}`;
-      }
-      if (islandActionSubbar) {
-        islandActionSubbar.hidden = !config.showSubbar;
-      }
+      currentIslandState = tab.getAttribute("data-island-state") || "running";
+      renderIsland();
     });
   });
 
@@ -154,21 +184,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnReject = document.getElementById("btn-demo-secondary");
   if (btnApprove) {
     btnApprove.addEventListener("click", () => {
-      btnApprove.textContent = "已打开会话 ✓";
+      btnApprove.textContent = t("已打开会话 ✓");
       setTimeout(() => {
         const runningTab = document.querySelector('[data-island-state="running"]');
         if (runningTab) runningTab.click();
-        btnApprove.textContent = "查看会话 ⏎";
+        btnApprove.textContent = t("查看会话 ⏎");
       }, 600);
     });
   }
   if (btnReject) {
     btnReject.addEventListener("click", () => {
-      btnReject.textContent = "已打开工具 ✓";
+      btnReject.textContent = t("已打开工具 ✓");
       setTimeout(() => {
         const idleTab = document.querySelector('[data-island-state="idle"]');
         if (idleTab) idleTab.click();
-        btnReject.textContent = "打开工具";
+        btnReject.textContent = t("打开工具");
       }, 600);
     });
   }
@@ -184,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const setAcMode = (cooling) => {
     isCooling = cooling;
     if (acModeToggle) {
-      acModeToggle.textContent = isCooling ? "制冷模式" : "制热模式";
+      acModeToggle.textContent = t(isCooling ? "制冷模式" : "制热模式");
       acModeToggle.classList.toggle("is-heat", !isCooling);
     }
   };
@@ -219,6 +249,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // 语言切换后重绘模式徽章（它是脚本写入的文本，不在 DOM 字典里）
+  window.addEventListener("site:langchange", () => setAcMode(isCooling));
+
   if (btnTempDown) {
     btnTempDown.addEventListener("click", () => handleTempStep(-1));
   }
@@ -231,6 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const projectCards = document.querySelectorAll("[data-project-grid] .spotlight-card");
   const emptyStateEl = document.querySelector(".empty-state");
   const filterStatusEl = document.getElementById("filter-status");
+  let lastFilter = null;
 
   filterTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -262,11 +296,18 @@ document.addEventListener("DOMContentLoaded", () => {
         emptyStateEl.hidden = visibleCount > 0;
       }
 
+      lastFilter = { count: visibleCount, key: filter };
+
       if (filterStatusEl) {
-        const name = tab.querySelector("span")?.textContent || filter;
-        filterStatusEl.textContent = `已筛选出 ${visibleCount} 个${name}项目`;
+        filterStatusEl.textContent = filterStatusText(lastFilter.count, lastFilter.key);
       }
     });
+  });
+
+  window.addEventListener("site:langchange", () => {
+    if (lastFilter && filterStatusEl) {
+      filterStatusEl.textContent = filterStatusText(lastFilter.count, lastFilter.key);
+    }
   });
 
   // 5. 项目详情语义弹窗 (<dialog>) 与焦点恢复闭环 (WCAG 2.4.3)
@@ -526,13 +567,19 @@ document.addEventListener("DOMContentLoaded", () => {
     ];
     let stepIndex = 0;
 
+    const renderKf = () => {
+      const s = steps[stepIndex];
+      kfRate.textContent = t(`${s.rate}% 已完成`);
+      kfFill.style.width = `${s.rate}%`;
+      kfCards.textContent = t(s.cardsText);
+      kfStreak.textContent = t(s.streakText);
+    };
+
+    window.addEventListener("site:langchange", renderKf);
+
     const advanceProgress = () => {
       stepIndex = (stepIndex + 1) % steps.length;
-      const s = steps[stepIndex];
-      kfRate.textContent = `${s.rate}% 已完成`;
-      kfFill.style.width = `${s.rate}%`;
-      kfCards.textContent = s.cardsText;
-      kfStreak.textContent = s.streakText;
+      renderKf();
 
       kfFill.classList.add("is-pulsing");
       setTimeout(() => kfFill.classList.remove("is-pulsing"), 300);

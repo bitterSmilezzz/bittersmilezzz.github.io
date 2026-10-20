@@ -36,6 +36,15 @@
     "探索旗舰单品": "Explore Flagship",
     "GitHub 主页": "GitHub Profile",
 
+    "[精选作品]": "[SELECTED WORK]",
+    "全部 3 个 →": "All 3 →",
+    "常驻刘海屏的智能体监控器": "Agent monitor that lives in the notch",
+    "阅读、复习与知识管理工作台": "Reading and review workspace",
+    "每项清理都有理有据的 macOS 深度清理": "macOS cleanup, every item justified",
+    "Agent Tooling": "Agent Tooling",
+    "Cross-platform": "Cross-platform",
+    "macOS Native": "macOS Native",
+
     /* ---- 旗舰 ---- */
     "旗舰展台 // 01 · MACOS 原生": "FLAGSHIP SHOWCASE // 01 · MACOS NATIVE",
     "日常工作流活跃中": "ACTIVE IN WORKFLOW",
@@ -50,6 +59,21 @@
     "Rust / Tauri 常驻守护 · 系统级窗口控制与材质 · 轻量低占用 · 深度融合系统辅助功能。":
       "Rust / Tauri resident daemon · system-level window control and materials · lightweight footprint · deep accessibility integration.",
     "正在检索目录结构并构建依赖拓扑图": "Scanning directory structure and building dependency graph",
+    "检测到待处理会话，等待在来源工具中确认":
+      "Pending session detected, awaiting confirmation in the source tool",
+    "本机所有智能体会话已就绪 · 等待唤醒":
+      "All local agent sessions ready · waiting to be woken",
+    "已打开会话 ✓": "Session opened ✓",
+    "已打开工具 ✓": "Tool opened ✓",
+    "90% 已完成": "90% complete",
+    "95% 已完成": "95% complete",
+    "98% 已完成": "98% complete",
+    "100% 已完成": "100% complete",
+    "今日待复习 3 张卡片": "3 cards left today",
+    "今日待复习 2 张卡片": "2 cards left today",
+    "今日待复习 1 张卡片": "1 card left today",
+    "今日复习已全部完成 ✨": "All reviews done for today ✨",
+    "连续高效打卡 29 天": "29-day active streak",
     "⚠️ 检测到待处理会话：高危指令等待在来源工具中确认":
       "⚠️ Pending session: a high-risk command is waiting for confirmation in its source tool",
     "打开工具": "Open Tool",
@@ -295,6 +319,10 @@
     "Architecture Details": "查看完整架构细节",
     "GitHub Source": "访问 GitHub 源码",
 
+    "[SELECTED WORK]": "[精选作品]",
+    "All 3 →": "全部 3 个 →",
+    "Cross-platform": "跨端",
+
     /* 在建项目 */
     "PROJECTS IN PROGRESS": "项目矩阵",
     "All": "全部",
@@ -356,6 +384,10 @@
   window.I18N_EN_ATTR = {
     "查看 GitHub 个人主页（在新标签页打开）": "View GitHub profile (opens in new tab)",
     "切换深色 / 浅色模式": "Toggle dark / light mode",
+    "切换浅色 / 深色模式": "Toggle light / dark mode",
+    "关闭项目详情": "Close project details",
+    "返回页面顶部": "Back to top",
+    "全局导航": "Global navigation",
     "语言切换 / Language Switcher": "Language switcher / 语言切换",
     "按项目类型筛选": "Filter by project category",
     "降低温度": "Decrease temperature",
@@ -375,6 +407,10 @@
     "Language switcher / 语言切换": "语言切换 / Language Switcher",
     "View GitHub profile (opens in new tab)": "查看 GitHub 个人主页（在新标签页打开）",
     "Toggle dark / light mode": "切换深色 / 浅色模式",
+    "Toggle light / dark mode": "切换浅色 / 深色模式",
+    "Close project details": "关闭项目详情",
+    "Back to top": "返回页面顶部",
+    "Global navigation": "全局导航",
     "Filter by project category": "按项目类型筛选",
     "Decrease temperature": "降低温度",
     "Increase temperature": "升高温度",

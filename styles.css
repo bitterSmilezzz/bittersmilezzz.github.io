@@ -1096,6 +1096,122 @@ html[data-theme="light"] .lang-btn.is-active {
   }
 }
 
+
+/* ---- 首屏双栏：左主张 / 右精选作品（真实项目，不用虚构截图） ---- */
+.hero-main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-items: end;
+}
+
+@media (min-width: 980px) {
+  .hero-main {
+    grid-template-columns: minmax(0, 1.12fr) minmax(21rem, 0.78fr);
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+}
+
+/* 980–1180：右栏偏窄时把技术标签移到名称行右侧，
+   让描述独占整行，避免英文描述在此区间折行 */
+@media (min-width: 980px) and (max-width: 1180px) {
+  .hero-work-item {
+    grid-template-areas:
+      "name tag"
+      "note note";
+    gap: 0.1rem 0.75rem;
+  }
+}
+
+.hero-work {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 0.9rem;
+}
+
+.hero-work-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.35rem;
+}
+
+.hero-work-head .mono-label {
+  margin-bottom: 0;
+}
+
+.hero-work-all {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  padding: 0.25rem 0.1rem;
+  margin: -0.25rem -0.1rem;
+  transition: color var(--dur-fast);
+}
+
+.hero-work-all:hover {
+  color: var(--accent-ink);
+}
+
+.hero-work-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-work-list li + li {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.hero-work-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  grid-template-areas:
+    "name tag"
+    "note tag";
+  gap: 0.15rem 1rem;
+  padding: 0.7rem 0.35rem 0.7rem 0.1rem;
+  border-radius: 8px;
+  transition: background var(--dur-fast), transform var(--dur-fast) var(--ease-apple);
+}
+
+.hero-work-name {
+  grid-area: name;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.hero-work-note {
+  grid-area: note;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.hero-work-tag {
+  grid-area: tag;
+  align-self: center;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .hero-work-item:hover {
+    background: var(--bg-inset);
+    transform: translateX(3px);
+  }
+
+  .hero-work-item:hover .hero-work-name {
+    color: var(--accent-ink);
+  }
+}
+
 /* ============================================================
    Doppelrand 核心与探照灯系统 (ui-research/creatives/01)
    ============================================================ */
@@ -1236,9 +1352,9 @@ html[data-theme="light"] .spotlight-border {
 }
 
 .narrative-text {
-  font-size: 0.825rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
 .flagship-headline-box {
@@ -1631,7 +1747,7 @@ html[data-theme="light"] .stage-toggle-group {
 }
 
 .section-subtitle {
-  font-size: 0.875rem;
+  font-size: 0.925rem;
   color: var(--text-muted);
 }
 
@@ -1794,9 +1910,9 @@ html[data-theme="light"] .filter-tab.is-active .filter-pill {
 }
 
 .bento-app-story {
-  font-size: 0.825rem;
+  font-size: 0.9rem;
   color: var(--text-secondary);
-  line-height: 1.6;
+  line-height: 1.7;
   margin-bottom: 1.25rem;
 }
 
@@ -2357,8 +2473,8 @@ html.js .widget-learning-box {
 }
 
 .note-body {
-  font-size: 0.83rem;
-  line-height: 1.72;
+  font-size: 0.9rem;
+  line-height: 1.75;
   color: var(--text-secondary);
 }
 
@@ -2385,6 +2501,91 @@ html.js .widget-learning-box {
   font-size: 0.66rem;
   letter-spacing: 0.06em;
   color: var(--text-muted);
+}
+
+
+/* ---- 手记改为编辑式列表：去掉 6 张重复卡片外壳，靠分隔线与留白建立层级 ---- */
+.notes-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.note-card {
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+  border-bottom: 1px solid var(--border-subtle);
+  overflow: visible;
+}
+
+.note-card .spotlight-core {
+  background: none;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.note-card .spotlight-border,
+.note-card .spotlight-surface {
+  display: none;
+}
+
+.note-card .spotlight-inner {
+  display: grid;
+  grid-template-columns: 2.75rem minmax(0, 1fr);
+  grid-template-areas:
+    "meta title"
+    "meta body"
+    "meta tag";
+  gap: 0.35rem 1rem;
+  padding: 1.35rem 0.25rem;
+  height: auto;
+}
+
+.note-meta {
+  grid-area: meta;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  font-size: 0.7rem;
+}
+
+.note-title {
+  grid-area: title;
+  font-size: 1.05rem;
+  line-height: 1.4;
+}
+
+.note-body {
+  grid-area: body;
+  max-width: 68ch;
+}
+
+.note-tag {
+  grid-area: tag;
+  margin-top: 0.15rem;
+  padding-top: 0;
+}
+
+@media (min-width: 900px) {
+  .note-card .spotlight-inner {
+    grid-template-columns: 3.25rem minmax(0, 1fr) 9.5rem;
+    grid-template-areas:
+      "meta title tag"
+      "meta body  tag";
+    gap: 0.3rem 1.5rem;
+    padding: 1.5rem 0.25rem;
+  }
+
+  .note-tag {
+    justify-self: end;
+    text-align: right;
+    align-self: start;
+    margin-top: 0.2rem;
+  }
 }
 
 /* ============================================================

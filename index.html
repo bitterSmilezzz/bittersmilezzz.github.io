@@ -23,12 +23,12 @@
     <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="zh_CN" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261020h" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg?v=20261020o" />
     <link
       rel="alternate icon"
       type="image/png"
       sizes="16x16 32x32"
-      href="assets/favicon.png?v=20261020h"
+      href="assets/favicon.png?v=20261020o"
     />
     <!-- iOS 加入主屏用位图图标（SVG 图标 iOS 不认，会退化成网页截图） -->
     <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
@@ -65,7 +65,7 @@
       href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css?v=20261020h" />
+    <link rel="stylesheet" href="styles.css?v=20261020o" />
     <script>
       (function () {
         var r = document.documentElement;
@@ -167,7 +167,6 @@
               </span>
             </span>
           </button>
-          </div>
         </div>
       </nav>
     </header>
@@ -220,19 +219,54 @@
             </div>
           </div>
 
-          <!-- 苹果 Keynote 风格画报大标题 (8:1 视觉反差) -->
-          <div class="hero-heading-block">
-            <h1 id="hero-title" class="hero-title" data-i18n-html="hero.title">
-              把问题，
-              <br />
-              <span class="hero-title-accent">做成工具。</span>
-            </h1>
-          </div>
+          <!-- 左：主张；右：精选作品（真实项目，不放虚构截图） -->
+          <div class="hero-main">
+            <div class="hero-lead">
+              <div class="hero-heading-block">
+                <h1 id="hero-title" class="hero-title" data-i18n-html="hero.title">
+                  把问题，
+                  <br />
+                  <span class="hero-title-accent">做成工具。</span>
+                </h1>
+              </div>
 
-          <p class="hero-manifesto" data-i18n-html="hero.manifesto">
-            从真实问题出发，先交付可用的实现，再以可测量的标准反复验证与迭代。
-            <strong>可验证 · 可维护 · 可持续。</strong>
-          </p>
+              <p class="hero-manifesto" data-i18n-html="hero.manifesto">
+                从真实问题出发，先交付可用的实现，再以可测量的标准反复验证与迭代。
+                <strong>可验证 · 可维护 · 可持续。</strong>
+              </p>
+            </div>
+
+            <aside class="hero-work" aria-labelledby="hero-work-title">
+              <div class="hero-work-head">
+                <span class="mono-label" id="hero-work-title">[精选作品]</span>
+                <a class="hero-work-all" href="#suite">全部 3 个 →</a>
+              </div>
+
+              <ul class="hero-work-list">
+                <li>
+                  <a class="hero-work-item" href="#flagship">
+                    <span class="hero-work-name">AgentIsland</span>
+                    <span class="hero-work-note">常驻刘海屏的智能体监控器</span>
+                    <span class="hero-work-tag">Agent Tooling</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="hero-work-item" href="#suite">
+                    <span class="hero-work-name">KnowFlick</span>
+                    <span class="hero-work-note">阅读、复习与知识管理工作台</span>
+                    <span class="hero-work-tag">Cross-platform</span>
+                  </a>
+                </li>
+                <li>
+                  <a class="hero-work-item" href="#suite">
+                    <span class="hero-work-name">MacClean</span>
+                    <span class="hero-work-note">每项清理都有理有据的 macOS 深度清理</span>
+                    <span class="hero-work-tag">macOS Native</span>
+                  </a>
+                </li>
+              </ul>
+            </aside>
+          </div>
 
           <!-- 不对称底部信息与操作栏 -->
           <div class="hero-bottom-grid">
@@ -1141,9 +1175,9 @@
       </div>
     </dialog>
 
-    <script src="i18n.js?v=20261020h" defer></script>
-    <script src="theme-lamp.js?v=20261020h" defer></script>
-    <script src="i18n-runtime.js?v=20261020h" defer></script>
-    <script src="script.js?v=20261020h" defer></script>
+    <script src="i18n.js?v=20261020o" defer></script>
+    <script src="theme-lamp.js?v=20261020o" defer></script>
+    <script src="i18n-runtime.js?v=20261020o" defer></script>
+    <script src="script.js?v=20261020o" defer></script>
   </body>
 </html>
