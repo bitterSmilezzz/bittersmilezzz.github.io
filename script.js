@@ -162,6 +162,23 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   let currentIslandState = "running";
+  const btnApprove = document.getElementById("btn-demo-primary");
+  const btnReject = document.getElementById("btn-demo-secondary");
+  let demoActionTimer = null;
+  let demoAction = null;
+
+  const renderDemoActions = () => {
+    if (btnApprove) btnApprove.textContent = t(demoAction === "session" ? "已打开会话 ✓" : "查看会话 ⏎");
+    if (btnReject) btnReject.textContent = t(demoAction === "tool" ? "已打开工具 ✓" : "打开工具");
+  };
+
+  const cancelDemoAction = () => {
+    clearTimeout(demoActionTimer);
+    demoActionTimer = null;
+    demoAction = null;
+    renderDemoActions();
+  };
+
   const islandPillMain = document.querySelector(".island-pill-main");
   const islandMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let islandSwapTimer = null;
@@ -201,7 +218,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (islandAgentText) islandAgentText.textContent = t(config.agent);
     if (islandTaskText) islandTaskText.textContent = t(config.task);
     if (islandTokenCount) islandTokenCount.textContent = config.tokens;
-    if (islandCpuVal && config.cpu) islandCpuVal.textContent = config.cpu;
+    if (islandCpuVal && config.cpu) islandCpuVal.textContent = t(config.cpu);
     if (islandLatencyVal && config.latency) islandLatencyVal.textContent = config.latency;
     if (hwLed) {
       hwLed.classList.toggle("led-waiting", config.led === "led-waiting");
@@ -218,10 +235,15 @@ document.addEventListener("DOMContentLoaded", () => {
     else stopIslandSwap();
   };
 
-  window.addEventListener("site:langchange", () => renderIsland(false));
+  window.addEventListener("site:langchange", () => {
+    renderIsland(false);
+    renderDemoActions();
+  });
 
   stageTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
+      // 主动选择（包括重选当前状态）优先于尚未结束的模拟动作。
+      cancelDemoAction();
       const next = tab.getAttribute("data-island-state") || "running";
       if (next === currentIslandState) return;
       currentIslandState = next;
@@ -229,29 +251,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // 会话入口模拟按钮响应：只读动作，不代批准（与仓库口径一致）
-  const btnApprove = document.getElementById("btn-demo-primary");
-  const btnReject = document.getElementById("btn-demo-secondary");
-  if (btnApprove) {
-    btnApprove.addEventListener("click", () => {
-      btnApprove.textContent = t("已打开会话 ✓");
-      setTimeout(() => {
-        const runningTab = document.querySelector('[data-island-state="running"]');
-        if (runningTab) runningTab.click();
-        btnApprove.textContent = t("查看会话 ⏎");
-      }, 600);
-    });
-  }
-  if (btnReject) {
-    btnReject.addEventListener("click", () => {
-      btnReject.textContent = t("已打开工具 ✓");
-      setTimeout(() => {
-        const idleTab = document.querySelector('[data-island-state="idle"]');
-        if (idleTab) idleTab.click();
-        btnReject.textContent = t("打开工具");
-      }, 600);
-    });
-  }
+  // 会话入口模拟按钮响应：只读动作，不代批准；新操作取消旧操作的回调。
+  const startDemoAction = (action, nextState) => {
+    if (currentIslandState !== "waiting") return;
+    cancelDemoAction();
+    demoAction = action;
+    renderDemoActions();
+    demoActionTimer = setTimeout(() => {
+      cancelDemoAction();
+      currentIslandState = nextState;
+      renderIsland(true);
+    }, 600);
+  };
+  btnApprove?.addEventListener("click", () => startDemoAction("session", "running"));
+  btnReject?.addEventListener("click", () => startDemoAction("tool", "idle"));
 
   // 3. 空调温度与冷暖模式微交互 (haier-ac-mac)
   const acDegVal = document.getElementById("ac-deg-val");
