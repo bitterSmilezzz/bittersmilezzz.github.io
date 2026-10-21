@@ -38,13 +38,22 @@
     return mode === "auto" ? systemTheme() : mode;
   }
 
+  var bulbAnimation = null;
+  var glowAnimation = null;
+  var activeTransition = null;
+  var selectedTheme = root.getAttribute("data-theme") || "light";
+
   function animateBulb(turningOn) {
-    if (!bulb) return;
+    if (!bulb || !bulb.animate) return;
+    if (bulbAnimation) bulbAnimation.cancel();
+    if (glowAnimation) glowAnimation.cancel();
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    var dur = turningOn ? 340 : 520;
+    /* 开灯与熄灯用同一时长：WAAPI 光晕与 CSS 玻璃渐变必须同拍，
+       否则会出现「玻璃已灭、光晕还在收」的半拍脱节。 */
+    var dur = 340;
 
-    bulb.animate(
+    bulbAnimation = bulb.animate(
       turningOn
         ? [
             { filter: "brightness(0.4)", offset: 0 },
@@ -64,16 +73,16 @@
 
     var glow = document.querySelector("[data-theme-glow]");
     if (glow) {
-      glow.animate(
+      glowAnimation = glow.animate(
         turningOn
           ? [
-              { opacity: 0, transform: "scale(0.4)" },
-              { opacity: 0.9, transform: "scale(1.2)", offset: 0.4 },
-              { opacity: 0.55, transform: "scale(1)" }
+              { opacity: 0, transform: "translate(-50%, -50%) scale(0.4)" },
+              { opacity: 0.9, transform: "translate(-50%, -50%) scale(1.2)", offset: 0.4 },
+              { opacity: 0.55, transform: "translate(-50%, -50%) scale(1)" }
             ]
           : [
-              { opacity: 0.55, transform: "scale(1)" },
-              { opacity: 0, transform: "scale(0.4)" }
+              { opacity: 0.55, transform: "translate(-50%, -50%) scale(1)" },
+              { opacity: 0, transform: "translate(-50%, -50%) scale(0.4)" }
             ],
         { duration: dur, easing: "ease-out", fill: "none" }
       );
@@ -93,7 +102,7 @@
   function apply(theme, opts) {
     root.setAttribute("data-theme", theme);
     syncToggle(theme);
-    if (!(opts && opts.silent)) animateBulb(theme === "light");
+    if (!(opts && opts.silent)) animateBulb(theme === "dark");
     paintMeta(theme);
   }
 
@@ -114,8 +123,9 @@
 
     try {
       var t = document.startViewTransition(function () {
-        root.setAttribute("data-theme", theme);
+        root.setAttribute("data-theme", selectedTheme);
       });
+      activeTransition = t;
       t.ready.then(function () {
         root.animate(
           {
@@ -131,7 +141,11 @@
           }
         );
       }).catch(function () {});
-      if (t.finished) t.finished.catch(function () {});
+      if (t.finished) t.finished.then(function () {
+        if (activeTransition === t) activeTransition = null;
+      }, function () {
+        if (activeTransition === t) activeTransition = null;
+      });
     } catch (e) {
       root.setAttribute("data-theme", theme);
       return false;
@@ -140,11 +154,13 @@
   }
 
   function choose(theme, origin) {
+    selectedTheme = theme;
+    if (activeTransition) activeTransition.skipTransition();
     if (!wipeTo(theme, origin)) {
       apply(theme, { silent: false });
     } else {
       syncToggle(theme);
-      animateBulb(theme === "light");
+      animateBulb(theme === "dark");
       paintMeta(theme);
     }
     try {
@@ -154,11 +170,12 @@
 
   function init() {
     var theme = resolve(storedMode());
+    selectedTheme = theme;
     apply(theme, { silent: true });
 
     if (toggle) {
       toggle.addEventListener("click", function () {
-        var cur = root.getAttribute("data-theme") || "dark";
+        var cur = selectedTheme;
         choose(cur === "dark" ? "light" : "dark", toggle.getBoundingClientRect());
       });
     }
@@ -167,6 +184,7 @@
       if (storedMode() !== "auto") return;
       var next = systemTheme();
       if (next !== root.getAttribute("data-theme")) {
+        selectedTheme = next;
         apply(next, { silent: false });
       }
     };

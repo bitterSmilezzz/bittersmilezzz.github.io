@@ -167,6 +167,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const config = islandStates[currentIslandState];
     if (!config) return;
 
+    stageTabs.forEach((tab) => {
+      const active = (tab.getAttribute("data-island-state") || "running") === currentIslandState;
+      tab.classList.toggle("is-active", active);
+      tab.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+
     if (islandAgentText) islandAgentText.textContent = t(config.agent);
     if (islandTaskText) islandTaskText.textContent = t(config.task);
     if (islandTokenCount) islandTokenCount.textContent = config.tokens;
@@ -189,8 +195,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
   stageTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      stageTabs.forEach((x) => x.classList.remove("is-active"));
+      stageTabs.forEach((x) => {
+        x.classList.remove("is-active");
+        x.setAttribute("aria-pressed", "false");
+      });
       tab.classList.add("is-active");
+      tab.setAttribute("aria-pressed", "true");
       currentIslandState = tab.getAttribute("data-island-state") || "running";
       renderIsland();
     });
@@ -421,6 +431,44 @@ document.addEventListener("DOMContentLoaded", () => {
   const dialogPrivate = document.getElementById("dialog-private");
   const dialogCloseBtn = document.querySelector("[data-dialog-close]");
   let lastDialogTrigger = null;
+  let dialogCloseTimer = null;
+  const dialogMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  function finishDialogClose() {
+    clearTimeout(dialogCloseTimer);
+    dialogCloseTimer = null;
+    dialog.classList.remove("is-closing");
+    if (typeof dialog.close === "function") {
+      if (dialog.open) dialog.close();
+    } else {
+      dialog.removeAttribute("open");
+    }
+    /* 状态恢复不依赖 close 事件是否送达：遮罩点击与 Escape 的时序不同，
+       只在 close 回调里解锁会留下 is-dialog-open 残留（背景滚动锁死）。 */
+    restoreDialogContext();
+  }
+
+  function requestDialogClose() {
+    if (!dialog || !dialog.open || dialogCloseTimer !== null) return;
+    if (dialogMotion.matches) {
+      finishDialogClose();
+      return;
+    }
+    dialog.classList.add("is-closing");
+    // Fixed upper bound: focus and scroll unlock never depend on animation events.
+    dialogCloseTimer = setTimeout(finishDialogClose, 140);
+  }
+
+  function restoreDialogContext() {
+    clearTimeout(dialogCloseTimer);
+    dialogCloseTimer = null;
+    dialog.classList.remove("is-closing");
+    document.documentElement.classList.remove("is-dialog-open");
+    document.documentElement.style.removeProperty("--scrollbar-w");
+    if (lastDialogTrigger && lastDialogTrigger.isConnected) {
+      lastDialogTrigger.focus({ preventScroll: true });
+    }
+  }
 
   /* 语言切换时需要按新语言重绘已打开的弹窗 */
   window.reopenProjectDialog = function (projectId) {
@@ -431,7 +479,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = projectData[projectId];
     if (!data || !dialog) return;
 
-    lastDialogTrigger = triggerEl || document.activeElement;
+    const wasOpen = dialog.open;
+    const keepScroll = wasOpen ? dialog.scrollTop : 0;
+    clearTimeout(dialogCloseTimer);
+    dialogCloseTimer = null;
+    dialog.classList.remove("is-closing");
+    if (!wasOpen) lastDialogTrigger = triggerEl || document.activeElement;
     dialog.setAttribute("data-project-id", projectId);
 
     /* 按当前语言取文案：中文用原文，英文查 I18N_EN 表 */
@@ -466,6 +519,12 @@ document.addEventListener("DOMContentLoaded", () => {
       dialogPrivate.hidden = false;
     }
 
+    if (wasOpen) {
+      /* 语言刷新：保留弹窗内的滚动位置与焦点，不重放入场动效 */
+      dialog.scrollTop = keepScroll;
+      return;
+    }
+    dialog.scrollTop = 0;
     if (typeof dialog.showModal === "function") {
       document.documentElement.style.setProperty(
         "--scrollbar-w",
@@ -486,42 +545,37 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   if (dialog) {
-    // Escape / 关闭键 / 背景点击 全部收敛到 close 事件，一处解锁并精确还原焦点
-    dialog.addEventListener("close", () => {
-      document.documentElement.classList.remove("is-dialog-open");
-      if (lastDialogTrigger && typeof lastDialogTrigger.focus === "function") {
-        try {
-          lastDialogTrigger.focus();
-        } catch (e) {}
-      }
+    dialog.addEventListener("close", restoreDialogContext);
+    /* Escape 键触发原生 cancel：先接管，走统一的 140ms 退场动效路径。
+       若已有正在进行的关闭定时器，不重复启动。 */
+    dialog.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      requestDialogClose();
     });
+    const onDialogMotionChange = () => {
+      if (dialogMotion.matches && dialogCloseTimer !== null) finishDialogClose();
+    };
+    if (dialogMotion.addEventListener) dialogMotion.addEventListener("change", onDialogMotionChange);
+    else if (dialogMotion.addListener) dialogMotion.addListener(onDialogMotionChange);
   }
 
   if (dialogCloseBtn && dialog) {
-    dialogCloseBtn.addEventListener("click", () => {
-      if (typeof dialog.close === "function") {
-        dialog.close();
-      } else {
-        dialog.removeAttribute("open");
-      }
-    });
+    dialogCloseBtn.addEventListener("click", requestDialogClose);
   }
 
   if (dialog) {
     dialog.addEventListener("click", (e) => {
+      /* 只有点击原生 ::backdrop 时 e.target 才严格是 dialog 本身。
+         键盘 Enter 触发的合成 click 坐标为 (0,0) 且 target 是内部元素，
+         若不先判 target 就会被当成「点了背景」而误关弹窗。 */
+      if (e.target !== dialog) return;
       const rect = dialog.getBoundingClientRect();
       const inDialog =
         e.clientX >= rect.left &&
         e.clientX <= rect.right &&
         e.clientY >= rect.top &&
         e.clientY <= rect.bottom;
-      if (!inDialog) {
-        if (typeof dialog.close === "function") {
-          dialog.close();
-        } else {
-          dialog.removeAttribute("open");
-        }
-      }
+      if (!inDialog) requestDialogClose();
     });
   }
 
@@ -556,7 +610,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let bestTop = -Infinity;
         linkBySection.forEach((_link, section) => {
           const top = section.getBoundingClientRect().top;
-          if (top <= probe && top > bestTop) {
+          if (top <= probe && section.getBoundingClientRect().bottom > probe && top > bestTop) {
             bestTop = top;
             best = section;
           }

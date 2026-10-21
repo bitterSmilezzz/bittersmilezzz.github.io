@@ -577,8 +577,11 @@ html[data-theme="light"] .island-nav {
 
 /* 滚动高亮：JS 写 aria-current（CJK 无字宽变化，加字重不引起重排） */
 .nav-link[aria-current="true"] {
-  color: var(--text-primary);
+  color: var(--accent-ink);
   font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
 }
 
 .nav-actions {
@@ -2939,6 +2942,27 @@ html[data-theme="light"] .badge-lang {
   border-radius: var(--r-outer);
   overflow-y: auto;
   overscroll-behavior: contain;
+}
+
+@keyframes detail-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.99); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes detail-out {
+  to { opacity: 0; transform: translateY(4px) scale(0.995); }
+}
+
+@keyframes detail-backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .project-dialog[open] { animation: detail-in 200ms var(--ease-apple) both; }
+  .project-dialog[open]::backdrop { animation: detail-backdrop-in 200ms ease-out both; }
+  .project-dialog.is-closing { animation: detail-out 140ms ease-in both; }
+  .project-dialog.is-closing::backdrop { animation: detail-backdrop-in 140ms ease-in reverse both; }
 }
 
 .project-dialog::backdrop {
