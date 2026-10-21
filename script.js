@@ -162,8 +162,33 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   let currentIslandState = "running";
+  const islandPillMain = document.querySelector(".island-pill-main");
+  const islandMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let islandSwapTimer = null;
 
-  const renderIsland = () => {
+  const stopIslandSwap = () => {
+    clearTimeout(islandSwapTimer);
+    islandSwapTimer = null;
+    islandPillMain?.classList.remove("is-swapping");
+  };
+
+  /* 内容即时更新；仅真实状态切换播放 180ms 位移，不降低文字不透明度。 */
+  const pulseIslandSwap = () => {
+    stopIslandSwap();
+    if (!islandPillMain || islandMotion.matches) return;
+    // 重启这一个短动画，快速切换不排队。
+    void islandPillMain.offsetWidth;
+    islandPillMain.classList.add("is-swapping");
+    islandSwapTimer = setTimeout(stopIslandSwap, 220);
+  };
+
+  const onIslandMotionChange = () => {
+    if (islandMotion.matches) stopIslandSwap();
+  };
+  if (islandMotion.addEventListener) islandMotion.addEventListener("change", onIslandMotionChange);
+  else if (islandMotion.addListener) islandMotion.addListener(onIslandMotionChange);
+
+  const renderIsland = (animate = false) => {
     const config = islandStates[currentIslandState];
     if (!config) return;
 
@@ -189,20 +214,18 @@ document.addEventListener("DOMContentLoaded", () => {
     if (islandActionSubbar) {
       islandActionSubbar.hidden = !config.showSubbar;
     }
+    if (animate) pulseIslandSwap();
+    else stopIslandSwap();
   };
 
-  window.addEventListener("site:langchange", renderIsland);
+  window.addEventListener("site:langchange", () => renderIsland(false));
 
   stageTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
-      stageTabs.forEach((x) => {
-        x.classList.remove("is-active");
-        x.setAttribute("aria-pressed", "false");
-      });
-      tab.classList.add("is-active");
-      tab.setAttribute("aria-pressed", "true");
-      currentIslandState = tab.getAttribute("data-island-state") || "running";
-      renderIsland();
+      const next = tab.getAttribute("data-island-state") || "running";
+      if (next === currentIslandState) return;
+      currentIslandState = next;
+      renderIsland(true);
     });
   });
 

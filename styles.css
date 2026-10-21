@@ -1539,6 +1539,26 @@ html[data-theme="light"] .spotlight-border {
   color: #ffffff;
 }
 
+/* 三态内容即时更新；短位移提示变化，文字保持完整亮度。 */
+@keyframes island-swap {
+  from { transform: translateY(2px); }
+  to { transform: none; }
+}
+
+.island-pill-main.is-swapping .island-active-agent,
+.island-pill-main.is-swapping .island-task-desc,
+.island-pill-main.is-swapping .island-status-group {
+  animation: island-swap 180ms var(--ease-apple) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .island-pill-main.is-swapping .island-active-agent,
+  .island-pill-main.is-swapping .island-task-desc,
+  .island-pill-main.is-swapping .island-status-group {
+    animation: none;
+  }
+}
+
 .island-task-desc {
   display: block;
   font-size: 0.725rem;
@@ -1602,6 +1622,19 @@ html[data-theme="light"] .spotlight-border {
    显式补回：隐藏态一律不显示。 */
 .island-action-subbar[hidden] {
   display: none;
+}
+
+/* 子栏出现时的高度变化会顶动下方内容：给一次短促的展开，
+   让它读起来是「子栏长出来」而不是「布局被撞了一下」。 */
+@keyframes subbar-reveal {
+  from { transform: translateY(-4px); }
+  to { transform: none; }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .island-action-subbar:not([hidden]) {
+    animation: subbar-reveal 200ms var(--ease-apple) both;
+  }
 }
 
 .subbar-warn {
