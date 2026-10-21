@@ -583,6 +583,31 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
       requestDialogClose();
     });
+
+    /* 原生 showModal 会把背景设为 inert，但焦点在「最后一个可聚焦元素」
+       再按 Tab 会离开弹窗落到 <body>——屏幕阅读器于是读到背景内容。
+       这里显式把 Tab / Shift+Tab 循环限制在弹窗内。 */
+    dialog.addEventListener("keydown", (event) => {
+      if (event.key !== "Tab") return;
+      const focusables = Array.from(
+        dialog.querySelectorAll(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((el) => el.getClientRects().length > 0);
+      if (!focusables.length) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      const active = document.activeElement;
+
+      if (event.shiftKey && (active === first || !dialog.contains(active))) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && (active === last || !dialog.contains(active))) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
     const onDialogMotionChange = () => {
       if (dialogMotion.matches && dialogCloseTimer !== null) finishDialogClose();
     };
