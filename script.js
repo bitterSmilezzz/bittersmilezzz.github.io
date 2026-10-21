@@ -902,6 +902,17 @@ document.addEventListener("DOMContentLoaded", () => {
     settled = true;
     window.dispatchEvent(new CustomEvent("site:landed"));
     window.dispatchEvent(new Event("scroll"));
+
+    /* 深链接直达后焦点还停在 BODY，键盘用户按 Tab 会从页首重新开始，
+       等于把刚落到的位置丢掉。把焦点移到目标区块本身：
+       给它 tabindex="-1" 使其可编程聚焦，但不进入 Tab 序列。 */
+    var target = document.getElementById(location.hash.slice(1));
+    if (target && !target.contains(document.activeElement)) {
+      if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+      try {
+        target.focus({ preventScroll: true });
+      } catch (e) {}
+    }
   }
   if ("onscrollend" in window) {
     window.addEventListener("scrollend", settle, { once: true });

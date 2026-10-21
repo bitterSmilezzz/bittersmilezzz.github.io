@@ -2781,6 +2781,17 @@ html.js .widget-learning-box {
   overflow: hidden;
   background: var(--bg-surface);
   border: 1px solid var(--border-rim);
+  /* 整行是可点的链接：箭头动而卡片不动，会读成「只有图标可点」。 */
+  transition: border-color var(--dur-fast), background-color var(--dur-fast),
+    transform var(--dur-fast) var(--ease-apple);
+}
+
+@media (hover: hover) {
+  .repo-row-card:hover {
+    border-color: var(--border-rim);
+    background: var(--bg-elevated);
+    transform: translateY(-1px);
+  }
 }
 
 .repo-row-inner {
@@ -3177,6 +3188,14 @@ html:not(.js) .widget-learning-box {
 
 .spotlight-card :where(a, button, [tabindex]):focus-visible {
   outline-offset: -4px;
+}
+
+/* 深链接落位后焦点落在整个区块上（tabindex="-1"，仅可编程聚焦）。
+   整块套一圈粗环太吵，改为贴边的细环，只为让键盘用户看见「我从这里开始」。 */
+section[id][tabindex="-1"]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  border-radius: var(--r-outer);
 }
 
 /* ---- prefers-contrast: more：抬升次级/辅助文字与描边 ---- */
