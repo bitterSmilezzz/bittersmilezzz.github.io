@@ -457,6 +457,14 @@ document.addEventListener("DOMContentLoaded", () => {
     dialog.classList.add("is-closing");
     // Fixed upper bound: focus and scroll unlock never depend on animation events.
     dialogCloseTimer = setTimeout(finishDialogClose, 140);
+    /* 兜底：某些路径（如键盘激活 _blank 链接后页面被挂起）会让定时器
+       迟迟不执行，弹窗就永久停在 is-closing。动画结束后再结算一次，
+       两条路径都幂等，谁先到都安全。 */
+    const settle = () => {
+      if (dialogCloseTimer !== null) finishDialogClose();
+    };
+    dialog.addEventListener("animationend", settle, { once: true });
+    setTimeout(settle, 400);
   }
 
   function restoreDialogContext() {
@@ -594,6 +602,10 @@ document.addEventListener("DOMContentLoaded", () => {
   //    （实测 suite 位置上 flagship 尾部以 0.081 vs 0.067 抢走高亮），
   //    「最后越线者」是确定性的。rAF 节流，读几何与写状态不同帧交错。
   const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+  /* 两块逻辑（章节高亮 / 导航收放）各自挂在这里，
+     浏览器把锚点滚动与 bfcache 恢复做完之后统一结算。 */
+  let syncChapter = null;
+  let syncNavVisibility = null;
   if (navLinks.length) {
     const linkBySection = new Map();
     navLinks.forEach((link) => {
@@ -630,6 +642,7 @@ document.addEventListener("DOMContentLoaded", () => {
       window.addEventListener("scroll", applyCurrent, { passive: true });
       window.addEventListener("resize", applyCurrent, { passive: true });
       applyCurrent();
+      syncChapter = applyCurrent;
     }
   }
 
@@ -642,6 +655,21 @@ document.addEventListener("DOMContentLoaded", () => {
     const setNavHidden = (hidden) => {
       document.documentElement.classList.toggle("nav-hidden", hidden);
     };
+    /* 深链接直达中段时顶栏应当可见：否则用户打开 /#notes 后
+       导航是收起的，只能靠滚动唤回，缺少方向感。
+
+       浏览器可能在脚本执行之前、也可能之后才应用锚点滚动
+       （实测两种时机都存在），所以不能靠 scrollY 判断是否落位，
+       也不能靠 scroll 事件判断——那会把浏览器自己的锚点滚动
+       误判成「用户向下滚了」。改为：有 hash 就进入落位状态，
+       直到用户真的操作页面才交还控制权。 */
+    let landing = Boolean(location.hash);
+    const endLanding = () => {
+      landing = false;
+    };
+    ["wheel", "touchstart", "keydown", "click"].forEach((type) => {
+      window.addEventListener(type, endLanding, { passive: true, once: true });
+    });
 
     window.addEventListener(
       "scroll",
@@ -655,12 +683,48 @@ document.addEventListener("DOMContentLoaded", () => {
           setNavHidden(false);
           return;
         }
+        if (landing) {
+          setNavHidden(false);
+          return;
+        }
         setNavHidden(delta > 0);
       },
       { passive: true }
     );
 
     navHeader.addEventListener("focusin", () => setNavHidden(false));
+
+    syncNavVisibility = () => {
+      const y = window.scrollY;
+      const atTop = y < 120;
+      const focusInside = navHeader.contains(document.activeElement);
+      setNavHidden(!atTop && !focusInside && !landing);
+    };
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted) {
+        requestAnimationFrame(() => {
+          if (syncChapter) syncChapter();
+          if (syncNavVisibility) syncNavVisibility();
+        });
+      }
+    });
+    /* 锚点落位后结算章节高亮；顶栏保持可见直到用户主动滚动。 */
+    window.addEventListener(
+      "site:landed",
+      () => {
+        if (syncChapter) syncChapter();
+        if (landing) setNavHidden(false);
+      },
+      { once: true }
+    );
+    /* 初始化时若带着 hash 进来（可能是深链接直达），先结算一次，
+       让章节高亮与顶栏可见性对齐到实际落位。 */
+    if (landing) {
+      requestAnimationFrame(() => {
+        if (syncChapter) syncChapter();
+        setNavHidden(false);
+      });
+    }
   }
 
   // 10. 首屏开发者头像加载失败容灾（离线或 GitHub 资源受阻时优雅降级为品牌微标识）
@@ -793,4 +857,44 @@ document.addEventListener("DOMContentLoaded", () => {
   /* Safari ≤13.9 uses addListener */
   if (typeof motion.addEventListener === "function") motion.addEventListener("change", onMotionChange);
   else if (typeof motion.addListener === "function") motion.addListener(onMotionChange);
+})();
+
+
+/* ============================================================
+   14. 首屏落位结算
+   ------------------------------------------------------------
+   浏览器在脚本执行完之后才应用 #hash 锚点滚动。首屏若在锚点之前
+   结算，就会出现「打开 /#notes 却停在上一区块、顶栏还藏着」。
+   这里等一帧再结算章节高亮与顶栏显隐。
+   ============================================================ */
+(function () {
+  "use strict";
+  if (!location.hash) return;
+  /* 浏览器应用锚点滚动的时机既可能在脚本之前也可能在之后，
+     且受字体与布局影响。用 scrollend（滚动真正停止）在最准确的
+     时刻结算一次；没有 scrollend 时退化为「位置稳定」轮询。 */
+  var settled = false;
+  function settle() {
+    if (settled) return;
+    settled = true;
+    window.dispatchEvent(new CustomEvent("site:landed"));
+    window.dispatchEvent(new Event("scroll"));
+  }
+  if ("onscrollend" in window) {
+    window.addEventListener("scrollend", settle, { once: true });
+    setTimeout(settle, 1500);
+  } else {
+    var last = -1;
+    var stable = 0;
+    var timer = setInterval(function () {
+      if (window.scrollY === last) {
+        stable++;
+        if (stable >= 3) { clearInterval(timer); settle(); }
+      } else {
+        stable = 0;
+        last = window.scrollY;
+      }
+    }, 80);
+    setTimeout(function () { clearInterval(timer); settle(); }, 1800);
+  }
 })();
